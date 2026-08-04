@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Academia de Finanzas</title>
+<title>De la Huerta a la Bolsa — Educación financiera que se entiende</title>
 <style>
   :root {
     color-scheme: light;
@@ -12,15 +12,15 @@
     --border: #e3e6ec;
     --ink: #1c2333;
     --ink-soft: #5b6472;
-    --accent: #2f6fed;
-    --accent-soft: #eaf1ff;
+    --accent: #3f7d2c;
+    --accent-soft: #eaf4e0;
     --green: #1f9d55;
     --green-soft: #e7f8ee;
     --red: #d9463c;
     --red-soft: #fdeceb;
-    --amber: #c9821a;
-    --amber-soft: #fdf3e3;
     --gold: #d4af37;
+    --soil: #8b5e34;
+    --soil-soft: #f5ece1;
     --dark: #0e1420;
     --dark-card: #161d2e;
     --dark-border: #2a3348;
@@ -28,455 +28,419 @@
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
+    margin: 0; background: var(--bg); color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  .app { max-width: 760px; margin: 0 auto; padding: 20px 16px 60px; }
-  header.top {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
-  }
-  header.top h1 { font-size: 20px; margin: 0; }
-  .xp-wrap { display: flex; align-items: center; gap: 10px; }
-  .level-badge {
-    background: var(--accent-soft); color: var(--accent); font-weight: 600;
-    font-size: 12px; padding: 5px 10px; border-radius: 999px; white-space: nowrap;
-  }
-  .xp-bar-outer {
-    width: 130px; height: 8px; background: var(--border); border-radius: 999px; overflow: hidden;
-  }
-  .xp-bar-inner { height: 100%; background: var(--accent); border-radius: 999px; transition: width .4s ease; }
-  .xp-text { font-size: 11px; color: var(--ink-soft); white-space: nowrap; }
+  .mono { font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 40px 20px 60px; }
+  .muted { color: var(--ink-soft); }
 
-  nav.tabs {
-    display: flex; gap: 6px; background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 4px; margin-bottom: 18px;
-  }
-  nav.tabs button {
-    flex: 1; padding: 9px 6px; border: none; background: transparent; border-radius: 10px;
-    font-size: 13px; font-weight: 600; color: var(--ink-soft); cursor: pointer;
-  }
-  nav.tabs button.active { background: var(--accent); color: #fff; }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: translateY(0); } }
+  .fade-in { animation: fadeUp .6s ease-out both; }
+  .fade-in.d1 { animation-delay: .05s; }
+  .fade-in.d2 { animation-delay: .12s; }
+  .fade-in.d3 { animation-delay: .2s; }
 
-  .card {
-    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 20px; margin-bottom: 14px;
+  /* HERO */
+  .hero {
+    text-align: center; padding: 44px 24px; border-radius: 20px; margin-bottom: 8px;
+    background: radial-gradient(120% 140% at 50% 0%, #eef7e6 0%, var(--bg) 65%);
   }
-  .muted { color: var(--ink-soft); font-size: 13px; }
-  h2 { font-size: 17px; margin: 0 0 10px; }
-  h3 { font-size: 14px; margin: 0 0 8px; }
+  .pill-tag {
+    display: inline-block; background: var(--accent-soft); color: var(--accent); font-weight: 700;
+    font-size: 12px; padding: 6px 12px; border-radius: 999px; margin-bottom: 18px; letter-spacing: 0.3px;
+  }
+  .logo { font-size: 40px; font-weight: 800; letter-spacing: -0.6px; margin: 0; }
+  .logo .huerta { color: var(--accent); }
+  .logo .bolsa { color: var(--gold); }
+  .tagline { font-size: 18px; color: var(--ink-soft); margin: 10px 0 22px; font-weight: 600; }
+  .subhead { font-size: 15.5px; line-height: 1.6; max-width: 560px; margin: 0 auto 30px; color: var(--ink-soft); }
+  .hero-tickers { display:flex; justify-content:center; gap:10px; margin-bottom: 26px; flex-wrap: wrap; }
+  .hero-ticker-chip {
+    font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, Consolas, monospace;
+    font-size: 11.5px; font-weight: 700; padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border); background: #fff;
+  }
+  .hero-ticker-chip.up { color: var(--green); }
+  .hero-ticker-chip.down { color: var(--red); }
 
-  .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
-  .pill.easy { background: var(--green-soft); color: var(--green); }
-  .pill.medium { background: var(--amber-soft); color: var(--amber); }
-  .pill.hard { background: var(--red-soft); color: var(--red); }
+  .waitlist-form {
+    display: flex; gap: 8px; max-width: 440px; margin: 0 auto 10px; flex-wrap: wrap;
+  }
+  .waitlist-form input[type=email] {
+    flex: 1; min-width: 200px; padding: 13px 16px; border: 1px solid var(--border); border-radius: 10px;
+    font-size: 14px; background: #fff;
+  }
+  .btn {
+    background: var(--accent); color: #fff; border: none; padding: 13px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    display: inline-block; text-decoration: none;
+  }
+  .btn:hover { opacity: 0.92; }
+  .form-note { font-size: 12px; color: var(--ink-soft); margin: 0; }
+  .confirm-box {
+    display: none; background: var(--green-soft); color: #14532d; border-radius: 10px; padding: 14px 18px;
+    max-width: 440px; margin: 0 auto; font-size: 14px; font-weight: 600;
+  }
 
-  .option-btn {
+  /* SECTIONS */
+  section { margin: 56px 0; }
+  .section-title { font-size: 22px; font-weight: 800; text-align: center; margin: 0 0 8px; }
+  .section-sub { text-align: center; color: var(--ink-soft); font-size: 14.5px; margin: 0 0 30px; }
+
+  .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .value-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 18px; text-align: center; }
+  .value-emoji { font-size: 26px; margin-bottom: 10px; }
+  .value-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .value-text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+
+  .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .feature-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .feature-icon { font-size: 22px; }
+  .feature-title { font-weight: 700; font-size: 14.5px; margin: 0 0 3px; }
+  .feature-stat {
+    display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft);
+    padding: 2px 7px; border-radius: 6px; margin-bottom: 6px; letter-spacing: 0.2px;
+  }
+  .feature-text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; margin: 0; }
+  .feature-card.wide { grid-column: 1 / -1; }
+
+  /* QUIZ DEMO (probalo ahora) */
+  .demo-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; max-width: 620px; margin: 0 auto;
+  }
+  .demo-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .demo-progress-text { font-size: 12px; font-weight: 700; color: var(--ink-soft); }
+  .demo-progress-bar-outer { flex: 1; height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; margin-left: 12px; }
+  .demo-progress-bar-inner { height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
+  .demo-cat-pill {
+    display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft);
+    padding: 3px 9px; border-radius: 999px; margin-bottom: 10px; letter-spacing: 0.2px;
+  }
+  .demo-q { font-size: 15.5px; line-height: 1.5; margin: 0 0 16px; font-weight: 600; }
+  .demo-opt {
     display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px;
     border: 1px solid var(--border); border-radius: 10px; background: #fff; font-size: 14px;
     cursor: pointer; color: var(--ink); transition: border-color .15s, background .15s;
   }
-  .option-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
-  .option-btn.correct { border-color: var(--green); background: var(--green-soft); color: var(--green); font-weight: 600; }
-  .option-btn.incorrect { border-color: var(--red); background: var(--red-soft); color: var(--red); font-weight: 600; }
-  .option-btn:disabled { cursor: default; }
+  .demo-opt:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+  .demo-opt.correct { border-color: var(--green); background: var(--green-soft); color: var(--green); font-weight: 700; }
+  .demo-opt.incorrect { border-color: var(--red); background: var(--red-soft); color: var(--red); font-weight: 700; }
+  .demo-opt:disabled { cursor: default; }
+  .demo-explain {
+    margin-top: 4px; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft);
+    font-size: 13.5px; line-height: 1.5; color: var(--ink); display: none;
+  }
+  .demo-explain.show { display: block; }
+  .demo-next-row { display: flex; justify-content: flex-end; margin-top: 14px; }
+  .demo-gate { text-align: center; }
+  .demo-gate-emoji { font-size: 30px; margin-bottom: 8px; }
+  .demo-gate-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .demo-gate-text { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin: 0 auto 20px; max-width: 460px; }
 
-  .explain-box {
-    margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft);
-    font-size: 13.5px; line-height: 1.5; color: #1c2333; display:none;
-  }
-  .explain-box.show { display: block; }
+  .chart-ticker-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .chart-ticker-symbol { font-size: 18px; font-weight: 800; letter-spacing: 0.3px; }
+  .chart-ticker-price { font-size: 22px; font-weight: 700; }
+  .chart-ticker-delta { font-size: 12.5px; font-weight: 700; }
+  .chart-ticker-delta.up { color: var(--green); }
+  .chart-ticker-delta.down { color: var(--red); }
+  .chart-ticker-delta.up::before { content: "▲ "; }
+  .chart-ticker-delta.down::before { content: "▼ "; }
+  #chartDemoCanvas { max-height: 220px; margin-bottom: 16px; }
 
-  .btn {
-    background: var(--accent); color: #fff; border: none; padding: 10px 18px; border-radius: 10px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-  }
-  .btn.secondary { background: var(--accent-soft); color: var(--accent); }
-  .btn:disabled { opacity: .45; cursor: default; }
-  .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .row.top-gap { margin-top: 14px; }
+  /* FAQ */
+  .faq-list { max-width: 640px; margin: 0 auto; }
+  .faq-item { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-weight: 700; font-size: 14.5px; margin-bottom: 5px; }
+  .faq-a { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; margin: 0; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--border); }
-  th { color: var(--ink-soft); font-weight: 600; font-size: 12px; }
-  input[type=number] {
-    width: 90px; padding: 7px 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px;
+  /* LEYENDA SHOWCASE */
+  .legend-section {
+    background: var(--dark); color: #fff; border-radius: var(--radius); padding: 30px 26px;
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 26px; align-items: center;
   }
-  .asset-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-  .asset-name { font-weight: 600; font-size: 13.5px; }
-  .asset-meta { font-size: 11.5px; color: var(--ink-soft); }
-  .tag { font-size: 11px; padding: 2px 7px; border-radius: 6px; background: var(--bg); border: 1px solid var(--border); }
-  .buy-controls { display: flex; gap: 6px; align-items: center; }
-  .log { max-height: 150px; overflow-y: auto; font-size: 12.5px; color: var(--ink-soft); border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; }
-  .log div { padding: 3px 0; }
-  canvas { max-height: 240px; }
+  @media (max-width: 680px) { .legend-section { grid-template-columns: 1fr; } }
+  .legend-pill {
+    display: inline-block; background: rgba(212,175,55,0.15); color: var(--gold); font-size: 11px; font-weight: 700;
+    padding: 5px 11px; border-radius: 999px; margin-bottom: 12px; letter-spacing: 0.3px;
+  }
+  .legend-title { font-size: 21px; font-weight: 800; margin-bottom: 8px; }
+  .legend-text { font-size: 13.5px; line-height: 1.6; color: #cfd6e8; margin-bottom: 14px; }
+  .legend-list { font-size: 13px; color: #cfd6e8; line-height: 1.9; padding-left: 18px; margin: 0; }
 
-  .scenario-choice {
-    display: block; width: 100%; text-align: left; padding: 13px 14px; margin-bottom: 9px;
-    border: 1px solid var(--border); border-radius: 10px; background: #fff; font-size: 14px; cursor: pointer;
+  .legend-mini-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; padding: 16px; }
+  .legend-mini-top { display:flex; align-items:center; gap:10px; margin-bottom: 10px; }
+  .legend-mini-avatar {
+    width: 34px; height: 34px; border-radius: 999px; background: linear-gradient(135deg, var(--gold), #b8860b);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; color:#1c1500;
   }
-  .scenario-choice:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
-  .scenario-choice:disabled { cursor: default; opacity: .6; }
-  .outcome-box { margin-top: 12px; padding: 13px 14px; border-radius: 10px; font-size: 13.5px; line-height: 1.5; }
-  .outcome-box.good { background: var(--green-soft); color: #14532d; }
-  .outcome-box.neutral { background: var(--amber-soft); color: #5c3d0a; }
-  .outcome-box.bad { background: var(--red-soft); color: #7f1d1d; }
+  .legend-mini-name { font-size: 13.5px; font-weight: 700; }
+  .legend-mini-tag { font-size: 10.5px; color: var(--gold); }
+  .legend-mini-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .4px; color: #8891a8; margin-top: 8px; }
+  .legend-mini-value { font-size: 20px; font-weight: 800; color: var(--gold); }
+  .legend-mini-bar-outer { height: 6px; background: #232c42; border-radius: 999px; overflow: hidden; margin-top: 4px; }
+  .legend-mini-bar-inner { height: 100%; width: 68%; background: var(--gold); border-radius: 999px; }
+  .legend-mini-trophies { display: flex; gap: 6px; margin-top: 12px; font-size: 15px; }
+  .legend-mini-trophies span { opacity: 0.3; }
+  .legend-mini-trophies span.on { opacity: 1; }
 
-  .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-top: 10px; }
-  .badge-item { text-align: center; padding: 12px 8px; border-radius: 10px; border: 1px solid var(--border); }
-  .badge-item.locked { opacity: .35; }
-  .badge-emoji { font-size: 26px; }
-  .badge-label { font-size: 11px; margin-top: 4px; color: var(--ink-soft); }
+  /* MOCK PREVIEW */
+  .mock-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; max-width: 420px; margin: 0 auto;
+  }
+  .mock-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .mock-row:last-child { border-bottom: none; }
+  .mock-symbol { font-weight: 800; font-size: 13px; }
+  .mock-tag { font-size: 10.5px; padding: 2px 7px; border-radius: 6px; background: var(--bg); border: 1px solid var(--border); color: var(--ink-soft); }
+  .mock-val { font-weight: 700; font-size: 14px; }
+  .mock-delta.up { color: var(--green); font-size: 11.5px; font-weight: 700; }
+  .mock-delta.down { color: var(--red); font-size: 11.5px; font-weight: 700; }
+  .mock-xpbar-outer { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; margin: 14px 0 4px; }
+  .mock-xpbar-inner { height: 100%; width: 62%; background: var(--accent); border-radius: 999px; }
 
-  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .stat-box { background: var(--bg); border-radius: 10px; padding: 12px; }
-  .stat-num { font-size: 20px; font-weight: 700; }
-  .stat-label { font-size: 11.5px; color: var(--ink-soft); }
-  .reset-link { font-size: 12px; color: var(--ink-soft); text-decoration: underline; cursor: pointer; background:none; border:none; padding:0; }
+  /* HONESTY */
+  .honest-list { max-width: 560px; margin: 0 auto; }
+  .honest-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14.5px; line-height: 1.5; }
+  .honest-item:last-child { border-bottom: none; }
+  .honest-check { color: var(--green); font-weight: 800; }
 
-  .modal-backdrop {
-    position: fixed; inset: 0; background: rgba(28,35,51,0.55);
-    display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+  /* PRICING TEASER */
+  .price-card {
+    background: var(--ink); color: #fff; border-radius: var(--radius); padding: 34px 26px; text-align: center; max-width: 460px; margin: 0 auto;
   }
-  .modal-card {
-    background: #fff; border-radius: 16px; padding: 24px; max-width: 420px; width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  }
+  .price-amount { font-size: 38px; font-weight: 800; }
+  .price-period { font-size: 14px; opacity: 0.7; }
+  .price-note { font-size: 13px; opacity: 0.8; margin-top: 10px; line-height: 1.5; }
 
-  @keyframes levelUpPop {
-    0% { transform: translateY(-12px) scale(0.96); opacity: 0; }
-    60% { transform: translateY(0) scale(1.02); opacity: 1; }
-    100% { transform: translateY(0) scale(1); opacity: 1; }
-  }
-  .level-up-banner {
-    background: linear-gradient(135deg, var(--accent), #6c8ef5); color: #fff; border-radius: 12px;
-    padding: 12px 16px; margin-bottom: 14px; font-size: 14px; font-weight: 600;
-    animation: levelUpPop .5s ease-out;
-    display: flex; align-items: center; gap: 8px;
-  }
+  footer { text-align: center; padding: 30px 0 10px; font-size: 12.5px; color: var(--ink-soft); }
 
-  .mono { font-family: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
-
-  .ticker-header {
-    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-    margin-bottom: 4px;
+  @media (max-width: 640px) {
+    .value-grid, .feature-grid { grid-template-columns: 1fr; }
+    .logo { font-size: 28px; }
   }
-  .ticker-symbol { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
-  .ticker-price { font-size: 26px; font-weight: 700; }
-  .ticker-delta { font-size: 14px; font-weight: 700; }
-  .ticker-delta.up { color: var(--green); }
-  .ticker-delta.down { color: var(--red); }
-  .ticker-delta.up::before { content: "▲ "; }
-  .ticker-delta.down::before { content: "▼ "; }
-
-  .live-dot {
-    display: inline-block; width: 7px; height: 7px; border-radius: 999px; background: var(--red);
-    margin-right: 5px; animation: livePulse 1.4s ease-in-out infinite;
-  }
-  @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
-
-  .asset-card {
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    padding: 12px 4px; border-bottom: 1px solid var(--border); flex-wrap: wrap;
-  }
-  .asset-card-left { display:flex; flex-direction:column; gap:2px; }
-  .asset-symbol-row { display:flex; align-items:center; gap:8px; }
-  .asset-symbol { font-weight: 800; font-size: 14px; letter-spacing: 0.3px; }
-  .asset-card-right { text-align: right; }
-  .asset-value-mono { font-size: 15px; font-weight: 700; }
-
-  .btn-buy { background: var(--green); color:#fff; border:none; border-radius:8px; padding:7px 12px; font-size:13px; font-weight:700; cursor:pointer; }
-  .btn-sell { background:#fff; color: var(--red); border:1px solid var(--red); border-radius:8px; padding:7px 12px; font-size:13px; font-weight:700; cursor:pointer; }
-
-  @media (max-width: 480px) {
-    nav.tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    nav.tabs button { flex: 0 0 auto; padding: 9px 10px; font-size: 12px; }
-    .buy-controls { flex-wrap: wrap; }
-    input[type=number] { width: 76px; }
-    header.top h1 { font-size: 17px; }
-  }
-
-  /* ---- LEYENDA DE WALL STREET (scoped a la pestaña) ---- */
-  #tab-leyenda h1, #tab-leyenda h2, #tab-leyenda h3 { margin: 0; }
-  #tab-leyenda .hidden { display: none !important; }
-  #tab-leyenda .wrap { max-width: 920px; margin: 0 auto; }
-  #tab-leyenda .top-title { text-align: center; margin-bottom: 24px; }
-  #tab-leyenda .top-title h1 { font-size: 24px; font-weight: 800; }
-  #tab-leyenda .top-title p { color: var(--ink-soft); font-size: 14px; margin-top: 6px; }
-  #tab-leyenda .specialty-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0 20px; }
-  #tab-leyenda .specialty-card { border: 2px solid var(--border); border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; background: #fff; }
-  #tab-leyenda .specialty-card.selected { border-color: var(--accent); background: var(--accent-soft); }
-  #tab-leyenda .specialty-emoji { font-size: 22px; margin-bottom: 6px; }
-  #tab-leyenda .specialty-label { font-weight: 700; font-size: 13px; }
-  #tab-leyenda .specialty-tag { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
-  #tab-leyenda input[type=text] {
-    width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; margin-bottom: 12px;
-  }
-  #tab-leyenda label.field-label { font-size: 12px; font-weight: 700; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; display:block; margin-bottom: 6px; }
-  #tab-leyenda .btn-block { width: 100%; }
-  #tab-leyenda .game-grid { display: grid; grid-template-columns: 280px 1fr; gap: 16px; }
-  @media (max-width: 720px) { #tab-leyenda .game-grid { grid-template-columns: 1fr; } }
-  #tab-leyenda .id-card {
-    background: var(--dark); color: #fff; border-radius: var(--radius); padding: 20px; border: 1px solid var(--dark-border);
-  }
-  #tab-leyenda .id-avatar {
-    width: 52px; height: 52px; border-radius: 999px; background: linear-gradient(135deg, var(--gold), #b8860b);
-    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; color:#1c1500; margin-bottom: 10px;
-  }
-  #tab-leyenda .id-name { font-size: 17px; font-weight: 800; }
-  #tab-leyenda .id-tag { font-size: 11.5px; color: var(--gold); font-weight: 700; margin-top: 2px; }
-  #tab-leyenda .id-meta { font-size: 11px; color: #9aa4bd; margin-top: 8px; }
-  #tab-leyenda .id-networth-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #9aa4bd; margin-top: 16px; }
-  #tab-leyenda .id-networth { font-size: 26px; font-weight: 800; color: var(--gold); }
-  #tab-leyenda .rep-bar-outer { height: 8px; background: #232c42; border-radius: 999px; overflow: hidden; margin-top: 6px; }
-  #tab-leyenda .rep-bar-inner { height: 100%; background: var(--gold); border-radius: 999px; }
-  #tab-leyenda .id-stats { display: flex; justify-content: space-between; margin-top: 16px; font-size: 11.5px; color: #cfd6e8; }
-  #tab-leyenda .id-stats div strong { display:block; font-size: 15px; color: #fff; }
-  #tab-leyenda .trophy-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 14px; }
-  #tab-leyenda .trophy { text-align: center; font-size: 18px; opacity: 0.25; }
-  #tab-leyenda .trophy.earned { opacity: 1; }
-  #tab-leyenda .trophy-label { font-size: 8.5px; color: #9aa4bd; margin-top: 2px; line-height:1.2; }
-  #tab-leyenda .timeline-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0; overflow: hidden; }
-  #tab-leyenda table.timeline { width: 100%; border-collapse: collapse; font-size: 13px; }
-  #tab-leyenda table.timeline th { text-align: left; padding: 10px 12px; color: var(--ink-soft); font-size: 11px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
-  #tab-leyenda table.timeline td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
-  #tab-leyenda table.timeline tr.current td { background: var(--accent-soft); font-weight: 700; }
-  #tab-leyenda table.timeline tr.pending td { color: var(--ink-soft); font-style: italic; }
-  #tab-leyenda .event-card {
-    background: var(--dark); color: #fff; border-radius: var(--radius); padding: 22px; margin-top: 16px; border: 1px solid var(--dark-border);
-  }
-  #tab-leyenda .event-pill {
-    display:inline-block; background: rgba(212,175,55,0.15); color: var(--gold); font-size: 11px; font-weight: 700;
-    padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; letter-spacing: 0.3px;
-  }
-  #tab-leyenda .event-pill.crisis { background: rgba(217,70,60,0.18); color: #ff8a80; }
-  #tab-leyenda .event-situ { font-size: 15px; line-height: 1.55; margin-bottom: 16px; }
-  #tab-leyenda .choice-card {
-    display: block; width: 100%; text-align: left; background: var(--dark-card); border: 1px solid var(--dark-border);
-    color: #fff; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; font-size: 14px;
-  }
-  #tab-leyenda .choice-card:hover:not(:disabled) { border-color: var(--gold); }
-  #tab-leyenda .choice-card:disabled { cursor: default; opacity: 0.5; }
-  #tab-leyenda .outcome-panel { margin-top: 14px; padding: 16px; border-radius: 10px; background: #1b2436; }
-  #tab-leyenda .outcome-delta { font-size: 22px; font-weight: 800; }
-  #tab-leyenda .outcome-delta.up { color: #6fdc9a; }
-  #tab-leyenda .outcome-delta.down { color: #ff8a80; }
-  #tab-leyenda .outcome-explain { font-size: 13.5px; line-height: 1.5; color: #cfd6e8; margin-top: 10px; }
-  #tab-leyenda .ending-card { text-align: center; padding: 36px 24px; }
-  #tab-leyenda .ending-title { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
-  #tab-leyenda .ending-sub { color: var(--ink-soft); font-size: 14px; margin-bottom: 22px; }
-  #tab-leyenda .ending-stats { display: flex; justify-content: center; gap: 30px; margin-bottom: 24px; flex-wrap: wrap; }
-  #tab-leyenda .ending-stat-num { font-size: 24px; font-weight: 800; }
-  #tab-leyenda .ending-stat-label { font-size: 11.5px; color: var(--ink-soft); text-transform: uppercase; }
 </style>
 </head>
 <body>
-<div class="modal-backdrop" id="profileBackdrop" style="display:none">
-  <div class="modal-card">
-    <h2 style="margin:0 0 6px">👤 ¿Quién juega?</h2>
-    <p class="muted" style="margin:0 0 14px">Elegí tu perfil o creá uno nuevo. Cada perfil guarda su propio progreso (XP, quiz, simulador, gráficos) sin pisar el de los demás.</p>
-    <div id="profileList" style="margin-bottom:14px"></div>
-    <div class="row" style="gap:8px">
-      <input type="text" id="profileNameInput" placeholder="Tu nombre" style="flex:1;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-size:14px">
-      <button class="btn" id="profileCreateBtn">Crear</button>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="pill-tag fade-in">🌱 Muy pronto</span>
+    <h1 class="logo fade-in d1">De la <span class="huerta">Huerta</span> a la <span class="bolsa">Bolsa</span></h1>
+    <p class="tagline fade-in d1">Primero sembrás la base. Después la llevás a la bolsa de verdad.</p>
+    <p class="subhead fade-in d2">Aprendé a leer el mercado, armar una cartera y tomar mejores decisiones con tu plata — jugando, a tu ritmo, sin vueltas ni jerga.</p>
+
+    <div class="hero-tickers fade-in d2">
+      <span class="hero-ticker-chip up">🌱 QUIZ +10 XP</span>
+      <span class="hero-ticker-chip up">🥬 CARTERA ▲ +4.2%</span>
+      <span class="hero-ticker-chip down">CRIPTO ▼ -1.8%</span>
+      <span class="hero-ticker-chip up">🏆 LEYENDA</span>
     </div>
-    <div class="row top-gap">
-      <button class="reset-link" id="profileCancelBtn" style="display:none">Cancelar</button>
-      <span></span>
-    </div>
+
+    <a class="btn fade-in d3" href="https://airtable.com/appZ6GK67w75QAnsU/pagsjwLc0PyO8jxVB/form" target="_blank" rel="noopener">Quiero entrar antes que nadie</a>
+    <p class="form-note fade-in d3">Se abre en una pestaña nueva · sin spam, un solo mail cuando esté listo.</p>
+    <p class="form-note fade-in d3" style="margin-top:10px"><a href="#probalo" style="color:var(--accent);font-weight:700;text-decoration:none">👇 O probá 10 preguntas gratis, sin anotarte todavía</a></p>
   </div>
-</div>
-<div class="modal-backdrop" id="onboardingBackdrop" style="display:none">
-  <div class="modal-card">
-    <h2 style="margin:0 0 6px">📚 Bienvenido a Academia de Finanzas</h2>
-    <p class="muted" style="margin:0 0 14px">Una forma de repasar conceptos de inversión jugando. Tu progreso se guarda solo en este navegador — no se comparte con nadie más que use esta misma app.</p>
-    <p style="font-size:13.5px;line-height:1.7;margin:0 0 16px">
-      🧠 <strong>Quiz</strong>: trivia con mini-lecciones por tema.<br>
-      📈 <strong>Simulador</strong>: armá una cartera virtual y viví "casos del mes".<br>
-      📊 <strong>Gráficos</strong>: practicá leer rango, soporte/resistencia y P/E con acciones inventadas.<br>
-      🧭 <strong>Escenarios</strong>: decisiones financieras de la vida real.
-    </p>
-    <button class="btn" id="onboardingStart" style="width:100%">Empezar ▶</button>
-  </div>
-</div>
-<div class="app">
-  <div id="levelUpBanner"></div>
-  <header class="top">
-    <h1>📚 Academia de Finanzas</h1>
-    <div class="xp-wrap">
+
+  <section id="probalo">
+    <h2 class="section-title">Probalo ahora</h2>
+    <p class="section-sub">10 preguntas gratis, una de cada tema. Sin registrarte.</p>
+    <div class="demo-card" id="demoCard"></div>
+  </section>
+
+  <section id="probalo-graficos">
+    <h2 class="section-title">Practicá leer un gráfico</h2>
+    <p class="section-sub">Una acción inventada, 3 preguntas. Así se ve la pestaña de Gráficos.</p>
+    <div class="demo-card" id="chartDemoCard"></div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Educación financiera, pero de la que se entiende</h2>
+    <p class="section-sub">Nada de fórmulas sueltas ni promesas de hacerte rico. Se aprende haciendo.</p>
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="value-emoji">🌱</div>
+        <div class="value-title">Sembrás la base</div>
+        <div class="value-text">Quiz con mini-lecciones y un simulador de cartera con casos de mercado, no solo teoría.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-emoji">🛡️</div>
+        <div class="value-title">Sin arriesgar nada</div>
+        <div class="value-text">Plata virtual y acciones inventadas para practicar. Cero riesgo real mientras aprendés.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-emoji">⏱️</div>
+        <div class="value-title">A tu propio ritmo</div>
+        <div class="value-text">Tu perfil, tu progreso, tus tiempos. Sin compararte con nadie más.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Plan de contenidos</h2>
+    <p class="section-sub">Como un plan de estudio, pero jugable: de los fundamentos al modo carrera.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <div>
+          <p class="feature-title">Quiz con mini-lecciones</p>
+          <span class="feature-stat">10 temas · 40 preguntas</span>
+          <p class="feature-text">Crecimiento, riesgo, diversificación, instrumentos, valuación (P/E y márgenes), técnico, estrategia de cartera y macro — con una mini-lección antes de cada bloque.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <div>
+          <p class="feature-title">Simulador de cartera</p>
+          <span class="feature-stat">7 activos · 14 casos de mercado</span>
+          <p class="feature-text">Armá una cartera virtual y viví "casos del mes": noticias reales antes de saber el resultado.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div>
+          <p class="feature-title">Lectura de gráficos</p>
+          <span class="feature-stat">Rondas ilimitadas</span>
+          <p class="feature-text">Practicá rango de 52 semanas, soporte/resistencia y valoración con acciones inventadas, generadas al azar.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧭</div>
+        <div>
+          <p class="feature-title">Escenarios reales</p>
+          <span class="feature-stat">18 decisiones</span>
+          <p class="feature-text">Situaciones financieras de la vida cotidiana, con la consecuencia explicada al final.</p>
+        </div>
+      </div>
+      <div class="feature-card wide">
+        <div class="feature-icon">🏆</div>
+        <div>
+          <p class="feature-title">Leyenda de Wall Street — modo carrera</p>
+          <span class="feature-stat">12 etapas · 18 eventos · 6 especialidades</span>
+          <p class="feature-text">De analista junior a leyenda (o a blow-up): cada decisión de tu carrera enseña un concepto de fondo. Más detalle abajo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="legend-section">
       <div>
-        <div class="level-badge" id="levelBadge">Principiante</div>
-        <div class="muted" style="font-size:10.5px;margin-top:4px">👤 <span id="profileNameTag">—</span> · <button class="reset-link" id="switchProfileBtn" style="font-size:10.5px">cambiar</button></div>
+        <span class="legend-pill">🏆 Modo carrera</span>
+        <div class="legend-title">Leyenda de Wall Street</div>
+        <p class="legend-text">Empezás a los 24 años como analista junior. Cada decisión de tu carrera — qué fondo elegís, cómo reaccionás a una crisis, si te tienta un "retorno garantizado" — mueve tu patrimonio y tu reputación. Sin plata real, con lecciones reales.</p>
+        <ul class="legend-list">
+          <li>12 etapas de carrera, de junior a leyenda (o a blow-up)</li>
+          <li>Cada elección enseña un concepto: riesgo, diversificación, pánico, comisiones</li>
+          <li>Insignias, reputación y un final distinto según cómo jugaste</li>
+        </ul>
       </div>
-      <div>
-        <div class="xp-bar-outer"><div class="xp-bar-inner" id="xpBar" style="width:0%"></div></div>
-        <div class="xp-text" id="xpText">0 XP</div>
-      </div>
-    </div>
-  </header>
-
-  <nav class="tabs">
-    <button data-tab="quiz" class="active">🧠 Quiz</button>
-    <button data-tab="sim">📈 Simulador</button>
-    <button data-tab="graficos">📊 Gráficos</button>
-    <button data-tab="scenarios">🧭 Escenarios</button>
-    <button data-tab="progress">🏆 Progreso</button>
-    <button data-tab="leyenda">📊 Leyenda</button>
-  </nav>
-
-  <!-- QUIZ TAB -->
-  <section id="tab-quiz">
-    <div class="card">
-      <div class="row">
-        <h2 style="margin:0">Trivia de inversión</h2>
-        <span class="muted" id="quizProgress">Pregunta 1</span>
-      </div>
-      <div id="quizBody" style="margin-top:14px;"></div>
-    </div>
-  </section>
-
-  <!-- SIMULATOR TAB -->
-  <section id="tab-sim" style="display:none">
-    <div class="card">
-      <div class="row">
-        <h2 style="margin:0">Simulador de portafolio</h2>
-        <span class="muted" id="simMonth">Mes 0 / 24</span>
-      </div>
-      <p class="muted" style="margin-top:6px">Empezás con $10.000 virtuales. Diversificá entre activos y avanzá mes a mes. Nadie pierde plata real acá — el objetivo es sentir cómo se comporta el riesgo. De vez en cuando vas a ver un "Caso del mes": una noticia de mercado antes de conocer el resultado, para decidir con la info que tenés.</p>
-      <div class="ticker-header" style="margin-top:12px">
-        <div>
-          <div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px">Valor total de la cartera</div>
-          <div class="ticker-price mono" id="simTotal">$10.000</div>
-        </div>
-        <div id="simReturn" class="ticker-delta up mono">+0.0%</div>
-      </div>
-      <canvas id="simChart"></canvas>
-    </div>
-
-    <div class="card">
-      <h3>Tu cartera</h3>
-      <div id="caseCard" style="display:none"></div>
-      <div id="assetList"></div>
-      <div class="row top-gap">
-        <button class="btn secondary" id="btnRebalance">Repartir en partes iguales</button>
-        <button class="btn" id="btnAdvance">Avanzar 1 mes ▶</button>
-      </div>
-      <div class="log" id="simLog"></div>
-    </div>
-  </section>
-
-  <!-- CHARTS TAB -->
-  <section id="tab-graficos" style="display:none">
-    <div class="card">
-      <div class="row">
-        <h2 style="margin:0">Practicá leer gráficos</h2>
-        <span class="muted" id="chartProgress">Acción nueva</span>
-      </div>
-      <p class="muted" style="margin-top:6px">Cada ronda genera una acción inventada distinta (no es real). Mirá el gráfico y respondé para entrenar el ojo — sin plata real de por medio.</p>
-      <div class="ticker-header" style="margin:14px 0">
-        <div>
-          <div class="ticker-symbol mono" id="chartTickerSymbol">—</div>
-          <div class="muted" id="chartTickerCompany" style="font-size:12px">—</div>
-        </div>
-        <div style="text-align:right">
-          <div class="ticker-price mono" id="chartTickerPrice">$0.00</div>
-          <div class="ticker-delta up mono" id="chartTickerDelta" style="font-size:12px">+0.0%</div>
-        </div>
-      </div>
-      <canvas id="chartPractice" style="max-height:260px"></canvas>
-      <div id="chartQuestionBody" style="margin-top:16px"></div>
-    </div>
-  </section>
-
-  <!-- SCENARIOS TAB -->
-  <section id="tab-scenarios" style="display:none">
-    <div class="card">
-      <div class="row">
-        <h2 style="margin:0">Elegí tu camino financiero</h2>
-        <span class="muted" id="scenarioProgress">Escenario 1</span>
-      </div>
-      <div id="scenarioBody" style="margin-top:14px;"></div>
-    </div>
-  </section>
-
-  <!-- PROGRESS TAB -->
-  <section id="tab-progress" style="display:none">
-    <div class="card">
-      <h2>Tu progreso</h2>
-      <div class="stat-grid">
-        <div class="stat-box"><div class="stat-num" id="statXp">0</div><div class="stat-label">XP total</div></div>
-        <div class="stat-box"><div class="stat-num" id="statQuiz">0/0</div><div class="stat-label">Aciertos del quiz</div></div>
-        <div class="stat-box"><div class="stat-num" id="statSim">—</div><div class="stat-label">Mejor retorno simulado</div></div>
-        <div class="stat-box"><div class="stat-num" id="statScenarios">0/10</div><div class="stat-label">Escenarios completados</div></div>
-        <div class="stat-box"><div class="stat-num" id="statCharts">0/0</div><div class="stat-label">Lecturas de gráfico correctas</div></div>
-      </div>
-      <h3 style="margin-top:18px">Insignias</h3>
-      <div class="badge-grid" id="badgeGrid"></div>
-      <div class="row top-gap">
-        <button class="reset-link" id="btnReset">Reiniciar todo mi progreso</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- LEYENDA DE WALL STREET TAB -->
-  <section id="tab-leyenda" style="display:none">
-  <div class="wrap">
-    <div class="top-title">
-      <h1>📊 Leyenda de Wall Street</h1>
-      <p>Un modo carrera para practicar decisiones de inversión — de analista junior a leyenda (o a blow-up).</p>
-    </div>
-
-    <!-- SETUP SCREEN -->
-    <div id="setupScreen">
-      <div class="card">
-        <label class="field-label">Tu alias</label>
-        <input type="text" id="nicknameInput" placeholder="Ej: El Zorro del Río de la Plata" maxlength="30">
-        <label class="field-label">País</label>
-        <input type="text" id="countryInput" placeholder="Ej: Argentina" maxlength="30">
-        <label class="field-label">Especialidad</label>
-        <div class="specialty-grid" id="specialtyGrid"></div>
-        <button class="btn btn-block" id="startCareerBtn" disabled>Empezar carrera ▶</button>
-      </div>
-    </div>
-
-    <!-- GAME SCREEN -->
-    <div id="gameScreen" class="hidden">
-      <div class="game-grid">
-        <div class="id-card" id="idCard"></div>
-        <div>
-          <div class="timeline-card">
-            <table class="timeline">
-              <thead><tr><th>Edad</th><th>Etapa</th><th>Patrimonio</th><th>Reputación</th></tr></thead>
-              <tbody id="timelineBody"></tbody>
-            </table>
+      <div class="legend-mini-card">
+        <div class="legend-mini-top">
+          <div class="legend-mini-avatar">JD</div>
+          <div>
+            <div class="legend-mini-name">El Zorro del Río</div>
+            <div class="legend-mini-tag">🐢 Value Investing · Edad 34</div>
           </div>
-          <div id="eventArea"></div>
+        </div>
+        <div class="legend-mini-label">Patrimonio</div>
+        <div class="legend-mini-value mono">$184.200</div>
+        <div class="legend-mini-label" style="margin-top:10px">Reputación</div>
+        <div class="legend-mini-bar-outer"><div class="legend-mini-bar-inner"></div></div>
+        <div class="legend-mini-trophies">
+          <span class="on" title="Diversificó">⚖️</span>
+          <span class="on" title="Sobrevivió una crisis">🛡️</span>
+          <span title="Fondo propio">🏛️</span>
+          <span class="on" title="Bajo costo">💸</span>
+          <span title="Reputación de leyenda">👑</span>
         </div>
       </div>
     </div>
-
-    <!-- ENDING SCREEN -->
-    <div id="endingScreen" class="hidden">
-      <div class="card ending-card">
-        <div class="ending-title" id="endingTitle">—</div>
-        <div class="ending-sub" id="endingSub">—</div>
-        <div class="ending-stats">
-          <div><div class="ending-stat-num mono" id="endNetWorth">$0</div><div class="ending-stat-label">Patrimonio final</div></div>
-          <div><div class="ending-stat-num mono" id="endReputation">0</div><div class="ending-stat-label">Reputación</div></div>
-          <div><div class="ending-stat-num mono" id="endBadges">0</div><div class="ending-stat-label">Insignias</div></div>
-        </div>
-        <button class="btn" id="playAgainBtn">Jugar de nuevo ▶</button>
-      </div>
-    </div>
-
-    <div style="text-align:center">
-      <button class="reset-link" id="hardResetBtn" style="margin-top:10px">Borrar todo y empezar de cero</button>
-    </div>
-  </div>
   </section>
+
+  <section>
+    <h2 class="section-title">Así se ve por dentro</h2>
+    <p class="section-sub">Una vista previa de cómo se sigue tu progreso.</p>
+    <div class="mock-card">
+      <div class="mock-row">
+        <div><span class="mock-symbol mono">TECH</span> <span class="mock-tag">Riesgo alto</span></div>
+        <div style="text-align:right"><div class="mock-val mono">$3.420</div><div class="mock-delta up mono">▲ +4.1%</div></div>
+      </div>
+      <div class="mock-row">
+        <div><span class="mock-symbol mono">OIL</span> <span class="mock-tag">Riesgo medio-alto</span></div>
+        <div style="text-align:right"><div class="mock-val mono">$1.980</div><div class="mock-delta down mono">▼ -1.8%</div></div>
+      </div>
+      <div class="mock-row">
+        <div><span class="mock-symbol mono">BOND</span> <span class="mock-tag">Bajo riesgo</span></div>
+        <div style="text-align:right"><div class="mock-val mono">$2.610</div><div class="mock-delta up mono">▲ +0.4%</div></div>
+      </div>
+      <div class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-top:10px">Tu nivel</div>
+      <div class="mock-xpbar-outer"><div class="mock-xpbar-inner"></div></div>
+      <div class="muted mono" style="font-size:11.5px">310 / 550 XP · Avanzado</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Sin letra chica</h2>
+    <div class="honest-list">
+      <div class="honest-item"><span class="honest-check">✓</span> No es asesoramiento financiero ni te promete hacerte rico. Es educación.</div>
+      <div class="honest-item"><span class="honest-check">✓</span> Todo el contenido educativo, sin venderte un curso "milagro" adentro.</div>
+      <div class="honest-item"><span class="honest-check">✓</span> Tu progreso es tuyo — no lo compartimos ni lo vendemos a nadie.</div>
+      <div class="honest-item"><span class="honest-check">✓</span> Precio simple, sin trampas ni cargos escondidos.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Preguntas frecuentes</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">¿Es asesoramiento financiero?</div>
+        <p class="faq-a">No. Es contenido educativo para entender conceptos y practicar sin plata real. Para decisiones de inversión reales, siempre conviene asesorarse con un profesional matriculado.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Necesito saber de finanzas para arrancar?</div>
+        <p class="faq-a">No, está pensada para empezar de cero: cada tema del quiz trae una mini-lección antes de las preguntas, y el simulador explica cada decisión al resolverla.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿La puedo usar con un amigo o familiar?</div>
+        <p class="faq-a">Sí, tiene perfiles: cada persona guarda su propio progreso (XP, quiz, simulador) en el mismo dispositivo, sin pisar el de los demás.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Dónde se guarda mi progreso?</div>
+        <p class="faq-a">Por ahora, solo en el navegador donde jugás (localStorage). Si borrás los datos del sitio o cambiás de dispositivo, se pierde — todavía no hay cuentas en la nube.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Cuánto va a costar?</div>
+        <p class="faq-a">La idea es un precio simple y accesible, sin niveles confusos. Quienes se anoten en la waitlist ahora se aseguran el precio de lanzamiento.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Cuándo está disponible?</div>
+        <p class="faq-a">Todavía está en construcción activa. Dejando tu mail te avisamos apenas esté lista para usarse.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Cuando lancemos</h2>
+    <p class="section-sub">Un precio pensado para que cueste menos que una suscripción de streaming al mes.</p>
+    <div class="price-card">
+      <div class="price-amount mono">USD 20</div>
+      <div class="price-period">por año</div>
+      <div class="price-note">Quienes se anoten ahora se aseguran este precio de lanzamiento, sin importar cuánto suba después.</div>
+    </div>
+  </section>
+
+  <section style="text-align:center">
+    <h2 class="section-title">¿Le damos para adelante?</h2>
+    <p class="section-sub">Dejá tu mail. Ni un curso, ni spam — un aviso el día que esté lista para usarse.</p>
+    <a class="btn" href="https://airtable.com/appZ6GK67w75QAnsU/pagsjwLc0PyO8jxVB/form" target="_blank" rel="noopener">Anotarme</a>
+    <p class="form-note" style="margin-top:10px">Se abre en una pestaña nueva.</p>
+  </section>
+
+  <footer>De la Huerta a la Bolsa — todavía en construcción. Esta página es una vista previa, no un producto en venta.</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
@@ -484,882 +448,132 @@
 (function(){
 "use strict";
 
-/* ---------------- DATA ---------------- */
+const WAITLIST_URL = "https://airtable.com/appZ6GK67w75QAnsU/pagsjwLc0PyO8jxVB/form";
+const STORAGE_KEY = "dlhab_quiz_demo_v1";
 
-const QUIZ = [
-  {cat:"crecimiento", q:"Si invertís $1.000 al 8% anual con interés compuesto, ¿qué pasa con las ganancias año a año?", opts:["Son siempre la misma cantidad fija en dinero","Crecen, porque generás interés también sobre los intereses previos","Disminuyen con el tiempo","Solo crecen si agregás más dinero"], correct:1, diff:"easy", explain:"El interés compuesto hace que ganes interés sobre el capital y también sobre los intereses ya acumulados, por eso el crecimiento se acelera con el tiempo."},
-  {cat:"diversificacion", q:"¿Qué es la diversificación?", opts:["Invertir todo en el activo con mejor rendimiento histórico","Repartir el dinero entre distintos activos para reducir el riesgo","Comprar y vender rápido para aprovechar movimientos de precio","Guardar todo en efectivo"], correct:1, diff:"easy", explain:"Diversificar reduce el impacto de que un solo activo caiga fuerte, porque las pérdidas de uno pueden compensarse con otros."},
-  {cat:"riesgo", q:"En general, ¿qué relación existe entre riesgo y retorno esperado?", opts:["No tienen relación","A mayor riesgo asumido, mayor retorno esperado (en promedio)","A mayor riesgo, menor retorno esperado","El riesgo siempre garantiza mayor retorno"], correct:1, diff:"easy", explain:"El mercado premia con mayor retorno esperado a quien asume más riesgo, pero 'esperado' no es 'garantizado': también hay más probabilidad de pérdida."},
-  {cat:"crecimiento", q:"¿Qué es la inflación?", opts:["La subida del precio de una acción","La pérdida de poder adquisitivo del dinero por el aumento general de precios","Un impuesto sobre las inversiones","El interés que paga un banco"], correct:1, diff:"easy", explain:"La inflación erosiona lo que tu dinero puede comprar; por eso dejar todo en efectivo también tiene un costo real."},
-  {cat:"instrumentos", q:"¿Qué significa que un activo sea 'líquido'?", opts:["Que paga dividendos","Que se puede comprar o vender rápido y sin perder mucho valor en el proceso","Que su precio nunca baja","Que solo existe en forma digital"], correct:1, diff:"medium", explain:"La liquidez mide qué tan rápido y a qué costo podés convertir un activo en efectivo. Un inmueble es poco líquido; una acción de una empresa grande, mucho más."},
-  {cat:"riesgo", q:"¿Cuál de estas opciones suele tener, históricamente, mayor volatilidad?", opts:["Un plazo fijo","Un bono del gobierno a corto plazo","Una criptomoneda","Efectivo en el banco"], correct:2, diff:"easy", explain:"Las criptomonedas suelen mostrar oscilaciones de precio mucho más grandes en cortos períodos que activos como bonos o efectivo."},
-  {cat:"comportamiento", q:"¿Qué es el 'dollar-cost averaging' (inversión periódica)?", opts:["Comprar toda tu inversión de una sola vez","Invertir un monto fijo a intervalos regulares, sin importar el precio del momento","Vender apenas el precio sube un poco","Solo comprar cuando el mercado está en mínimos históricos"], correct:1, diff:"medium", explain:"Invertir montos fijos periódicamente promedia el precio de compra en el tiempo y reduce el riesgo de invertir todo justo antes de una caída."},
-  {cat:"instrumentos", q:"¿Qué es un ETF?", opts:["Un tipo de criptomoneda","Un fondo que cotiza en bolsa y agrupa muchos activos en un solo instrumento","Un bono emitido por una empresa","Un impuesto sobre las ganancias de capital"], correct:1, diff:"medium", explain:"Un ETF permite comprar, con una sola operación, una canasta diversificada de activos (por ejemplo, todas las acciones de un índice)."},
-  {cat:"instrumentos", q:"¿Cuál es la principal diferencia entre una acción y un bono?", opts:["No hay diferencia real","La acción es una parte de la propiedad de una empresa; el bono es un préstamo que le hacés a una empresa o gobierno","El bono siempre rinde más que la acción","La acción no tiene riesgo"], correct:1, diff:"medium", explain:"Al comprar una acción sos dueño de una parte del negocio (y su riesgo); al comprar un bono, sos acreedor: te deben devolver el dinero con interés."},
-  {cat:"comportamiento", q:"¿Para qué sirve un fondo de emergencia antes de invertir?", opts:["Para especular en el corto plazo","Para cubrir gastos imprevistos sin tener que vender inversiones en mal momento","Para pagar impuestos","No tiene ninguna utilidad práctica"], correct:1, diff:"easy", explain:"Tener 3-6 meses de gastos ahorrados evita que tengas que liquidar inversiones justo cuando el mercado está bajo, solo por necesitar el dinero."},
-  {cat:"crecimiento", q:"La 'regla del 72' te ayuda a estimar...", opts:["Cuántos impuestos vas a pagar","En cuántos años se duplica tu inversión a una tasa de interés dada (72 ÷ tasa)","El riesgo de un activo","La inflación futura"], correct:1, diff:"hard", explain:"Dividiendo 72 por la tasa de interés anual obtenés, de forma aproximada, los años necesarios para duplicar el capital. Ej: al 8% anual, tarda unos 9 años."},
-  {cat:"diversificacion", q:"¿Qué es el riesgo 'no sistemático' (o diversificable)?", opts:["El riesgo de que suba la inflación general","El riesgo específico de una empresa o sector, que se puede reducir diversificando","El riesgo de que cambien las tasas de interés globales","El riesgo de que haya una crisis mundial"], correct:1, diff:"hard", explain:"El riesgo específico de una empresa (mala gestión, un producto que falla) se reduce diversificando entre muchas empresas y sectores distintos."},
-  {cat:"diversificacion", q:"¿Qué es 'rebalancear' una cartera?", opts:["Vender todo y empezar de nuevo","Ajustar periódicamente las proporciones de los activos para volver a tu estrategia original","Comprar solo cuando el mercado sube","Cambiar de banco"], correct:1, diff:"medium", explain:"Con el tiempo, algunos activos crecen más que otros y tu cartera se desvía del plan original. Rebalancear significa volver a los porcentajes deseados."},
-  {cat:"instrumentos", q:"¿Qué es la gestión pasiva de inversiones?", opts:["Invertir siguiendo un índice de mercado, con bajos costos, sin intentar 'ganarle' al mercado", "Dejar la plata en el colchón","Comprar y vender todos los días","No diversificar nunca"], correct:0, diff:"medium", explain:"La gestión pasiva busca replicar el rendimiento de un índice (como el S&P 500) con comisiones bajas, en lugar de intentar elegir 'ganadores'."},
-  {cat:"crecimiento", q:"¿Qué diferencia hay entre inflación nominal y retorno real?", opts:["Son lo mismo","El retorno real es el retorno nominal menos la inflación: mide la ganancia en poder de compra real","El retorno real siempre es mayor al nominal","La inflación no afecta al retorno real"], correct:1, diff:"hard", explain:"Si tu inversión rinde 10% pero la inflación fue 6%, tu retorno REAL (en poder de compra) es aproximadamente 4%, no 10%."},
-  {cat:"riesgo", q:"¿Qué es el apalancamiento financiero?", opts:["Ahorrar sin invertir","Usar dinero prestado para aumentar el tamaño de una inversión, lo que amplifica tanto ganancias como pérdidas","Diversificar entre muchos activos","Invertir solo en bonos del estado"], correct:1, diff:"hard", explain:"El apalancamiento multiplica el resultado de una inversión: si sale bien, ganás más; si sale mal, perdés más rápido (incluso más que el capital inicial)."},
-  {cat:"diversificacion", q:"¿Qué significa 'horizonte de inversión'?", opts:["El nombre de un índice bursátil","El tiempo que planeás mantener una inversión antes de necesitar el dinero","La cantidad de activos en tu cartera","El límite legal de una inversión"], correct:1, diff:"easy", explain:"Un horizonte largo te permite asumir más volatilidad (porque hay tiempo para recuperarse de caídas); uno corto sugiere priorizar activos más estables."},
-  {cat:"comportamiento", q:"¿Por qué importan las comisiones (fees) en una inversión de largo plazo?", opts:["No importan si el monto es chico","Porque, compuestas en el tiempo, pueden comerse una parte significativa del retorno total","Solo importan en criptomonedas","Las comisiones siempre son fijas y bajas"], correct:1, diff:"medium", explain:"Una diferencia de 1-2% anual en comisiones, sostenida por 20-30 años, puede representar una parte enorme del capital final por el efecto compuesto."},
-  {cat:"riesgo", q:"¿Qué describe mejor la volatilidad de un activo?", opts:["Su precio promedio histórico","Qué tanto y qué tan rápido varía su precio en el tiempo","Cuántos dividendos paga","Su capitalización de mercado"], correct:1, diff:"easy", explain:"La volatilidad mide la magnitud de las variaciones de precio: alta volatilidad implica subidas y bajadas más pronunciadas."},
-  {cat:"comportamiento", q:"Si el mercado cae fuerte y tenés un horizonte de inversión largo, ¿qué principio suele recomendarse?", opts:["Vender todo de inmediato para 'cortar pérdidas' sin analizar nada más","Evaluar con calma; vender en pánico durante una caída convierte una pérdida temporal (en el papel) en una pérdida real","Pedir un préstamo para invertir más de inmediato sin evaluar tu situación","Ignorar por completo tu plan financiero"], correct:1, diff:"medium", explain:"Vender durante una caída fuerte, sin un análisis frío, suele ser el error más costoso: convertís una baja temporal en una pérdida definitiva."},
-
-  {cat:"valuacion", q:"Si una acción cotiza a $156,73 y su P/E trailing es 26, ¿aproximadamente cuánto es su ganancia por acción (EPS)?", opts:["$6,02","$26","$156,73","$4.075"], correct:0, diff:"medium", explain:"Despejando P/E = Precio ÷ EPS, entonces EPS = Precio ÷ P/E = 156,73 ÷ 26 ≈ $6,02. Este es el caso real de XOM."},
-  {cat:"valuacion", q:"ARM tiene un P/E de ~288 y NVDA de ~30. ¿Cuál es la lectura más correcta de esa diferencia?", opts:["ARM es directamente una empresa peor que NVDA","El mercado le exige a ARM crecer muchísimo más rápido para justificar ese precio; el P/E no se compara en el vacío, sin contexto","NVDA está sobrevaluada porque su P/E es menor","Un P/E más alto siempre significa mejor empresa"], correct:1, diff:"hard", explain:"El P/E no tiene un 'número correcto': un valor tan alto como el de ARM refleja una apuesta de crecimiento futuro muy agresiva. Siempre hay que mirarlo en el contexto de cada empresa, no como cifra absoluta."},
-  {cat:"valuacion", q:"Comprás bondiola a $10 y la vendés a $14,50. ¿Cuál es el margen bruto real, calculado correctamente sobre la venta?", opts:["45%, calculado sobre el costo","Aproximadamente 31%, calculado sobre el precio de venta","69%","10%"], correct:1, diff:"medium", explain:"El margen bruto se calcula sobre lo vendido: (14,50 − 10) ÷ 14,50 ≈ 31%. Calcularlo sobre el costo (4,50 ÷ 10 = 45%) es la trampa más común."},
-  {cat:"valuacion", q:"NU tuvo ingresos de $4,79B y una ganancia bruta (gross profit) de $1,86B en el período. ¿Cuál es, aproximadamente, su margen bruto?", opts:["~10%","~25%","~39%","~60%"], correct:2, diff:"medium", explain:"Margen bruto = ganancia bruta ÷ ingresos = 1,86 ÷ 4,79 ≈ 39%."},
-
-  {cat:"crecimiento_moat", q:"NU pasó de $3,25B de ingresos en Q1 2025 a $4,79B en Q1 2026. ¿Cuál es su crecimiento interanual (YoY) aproximado?", opts:["12%","27%","47%","74%"], correct:2, diff:"medium", explain:"Crecimiento YoY = (4,79 − 3,25) ÷ 3,25 ≈ 47%. Se compara siempre contra el mismo período un año atrás."},
-  {cat:"crecimiento_moat", q:"¿Por qué el crecimiento interanual (YoY) se compara contra el mismo período del año anterior, y no contra el trimestre inmediato anterior?", opts:["Porque los datos del trimestre anterior nunca están disponibles","Para evitar que la estacionalidad (por ejemplo, más ventas en diciembre) distorsione la comparación","Porque así el resultado siempre da positivo","No hay ninguna razón particular, es solo convención sin motivo"], correct:1, diff:"medium", explain:"Comparar contra el mismo período del año anterior evita que efectos estacionales (fiestas, temporadas) se confundan con crecimiento real del negocio."},
-  {cat:"crecimiento_moat", q:"¿Cuál de estas afirmaciones sobre crecimiento de ingresos y precio de la acción es correcta?", opts:["Son siempre la misma cifra","El crecimiento de ingresos mide la facturación real del negocio; la suba del precio de la acción depende además de expectativas y valuación del mercado","Si el precio de la acción sube, los ingresos necesariamente subieron ese mismo trimestre","Los ingresos solo importan si la empresa paga dividendos"], correct:1, diff:"medium", explain:"Son cosas distintas: el crecimiento de ingresos es un hecho contable de la empresa; el precio de la acción también refleja expectativas futuras y sentimiento de mercado."},
-  {cat:"crecimiento_moat", q:"El hecho de que muchos desarrolladores ya aprendieron a programar en CUDA (la plataforma de NVIDIA) y cambiar de plataforma les costaría tiempo y esfuerzo es un ejemplo de...", opts:["Barrera técnica pura, donde no existe ninguna alternativa posible","Costo de cambio: dejar el producto o servicio cuesta, aunque no sea en dinero","Reputación de marca","Ninguno de los anteriores, no es un 'moat' real"], correct:1, diff:"hard", explain:"Es un costo de cambio: migrar de plataforma tiene un costo real (tiempo, curva de aprendizaje) aunque no sea monetario. Es distinto de una barrera técnica pura, como el monopolio de litografía de ASML."},
-
-  {cat:"tecnico", q:"MSFT está al 23% de su rango de 52 semanas (cerca de su mínimo anual). En una estrategia de DCA mensual, ¿qué sugiere esto?", opts:["Vender la posición de inmediato","Podría tener sentido reforzar algo más la compra mensual, ya que el precio está más cerca del piso del último año","Es una señal de que hay que operar de corto plazo comprando y vendiendo rápido","El rango de 52 semanas no sirve para ninguna decisión práctica"], correct:1, diff:"medium", explain:"El rango de 52 semanas no es para timing de corto plazo, sino para decidir dónde reforzar las compras dentro de un plan de DCA: estar cerca del mínimo anual da más 'margen para sumar'."},
-  {cat:"tecnico", q:"MCD está a solo un 1% de distancia de su mínimo de 52 semanas. ¿Qué está pasando técnicamente en ese nivel?", opts:["Su resistencia está siendo puesta a prueba","Su soporte está siendo puesto a prueba","No tiene relación con soporte ni resistencia","Significa que la acción va a subir seguro a partir de ahora"], correct:1, diff:"easy", explain:"Estar cerca de un mínimo relevante significa que el precio está probando un nivel de soporte (un 'piso')."},
-  {cat:"tecnico", q:"Si el precio de una acción rompe un soporte importante hacia abajo, ¿qué suele pasar con ese nivel de precio después?", opts:["Desaparece y no vuelve a tener relevancia","Suele convertirse en una nueva resistencia","Se convierte automáticamente en un soporte todavía más fuerte","Nada, los niveles de soporte nunca cambian"], correct:1, diff:"medium", explain:"Cuando un soporte se rompe, ese mismo nivel suele pasar a actuar como resistencia: el precio que antes 'sostenía' ahora 'frena' una posible suba."},
-  {cat:"tecnico", q:"¿Qué te dice, de forma simple, que el precio de una acción esté por encima de su media móvil de 200 días?", opts:["Que la empresa no tiene ganancias","Una lectura de tendencia alcista de mediano/largo plazo","Que hay que vender inmediatamente","Que el P/E de la empresa es bajo"], correct:1, diff:"easy", explain:"Las medias móviles suavizan el ruido diario: precio por encima de su media (comúnmente de 50 o 200 días) es una lectura simple de tendencia alcista; por debajo, bajista."},
-
-  {cat:"estrategia_cartera", q:"¿Cuál es la idea central del DCA (dollar-cost averaging)?", opts:["Esperar el momento perfecto del mercado antes de invertir","Invertir un monto fijo de forma periódica, sin importar si el precio subió o bajó ese mes","Comprar solo cuando el precio está en su mínimo histórico","Vender todo apenas el mercado empieza a bajar"], correct:1, diff:"easy", explain:"El DCA consiste en meter una plata fija todos los meses en vez de intentar adivinar el mejor momento: comprás un poco cuando baja y un poco cuando sube, y el precio de compra se promedia con el tiempo."},
-  {cat:"estrategia_cartera", q:"¿Qué es lo que el DCA elimina realmente, y qué es lo que NO elimina?", opts:["Elimina el riesgo por completo, pero no elimina las comisiones","Elimina la necesidad de adivinar el timing del mercado, pero no elimina el riesgo de que el activo baje","Elimina la inflación, pero no elimina el riesgo cambiario","No elimina ni el riesgo ni la necesidad de timing, solo reduce comisiones"], correct:1, diff:"medium", explain:"El DCA no hace magia: si el activo baja, igual perdés valor. Lo que elimina es la necesidad de acertar el momento exacto de entrada."},
-  {cat:"estrategia_cartera", q:"El ETF QQQ tiene un top 10 de posiciones (Nvidia, Apple, Microsoft, etc.) que se lleva cerca del 47-50% del fondo. Si además tenés NVDA y MSFT como posiciones individuales en tu cartera, ¿qué está pasando?", opts:["Estás perfectamente diversificado porque son productos distintos","Estás reforzando esos mismos nombres dos veces: una 'falsa diversificación', aunque a simple vista parezca repartido","No importa, los ETFs nunca se superponen con acciones individuales","Estás reduciendo tu exposición a esas empresas"], correct:1, diff:"hard", explain:"Un ETF como QQQ ya está concentrado en sus nombres más grandes. Sumar posiciones individuales de esas mismas empresas duplica la exposición sin que se note a simple vista."},
-  {cat:"estrategia_cartera", q:"¿Por qué se compara la diversificación de una cartera con no vender un solo corte de carne en una carnicería?", opts:["Porque vender un solo producto es siempre más rentable","Porque depender de un solo producto o sector te deja sin ingresos si ese rubro tiene un mal período; repartir entre varios reduce ese riesgo","Porque la carne se echa a perder más rápido que otros productos","No tiene relación real con la diversificación de inversiones"], correct:1, diff:"easy", explain:"Así como una carnicería que solo vende un corte tiene días sin ventas si ese corte no se pide, una cartera concentrada en un solo sector sufre mucho más si ese sector atraviesa un mal momento."},
-
-  {cat:"macro", q:"En una carnicería, la bondiola pasó de $50 a $160 pesos. ¿Cuál es la inflación acumulada de ese producto en ese período?", opts:["110%","320%","220%","69%"], correct:2, diff:"medium", explain:"Inflación = (160 − 50) ÷ 50 = 2,2, es decir 220%. Es la misma fórmula que el crecimiento de ingresos, aplicada a un precio."},
-  {cat:"macro", q:"El tipo de cambio ARS/USD pasó de ~300 a ~1.500 en pocos años, en paralelo a una inflación fuerte en pesos. ¿Qué relación hay entre esos dos fenómenos?", opts:["Ninguna relación, son fenómenos independientes","Cuando los precios en la moneda local suben mucho más rápido que el valor del dólar, hacen falta cada vez más unidades de esa moneda para comprar un dólar (devaluación)","El tipo de cambio sube primero y causa la inflación, nunca al revés","La inflación solo afecta precios locales, nunca al tipo de cambio"], correct:1, diff:"medium", explain:"La inflación y el tipo de cambio suelen moverse juntos: si el peso pierde poder de compra internamente mucho más rápido que su relación con el dólar, se necesita cada vez más pesos para comprar la misma cantidad de dólares."},
-  {cat:"macro", q:"Un CEDEAR cotiza en pesos pero representa una acción de EE.UU. Si el dólar sube fuerte frente al peso (y la acción en dólares no se movió), ¿qué pasa con el precio en pesos del CEDEAR?", opts:["Baja, porque el CEDEAR pierde valor cuando el dólar sube","Sube, porque el CEDEAR ajusta su precio en pesos para reflejar el nuevo tipo de cambio, protegiendo el valor real de la inversión","No cambia nunca, los CEDEARs son inmunes al tipo de cambio","Se congela hasta que el gobierno lo autorice"], correct:1, diff:"medium", explain:"Los CEDEARs representan acciones extranjeras cotizando en moneda local: cuando el dólar sube, su precio en pesos sube para reflejarlo, protegiendo el valor real frente a la devaluación."},
-  {cat:"macro", q:"Si el banco central sube fuerte la tasa de interés 'segura' (por ejemplo, la de un plazo fijo), ¿qué efecto suele tener eso sobre el precio de las acciones y su P/E?", opts:["Ningún efecto, son mercados totalmente independientes","Invertir en acciones se vuelve menos atractivo en comparación, y el mercado suele exigir precios (P/E) más bajos","Las acciones automáticamente suben porque hay más plata circulando","Las tasas de interés solo afectan a los bonos, nunca a las acciones"], correct:1, diff:"hard", explain:"Cuando la alternativa 'segura' (la tasa) rinde más, invertir en acciones pierde atractivo relativo, y el mercado tiende a pagar menos por cada $1 de ganancia (P/E más bajo)."}
-];
-
-const LESSONS = {
-  crecimiento: {
-    title:"Cómo crece (o se erosiona) tu dinero",
-    text:"El interés compuesto hace que tu capital gane intereses sobre los intereses ya acumulados, por eso el crecimiento se acelera con el tiempo (la 'regla del 72' te da una forma rápida de estimar en cuántos años se duplica). Pero la inflación juega en contra: reduce el poder de compra de tu dinero, así que lo que importa al final no es el retorno nominal, sino el retorno real (nominal menos inflación)."
-  },
-  riesgo: {
-    title:"Riesgo, volatilidad y apalancamiento",
-    text:"En general, a mayor riesgo asumido, mayor retorno esperado en promedio — pero 'esperado' no es 'garantizado'. La volatilidad mide qué tanto varía el precio de un activo en el tiempo: cripto y acciones de crecimiento suelen ser mucho más volátiles que bonos o efectivo. El apalancamiento (invertir con dinero prestado) amplifica ese riesgo en ambas direcciones: podés ganar más rápido, pero también perder más rápido."
-  },
-  diversificacion: {
-    title:"Diversificación y manejo de cartera",
-    text:"Diversificar significa repartir el dinero entre distintos activos para que las pérdidas de uno se compensen con otros, reduciendo el riesgo específico de una sola empresa o sector (riesgo 'no sistemático'). Con el tiempo, tu cartera se desvía del plan original porque algunos activos crecen más que otros; rebalancear es volver a las proporciones que definiste, según tu horizonte de inversión y tolerancia al riesgo."
-  },
-  instrumentos: {
-    title:"Tipos de instrumentos de inversión",
-    text:"Una acción te hace dueño de una parte de una empresa (y de su riesgo); un bono es un préstamo que le hacés a una empresa o gobierno, con devolución e interés pactados. Un ETF te permite comprar, en una sola operación, una canasta diversificada de activos. La liquidez mide qué tan rápido y a qué costo podés convertir algo en efectivo, y la gestión pasiva busca replicar un índice con bajo costo en vez de intentar 'ganarle' al mercado."
-  },
-  comportamiento: {
-    title:"Comportamiento del inversor y costos",
-    text:"Invertir un monto fijo de forma periódica (dollar-cost averaging) reduce el riesgo de invertir todo justo antes de una caída, y tener un fondo de emergencia evita que tengas que vender inversiones en mal momento por una urgencia. Las comisiones, aunque parezcan chicas, se acumulan con el efecto compuesto durante décadas. Y el error más costoso suele ser vender en pánico durante una caída: eso convierte una pérdida temporal en una pérdida real y definitiva."
-  },
-  valuacion: {
-    title:"Valuación: P/E y márgenes",
-    text:"El P/E (precio ÷ ganancia por acción) mide cuánto pagás hoy por cada $1 de ganancia anual que la empresa ya generó; no tiene un 'número correcto', solo tiene sentido comparado contra la propia historia de la empresa o contra su rubro — por eso ARM con un P/E de ~288 no se compara igual que NVDA con ~30, son apuestas de crecimiento distintas. El margen bruto se calcula siempre sobre lo vendido, no sobre lo que costó: comprar algo a $10 y venderlo a $14,50 no es 45% de margen (esa es la trampa de calcularlo sobre el costo), es 31% sobre la venta. El margen neto, además, resta también los costos fijos como alquiler y sueldos."
-  },
-  crecimiento_moat: {
-    title:"Crecimiento interanual y moat",
-    text:"El crecimiento interanual (YoY) compara un período contra el mismo período un año atrás —no contra el mes o trimestre inmediato anterior— para no confundir estacionalidad con crecimiento real (NU pasó de $3,25B a $4,79B de ingresos, un 47% interanual). Ojo: crecimiento de ingresos no es lo mismo que la suba del precio de la acción, son cosas distintas. El 'moat' es la ventaja competitiva que protege las ganancias de la competencia: puede ser reputación de marca, costo de cambio (como los desarrolladores que ya aprendieron a usar CUDA de NVIDIA) o una barrera técnica pura (como el monopolio de litografía de ASML, donde no existe alternativa real)."
-  },
-  tecnico: {
-    title:"Rango de 52 semanas, soportes y medias móviles",
-    text:"El rango de 52 semanas muestra el mínimo y máximo que tocó el precio en el último año, y sirve para decidir dónde reforzar tus compras dentro de un DCA mensual —no para operar de corto plazo—: una acción cerca de su mínimo del rango tiene más 'margen para sumar' que una cerca de su máximo. El soporte es un 'piso' de precio que, si se respeta, sugiere rebote; la resistencia es un 'techo' que, si se rompe, sugiere continuación alcista; y si un soporte se rompe, suele convertirse en la nueva resistencia. Las medias móviles (comúnmente de 50 y 200 días) suavizan el ruido diario: precio por arriba de su media sugiere tendencia alcista, y por debajo, bajista."
-  },
-  estrategia_cartera: {
-    title:"Por qué armamos la cartera así: DCA y diversificación",
-    text:"El DCA (dollar-cost averaging) consiste en invertir una plata fija todos los meses en vez de esperar el 'momento perfecto' que no existe: comprás un poco cuando baja y un poco cuando sube, promediando el precio con el tiempo — no elimina el riesgo, elimina la necesidad de adivinar el timing. Diversificar es no apostar todo a una sola empresa o sector (como no vender un solo corte de carne en una carnicería), y los ETFs como SPY o QQQ dan diversificación al por mayor. Pero ojo con la falsa diversificación: el top 10 de QQQ se lleva casi la mitad del fondo, así que si además tenés NVDA, MSFT o META como posiciones individuales, estás reforzando esos mismos nombres dos veces sin darte cuenta."
-  },
-  macro: {
-    title:"Macro: inflación, tipo de cambio y tasas de interés",
-    text:"La inflación es el aumento generalizado de precios en el tiempo, y se calcula igual que el crecimiento de ingresos: (precio nuevo − precio viejo) ÷ precio viejo. El tipo de cambio va de la mano con la inflación: si los precios locales suben más rápido que el valor del dólar, hacen falta cada vez más unidades de esa moneda para comprar un dólar (devaluación) — por eso los CEDEARs, al representar acciones de EE.UU. cotizando en moneda local, ajustan su precio cuando el dólar sube, protegiendo el valor real de la inversión. Las tasas de interés son el 'precio' de prestar o guardar dinero: cuando la tasa 'segura' sube, invertir en acciones se vuelve menos atractivo en comparación y el mercado suele exigir precios (P/E) más bajos, además de poder mover el tipo de cambio."
-  }
+const CAT_LABEL = {
+  crecimiento:"Crecimiento del dinero", diversificacion:"Diversificación", riesgo:"Riesgo y volatilidad",
+  instrumentos:"Instrumentos", comportamiento:"Comportamiento", valuacion:"Valuación (P/E)",
+  crecimiento_moat:"Crecimiento interanual", tecnico:"Análisis técnico", estrategia_cartera:"Estrategia de cartera", macro:"Macro"
 };
 
-const SCENARIOS = [
-  {
-    situ:"Recibís un aguinaldo/bono de fin de año equivalente a un mes de sueldo. Tenés una deuda de tarjeta de crédito al 90% anual y todavía no armaste tu fondo de emergencia.",
-    choices:[
-      {label:"Usarlo para pagar la deuda de tarjeta de crédito", tone:"good", xp:15, out:"Pagar deudas con tasas altísimas es, en la práctica, la 'inversión' con mejor retorno garantizado: evitás seguir pagando ese interés."},
-      {label:"Invertirlo todo en una acción que subió mucho últimamente", tone:"bad", xp:0, out:"Perseguir una acción que ya subió mucho, con deuda cara pendiente, suele salir mal: el interés de la deuda come cualquier ganancia posible."},
-      {label:"Guardarlo todo como fondo de emergencia", tone:"neutral", xp:5, out:"Tener un colchón es valioso, pero con una deuda al 90% anual, primero conviene reducir esa deuda: el 'retorno' de pagarla suele superar cualquier ahorro."}
-    ]
-  },
-  {
-    situ:"Un amigo te cuenta que 'tiene el dato' de una criptomoneda nueva que va a subir 10x en un mes, y te sugiere poner todos tus ahorros.",
-    choices:[
-      {label:"Investigar por tu cuenta y, si acaso, invertir solo un monto pequeño que estés dispuesto a perder", tone:"good", xp:15, out:"Ninguna promesa de retornos garantizados y extremos es confiable. Investigar y limitar el monto expuesto es la forma responsable de explorar activos especulativos."},
-      {label:"Poner todos tus ahorros porque confiás en tu amigo", tone:"bad", xp:0, out:"Concentrar todo en un solo activo especulativo, basado en un 'dato', es de los errores más comunes y costosos en finanzas personales."},
-      {label:"Ignorarlo completamente sin averiguar nada", tone:"neutral", xp:5, out:"Evitar el riesgo extremo es razonable, aunque informarte un poco (sin invertir) tampoco cuesta nada y te ayuda a entender el mercado."}
-    ]
-  },
-  {
-    situ:"El mercado de acciones cae un 25% en pocas semanas por una crisis económica. Tenés inversiones de largo plazo (jubilación, 20+ años por delante).",
-    choices:[
-      {label:"Mantener tu estrategia y, si podés, seguir invirtiendo montos regulares (comprando 'más barato')", tone:"good", xp:15, out:"Históricamente, los mercados se recuperan de caídas en el largo plazo. Con un horizonte largo, mantener el rumbo (o comprar más barato) suele ser lo más racional."},
-      {label:"Vender todo para 'evitar perder más'", tone:"bad", xp:0, out:"Vender en el peor momento convierte una caída temporal (en el papel) en una pérdida real y definitiva, justo cuando el horizonte de inversión seguía siendo largo."},
-      {label:"No hacer nada pero dejar de mirar tus inversiones por miedo", tone:"neutral", xp:5, out:"No entrar en pánico está bien, pero evitar por completo revisar tu situación tampoco es ideal: conviene entender qué pasó, sin tomar decisiones impulsivas."}
-    ]
-  },
-  {
-    situ:"Empezás tu primer trabajo formal. Tu empresa ofrece un plan de aporte para el retiro con contraparte del empleador (matching), pero tenés otros gastos.",
-    choices:[
-      {label:"Aportar al menos lo suficiente para obtener el 'matching' completo del empleador", tone:"good", xp:15, out:"El aporte de contraparte del empleador es, literalmente, dinero adicional gratis. No aprovecharlo es dejar retorno garantizado sobre la mesa."},
-      {label:"No aportar nada para tener más liquidez ahora", tone:"bad", xp:0, out:"Renunciar al aporte de contraparte del empleador significa perder un beneficio inmediato y sin riesgo, difícil de igualar con cualquier otra inversión."},
-      {label:"Aportar el monto mínimo posible, sin llegar al matching completo", tone:"neutral", xp:5, out:"Aportar algo es mejor que nada, pero si podés llegar al monto que activa el matching completo, conviene hacerlo: es retorno inmediato."}
-    ]
-  },
-  {
-    situ:"Tenés $5.000 ahorrados y ningún fondo de emergencia. Un vendedor te ofrece una inversión 'exclusiva' con retorno garantizado del 30% mensual.",
-    choices:[
-      {label:"Rechazarla: ningún activo legítimo garantiza retornos tan altos y constantes", tone:"good", xp:15, out:"Los retornos 'garantizados' extremadamente altos son la característica típica de esquemas fraudulentos (tipo Ponzi). Ningún mercado legítimo ofrece eso de forma sostenida."},
-      {label:"Invertir una parte 'para probar'", tone:"bad", xp:0, out:"Incluso una parte pequeña en un esquema fraudulento suele perderse por completo; la señal de alarma (retorno garantizado extremo) ya estaba clara."},
-      {label:"Pedirle papeles y 'pensarlo', sin decir que no del todo", tone:"neutral", xp:5, out:"Es mejor rechazar directamente este tipo de ofertas; darle largas a algo que ya muestra señales claras de fraude no aporta mucho."}
-    ]
-  },
-  {
-    situ:"Ya armaste tu fondo de emergencia y pagaste tus deudas caras. Ahora tenés $2.000 mensuales disponibles para invertir a largo plazo.",
-    choices:[
-      {label:"Invertir un monto fijo cada mes en una cartera diversificada (índices, algo de bonos)", tone:"good", xp:15, out:"Invertir de forma constante y diversificada, sin intentar 'adivinar' el mercado, es la estrategia con mejor evidencia a favor en el largo plazo."},
-      {label:"Guardar todo en efectivo 'por si el mercado cae'", tone:"bad", xp:0, out:"Quedarse en efectivo de forma indefinida tiene un costo real: la inflación erosiona ese dinero y perdés el crecimiento compuesto del tiempo invertido."},
-      {label:"Invertir todo de una sola vez en el activo de moda del momento", tone:"neutral", xp:5, out:"Invertir está bien, pero concentrar todo en un solo activo 'de moda' es más riesgoso que diversificar de forma constante."}
-    ]
-  },
-  {
-    situ:"Ves en redes sociales que muchas personas están ganando dinero rápido con una tendencia de inversión nueva y muy hablada.",
-    choices:[
-      {label:"Investigar los fundamentos antes de mover un solo peso, sin dejarte llevar por el ruido social", tone:"good", xp:15, out:"El entusiasmo colectivo (FOMO) es una de las señales clásicas de burbujas especulativas. Investigar los fundamentos te protege de decisiones impulsivas."},
-      {label:"Entrar rápido para 'no quedarte afuera'", tone:"bad", xp:0, out:"Comprar por miedo a quedarte afuera (FOMO), sin entender el activo, es uno de los patrones que más se repite antes de una caída fuerte."},
-      {label:"Esperar a ver qué pasa, sin investigar nada en el medio", tone:"neutral", xp:5, out:"Esperar no es mala idea, pero aprovechar ese tiempo para entender el activo (en vez de solo mirar el precio) te da mejores herramientas para decidir."}
-    ]
-  },
-  {
-    situ:"Tenés 25 años y estás decidiendo cómo repartir tus inversiones de largo plazo (jubilación a 40 años vista).",
-    choices:[
-      {label:"Priorizar activos con mayor potencial de crecimiento (acciones), aceptando más volatilidad en el camino", tone:"good", xp:15, out:"Con un horizonte tan largo, hay tiempo de sobra para recuperarse de caídas, así que priorizar crecimiento suele maximizar el capital final."},
-      {label:"Poner casi todo en efectivo 'para no arriesgar nada'", tone:"bad", xp:0, out:"A 40 años vista, quedarte casi todo en efectivo implica perder gran parte del crecimiento compuesto posible, y la inflación erosiona ese ahorro."},
-      {label:"Repartir todo en partes exactamente iguales entre absolutamente todos los activos disponibles, sin analizar tu horizonte", tone:"neutral", xp:5, out:"Diversificar está bien, pero la mezcla ideal depende de tu horizonte y tolerancia al riesgo, no de repartir 'porque sí' en partes iguales."}
-    ]
-  },
-  {
-    situ:"Notás que una de tus inversiones subió mucho y ahora representa el 60% de tu cartera total, mucho más de lo planeado originalmente.",
-    choices:[
-      {label:"Rebalancear: vender una parte de esa posición y repartir hacia otros activos según tu plan original", tone:"good", xp:15, out:"Rebalancear devuelve tu cartera al nivel de riesgo que habías decidido, evitando quedar sobre-expuesto a un solo activo."},
-      {label:"Dejarlo así porque 'está funcionando bien'", tone:"bad", xp:0, out:"Aunque haya funcionado hasta ahora, una concentración tan alta en un solo activo te deja mucho más expuesto si ese activo cae fuerte."},
-      {label:"Vender absolutamente todo de esa posición 'por las dudas'", tone:"neutral", xp:5, out:"Vender por completo es una reacción extrema; rebalancear parcialmente suele ser más consistente con mantener una estrategia de largo plazo."}
-    ]
-  },
-  {
-    situ:"Te ofrecen dos fondos de inversión con estrategia similar: uno cobra 0,2% anual de comisión y otro cobra 2% anual, prometiendo 'gestión activa superior'.",
-    choices:[
-      {label:"Comparar el desempeño neto de comisiones a largo plazo antes de decidir, sabiendo que pocas gestiones activas superan al índice de forma consistente", tone:"good", xp:15, out:"La evidencia muestra que, en el largo plazo, la mayoría de los fondos de gestión activa no logran superar consistentemente a índices de bajo costo, una vez descontadas las comisiones."},
-      {label:"Elegir el de 2% porque 'gestión activa superior' suena más atractivo", tone:"bad", xp:0, out:"Pagar una comisión 10 veces mayor, sin evidencia sólida de que compense con mejor desempeño neto, suele reducir tu retorno final compuesto."},
-      {label:"Elegir el más barato sin mirar nada más de sus características", tone:"neutral", xp:5, out:"El costo es clave, pero conviene también revisar qué activos incluye el fondo y si se ajusta a tu estrategia, no solo la comisión."}
-    ]
-  },
-  {
-    situ:"Estás decidiendo si comprar una vivienda usando casi todos tus ahorros como anticipo, o seguir alquilando e invertir la diferencia en una cartera diversificada.",
-    choices:[
-      {label:"Comparar el costo total real de comprar (mantenimiento, impuestos, iliquidez) contra alquilar e invertir la diferencia, sin asumir de entrada que comprar siempre es mejor", tone:"good", xp:15, out:"Comprar no es automáticamente mejor que alquilar: inmoviliza gran parte de tu patrimonio en un activo poco líquido. Conviene comparar los números concretos de cada opción."},
-      {label:"Comprar solo porque 'alquilar es tirar la plata'", tone:"bad", xp:0, out:"Esa frase ignora costos reales de la propiedad (mantenimiento, impuestos, iliquidez) y el costo de oportunidad de inmovilizar tus ahorros."},
-      {label:"Seguir alquilando pero gastar la diferencia en vez de invertirla", tone:"neutral", xp:5, out:"Alquilar puede ser una buena decisión financiera, pero solo si esa diferencia se invierte; si se gasta, se pierde la ventaja comparativa."}
-    ]
-  },
-  {
-    situ:"Recibís una herencia importante de forma inesperada.",
-    choices:[
-      {label:"Dejarla unos meses en un instrumento seguro y de bajo riesgo antes de tomar decisiones grandes", tone:"good", xp:15, out:"Esperar evita decisiones apuradas por la emoción del momento. Con más calma podés planear mejor cómo pagar deudas, invertir o cubrir objetivos."},
-      {label:"Gastarla rápido en bienes de consumo 'para disfrutarla'", tone:"bad", xp:0, out:"Gastar rápido un ingreso grande e inesperado, sin un plan, es de los patrones que más rápido licúan un patrimonio recién recibido."},
-      {label:"Invertir todo de inmediato en un solo activo de moda, sin plan", tone:"neutral", xp:5, out:"Invertir está bien, pero concentrar todo en un solo activo de moda y sin plan es más riesgoso que armar una estrategia diversificada con calma."}
-    ]
-  },
-  {
-    situ:"Estás por empezar a invertir agresivamente en activos de riesgo, pero no tenés cobertura de salud ni seguro de vida (y tenés personas que dependen de tu ingreso).",
-    choices:[
-      {label:"Asegurar coberturas básicas de salud (y seguro de vida si hay dependientes) antes de aumentar el riesgo de tu cartera", tone:"good", xp:15, out:"Un evento de salud grave o la pérdida de tu ingreso pueden borrar años de inversión. Cubrir esos riesgos básicos primero protege todo lo demás."},
-      {label:"Ignorar los seguros y poner todo el dinero disponible en activos de alto riesgo", tone:"bad", xp:0, out:"Sin cobertura básica, un imprevisto de salud puede obligarte a liquidar inversiones en el peor momento, o dejar desprotegidas a las personas que dependen de vos."},
-      {label:"Contratar un seguro innecesariamente caro y complejo sin comparar opciones", tone:"neutral", xp:5, out:"Tener seguro es importante, pero conviene comparar coberturas y costos en vez de contratar el primero que aparece."}
-    ]
-  },
-  {
-    situ:"Toda tu cartera de acciones está invertida únicamente en empresas de tu país.",
-    choices:[
-      {label:"Sumar exposición a mercados internacionales para reducir la dependencia de una sola economía", tone:"good", xp:15, out:"Diversificar geográficamente reduce el riesgo de que la situación económica de un solo país afecte toda tu cartera."},
-      {label:"Mantener el 100% local porque 'es lo que conocés'", tone:"bad", xp:0, out:"La familiaridad con el mercado local no reduce el riesgo real de concentración; de hecho es una de las formas de sesgo más comunes entre inversores."},
-      {label:"Mover absolutamente todo a mercados internacionales sin dejar nada local", tone:"neutral", xp:5, out:"Diversificar internacionalmente es bueno, pero pasar al otro extremo (cero exposición local) simplemente cambia un sesgo de concentración por otro."}
-    ]
-  },
-  {
-    situ:"Te suben el sueldo un 15%.",
-    choices:[
-      {label:"Aumentar automáticamente tu porcentaje de ahorro/inversión con parte del aumento, antes de que el gasto se acomode al nuevo ingreso", tone:"good", xp:15, out:"'Pagarte a vos primero' con cada aumento evita que la llamada 'inflación de estilo de vida' se coma todo el ingreso extra, sin sentir que te estás privando de nada nuevo."},
-      {label:"Aumentar tu gasto en la misma proporción que el aumento, sin ahorrar nada extra", tone:"bad", xp:0, out:"Esto es 'inflación de estilo de vida': cada aumento se destina a gastar más, y tu capacidad de ahorro nunca mejora aunque ganes más."},
-      {label:"Ahorrar todo el aumento en efectivo, sin invertirlo", tone:"neutral", xp:5, out:"Ahorrar más está bien, pero dejarlo todo en efectivo pierde poder de compra frente a la inflación con el tiempo."}
-    ]
-  },
-  {
-    situ:"Una tienda te ofrece comprar un producto caro que no necesitás con urgencia en 'cuotas sin interés'.",
-    choices:[
-      {label:"Evaluar si igual comprarías el producto de contado y considerar el costo de oportunidad de comprometer ese flujo mensual, antes de decidir", tone:"good", xp:15, out:"'Sin interés' no significa 'sin costo': comprometer cuotas mensuales reduce tu capacidad de ahorro o inversión futura, incluso si la tasa nominal es cero."},
-      {label:"Comprarlo impulsivamente solo porque 'no tiene interés'", tone:"bad", xp:0, out:"La ausencia de interés suele usarse como gatillo de compras impulsivas de cosas que, de contado, tal vez no comprarías."},
-      {label:"No comprarlo, pero sin pensar realmente el motivo, solo por evitar cualquier cuota", tone:"neutral", xp:5, out:"Evitar deuda está bien, pero decidir 'en automático' sin evaluar el caso concreto tampoco es ideal: a veces una cuota sin interés sí tiene sentido."}
-    ]
-  },
-  {
-    situ:"Te acercás a la edad de jubilación y tu cartera sigue con la misma proporción agresiva en acciones que tenías a los 25 años.",
-    choices:[
-      {label:"Ir reduciendo gradualmente el riesgo (más bonos, menos acciones) a medida que se acerca el momento de necesitar el dinero", tone:"good", xp:15, out:"A medida que el horizonte de inversión se acorta, hay menos tiempo para recuperarse de una caída fuerte, así que reducir gradualmente el riesgo protege el capital acumulado."},
-      {label:"Mantener el 100% en acciones hasta el último momento, sin ajustar el riesgo", tone:"bad", xp:0, out:"Sin ese ajuste, una caída fuerte justo antes de jubilarte podría golpear tu capital sin tiempo suficiente para recuperarse."},
-      {label:"Pasar todo a efectivo de golpe apenas te acercás a la jubilación", tone:"neutral", xp:5, out:"Reducir riesgo es correcto, pero pasar todo a efectivo de golpe (en vez de gradualmente) también implica perder crecimiento potencial y exponerte a la inflación en los años de retiro."}
-    ]
-  },
-  {
-    situ:"Tenés un préstamo estudiantil a una tasa baja (3% anual) y, al mismo tiempo, $3.000 parados en una cuenta que no rinde nada.",
-    choices:[
-      {label:"Comparar la tasa de la deuda con el retorno esperado de invertir; si la deuda es barata, puede convenir invertir el dinero en vez de apurarse a cancelarla", tone:"good", xp:15, out:"No toda deuda es igual: una deuda barata (tasa baja) compite contra el retorno esperado de invertir, y muchas veces conviene priorizar la inversión."},
-      {label:"Usar todo el dinero para pagar la deuda barata de inmediato, porque 'toda deuda es mala'", tone:"bad", xp:0, out:"Tratar toda deuda igual, sin mirar la tasa, puede llevarte a cancelar deuda barata en vez de aprovechar mejores oportunidades de inversión."},
-      {label:"Dejar el dinero parado sin invertir ni pagar deuda, sin analizar cuál conviene", tone:"neutral", xp:5, out:"No decidir tiene un costo: ese dinero parado pierde valor por la inflación mientras la deuda sigue generando intereses."}
-    ]
-  }
+const DEMO_QUESTIONS = [
+  {cat:"crecimiento", q:"Si invertís $1.000 al 8% anual con interés compuesto, ¿qué pasa con las ganancias año a año?", opts:["Son siempre la misma cantidad fija en dinero","Crecen, porque generás interés también sobre los intereses previos","Disminuyen con el tiempo","Solo crecen si agregás más dinero"], correct:1, explain:"El interés compuesto hace que ganes interés sobre el capital y también sobre los intereses ya acumulados, por eso el crecimiento se acelera con el tiempo."},
+  {cat:"diversificacion", q:"¿Qué es la diversificación?", opts:["Invertir todo en el activo con mejor rendimiento histórico","Repartir el dinero entre distintos activos para reducir el riesgo","Comprar y vender rápido para aprovechar movimientos de precio","Guardar todo en efectivo"], correct:1, explain:"Diversificar reduce el impacto de que un solo activo caiga fuerte, porque las pérdidas de uno pueden compensarse con otros."},
+  {cat:"riesgo", q:"En general, ¿qué relación existe entre riesgo y retorno esperado?", opts:["No tienen relación","A mayor riesgo asumido, mayor retorno esperado (en promedio)","A mayor riesgo, menor retorno esperado","El riesgo siempre garantiza mayor retorno"], correct:1, explain:"El mercado premia con mayor retorno esperado a quien asume más riesgo, pero 'esperado' no es 'garantizado': también hay más probabilidad de pérdida."},
+  {cat:"instrumentos", q:"¿Cuál es la principal diferencia entre una acción y un bono?", opts:["No hay diferencia real","La acción es una parte de la propiedad de una empresa; el bono es un préstamo que le hacés a una empresa o gobierno","El bono siempre rinde más que la acción","La acción no tiene riesgo"], correct:1, explain:"Al comprar una acción sos dueño de una parte del negocio (y su riesgo); al comprar un bono, sos acreedor: te deben devolver el dinero con interés."},
+  {cat:"comportamiento", q:"¿Para qué sirve un fondo de emergencia antes de invertir?", opts:["Para especular en el corto plazo","Para cubrir gastos imprevistos sin tener que vender inversiones en mal momento","Para pagar impuestos","No tiene ninguna utilidad práctica"], correct:1, explain:"Tener 3-6 meses de gastos ahorrados evita que tengas que liquidar inversiones justo cuando el mercado está bajo, solo por necesitar el dinero."},
+  {cat:"valuacion", q:"Si una acción cotiza a $156,73 y su P/E trailing es 26, ¿aproximadamente cuánto es su ganancia por acción (EPS)?", opts:["$6,02","$26","$156,73","$4.075"], correct:0, explain:"Despejando P/E = Precio ÷ EPS, entonces EPS = Precio ÷ P/E = 156,73 ÷ 26 ≈ $6,02. Este es el caso real de XOM."},
+  {cat:"crecimiento_moat", q:"NU pasó de $3,25B de ingresos en Q1 2025 a $4,79B en Q1 2026. ¿Cuál es su crecimiento interanual (YoY) aproximado?", opts:["12%","27%","47%","74%"], correct:2, explain:"Crecimiento YoY = (4,79 − 3,25) ÷ 3,25 ≈ 47%. Se compara siempre contra el mismo período un año atrás."},
+  {cat:"tecnico", q:"¿Qué te dice, de forma simple, que el precio de una acción esté por encima de su media móvil de 200 días?", opts:["Que la empresa no tiene ganancias","Una lectura de tendencia alcista de mediano/largo plazo","Que hay que vender inmediatamente","Que el P/E de la empresa es bajo"], correct:1, explain:"Las medias móviles suavizan el ruido diario: precio por encima de su media (comúnmente de 50 o 200 días) es una lectura simple de tendencia alcista; por debajo, bajista."},
+  {cat:"estrategia_cartera", q:"¿Cuál es la idea central del DCA (dollar-cost averaging)?", opts:["Esperar el momento perfecto del mercado antes de invertir","Invertir un monto fijo de forma periódica, sin importar si el precio subió o bajó ese mes","Comprar solo cuando el precio está en su mínimo histórico","Vender todo apenas el mercado empieza a bajar"], correct:1, explain:"El DCA consiste en meter una plata fija todos los meses en vez de intentar adivinar el mejor momento: comprás un poco cuando baja y un poco cuando sube, y el precio de compra se promedia con el tiempo."},
+  {cat:"macro", q:"En una carnicería, la bondiola pasó de $50 a $160 pesos. ¿Cuál es la inflación acumulada de ese producto en ese período?", opts:["110%","320%","220%","69%"], correct:2, explain:"Inflación = (160 − 50) ÷ 50 = 2,2, es decir 220%. Es la misma fórmula que el crecimiento de ingresos, aplicada a un precio."}
 ];
 
-const ASSET_DEFS = [
-  {key:"efectivo", symbol:"CASH", name:"Efectivo", mean:0.0015, vol:0.002, tag:"Muy bajo riesgo"},
-  {key:"bonos", symbol:"BOND", name:"Bonos", mean:0.004, vol:0.012, tag:"Bajo riesgo"},
-  {key:"acciones", symbol:"IDX", name:"Acciones (índice)", mean:0.009, vol:0.045, tag:"Riesgo medio"},
-  {key:"tech", symbol:"TECH", name:"Acciones tech / growth", mean:0.012, vol:0.075, tag:"Riesgo alto"},
-  {key:"petroleo", symbol:"OIL", name:"Petróleo / energía (ej. XOM, YPF, VIST)", mean:0.007, vol:0.05, tag:"Riesgo medio-alto"},
-  {key:"cripto", symbol:"CRYP", name:"Cripto", mean:0.016, vol:0.16, tag:"Riesgo muy alto"},
-  {key:"oro", symbol:"GOLD", name:"Oro / commodities", mean:0.005, vol:0.03, tag:"Cobertura"}
-];
-const SIM_MONTHS = 24;
-const NEWS_EVENTS = [
-  {m:"El banco central sube las tasas de interés.", affect:{bonos:-0.01, acciones:-0.015, tech:-0.03}},
-  {m:"Datos de empleo mejores de lo esperado.", affect:{acciones:0.02, tech:0.025}},
-  {m:"Corrección fuerte en el mercado cripto.", affect:{cripto:-0.18}},
-  {m:"Resultados corporativos sorprenden al alza.", affect:{acciones:0.018, tech:0.03}},
-  {m:"Tensión geopolítica sube la demanda de refugio.", affect:{oro:0.03, acciones:-0.01}},
-  {m:"Nueva regulación cripto genera incertidumbre.", affect:{cripto:-0.12}},
-  {m:"Inflación por debajo de lo esperado.", affect:{bonos:0.01, acciones:0.01}},
-  {m:"Rally especulativo impulsa activos de riesgo.", affect:{tech:0.05, cripto:0.12}},
-  {m:"Mes tranquilo, sin grandes noticias.", affect:{}}
-];
+let state;
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  state = saved && typeof saved.index === "number" ? saved : {index:0, correct:0, done:false};
+} catch(e){ state = {index:0, correct:0, done:false}; }
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
-// "Casos del mes": noticias de mercado con una decisión antes de conocer el resultado del mes.
-const CASES = [
-  {asset:"petroleo", tone:"up", magnitude:0.07, headline:"Una gran petrolera internacional (del estilo de las que tenés en cartera, como XOM) reporta ganancias trimestrales muy por encima de lo esperado, impulsada por precios del crudo más altos.", note:"Un resultado mejor a lo esperado en una petrolera grande suele contagiar optimismo a todo el sector energético, no solo a esa empresa."},
-  {asset:"petroleo", tone:"up", magnitude:0.08, headline:"La OPEP+ sorprende al mercado con un recorte de producción de petróleo mayor al esperado.", note:"Menos oferta, con la demanda sin cambios, suele presionar el precio del petróleo (y de las petroleras) hacia arriba."},
-  {asset:"petroleo", tone:"down", magnitude:0.06, headline:"Datos económicos débiles en las principales economías hacen temer una menor demanda global de energía.", note:"Cuando el mercado espera menos actividad económica, suele anticipar menos consumo de petróleo, y su precio reacciona antes de que el dato se confirme."},
-  {asset:"tech", tone:"down", magnitude:0.06, headline:"Datos de inflación en EE.UU. salen más altos de lo esperado; el mercado empieza a descontar una suba de tasas de la Fed.", note:"Las acciones de crecimiento (tech) son más sensibles a subas de tasas: sus ganancias futuras valen menos hoy cuando la tasa 'segura' sube."},
-  {asset:"tech", tone:"up", magnitude:0.06, headline:"La Reserva Federal de EE.UU. recorta las tasas de interés más de lo que esperaba el mercado.", note:"Tasas más bajas suelen favorecer especialmente a las acciones de crecimiento, cuyo valor depende mucho de ganancias futuras."},
-  {asset:"tech", tone:"up", magnitude:0.09, headline:"Una empresa líder de semiconductores (del estilo de NVDA, TSM o ARM, que tenés en cartera) reporta ganancias récord por demanda de inteligencia artificial.", note:"Un resultado muy fuerte de un líder del sector suele contagiar de optimismo a todo el segmento de semiconductores y tecnología."},
-  {asset:"tech", tone:"down", magnitude:0.05, headline:"Un regulador antimonopolio abre una investigación contra una gran tecnológica (del estilo de META, MSFT o NVDA).", note:"La incertidumbre regulatoria suele golpear primero al sentimiento de mercado, incluso antes de que haya un resultado concreto del caso."},
-  {asset:"cripto", tone:"down", magnitude:0.15, headline:"Una plataforma cripto importante sufre un hackeo de gran escala.", note:"Los eventos de seguridad golpean fuerte al mercado cripto porque afectan directamente la confianza, un pilar clave de ese mercado."},
-  {asset:"cripto", tone:"up", magnitude:0.13, headline:"Se aprueba en EE.UU. una regulación favorable para productos cripto (por ejemplo, nuevos ETFs).", note:"Mayor claridad regulatoria suele atraer más capital institucional al mercado cripto."},
-  {asset:"oro", tone:"up", magnitude:0.05, headline:"El oro alcanza un máximo histórico por fuerte demanda de bancos centrales como reserva de valor.", note:"El oro suele actuar como refugio cuando hay incertidumbre económica o geopolítica."},
-  {asset:"acciones", tone:"up", magnitude:0.04, headline:"Datos de empleo en EE.UU. muy superiores a lo esperado muestran una economía más fuerte de lo previsto.", note:"Una economía fuerte suele impulsar las ganancias esperadas de las empresas, lo que empuja al alza al mercado en general."},
-  {asset:"acciones", tone:"down", magnitude:0.05, headline:"Se anuncian nuevos aranceles comerciales entre dos de las mayores economías del mundo.", note:"Las guerras comerciales generan incertidumbre sobre costos y cadenas de suministro, lo que suele golpear al mercado en general."},
-  {asset:"bonos", tone:"down", magnitude:0.03, headline:"Un banco central sorprende con un discurso mucho más duro ('hawkish') sobre el combate a la inflación.", note:"Cuando se espera que las tasas suban más de lo previsto, el precio de los bonos ya emitidos (con tasas más bajas) tiende a caer."},
-  {asset:"bonos", tone:"up", magnitude:0.03, headline:"El banco central recorta las tasas de forma inesperada para estimular la economía.", note:"Cuando las tasas bajan, los bonos ya emitidos (con tasas más altas) se vuelven más valiosos en comparación."}
-];
-
-const BADGES = [
-  {id:"quiz10", label:"10 respuestas correctas", emoji:"🧠", check:s=>s.quiz.correct>=10},
-  {id:"quizmaster", label:"Todo el quiz completo", emoji:"🎓", check:s=>s.quiz.asked>=QUIZ.length},
-  {id:"diversifier", label:"Cartera diversificada", emoji:"⚖️", check:s=>s.sim.diversifiedOnce},
-  {id:"survivor", label:"Completaste la simulación", emoji:"📈", check:s=>s.sim.completedRuns>=1},
-  {id:"market_reader", label:"5 casos de mercado resueltos", emoji:"📰", check:s=>(s.sim.casesDecided||0)>=5},
-  {id:"chart_reader", label:"10 lecturas de gráfico correctas", emoji:"📊", check:s=>(s.charts && s.charts.correct>=10)},
-  {id:"goodcall", label:"5 buenas decisiones", emoji:"🧭", check:s=>s.scenarios.good>=5},
-  {id:"allscenarios", label:"Todos los escenarios", emoji:"🏁", check:s=>s.scenarios.done>=SCENARIOS.length},
-  {id:"level2", label:"Nivel Intermedio", emoji:"🥈", check:s=>s.xp>=120},
-  {id:"level4", label:"Nivel Experto", emoji:"🥇", check:s=>s.xp>=550},
-  {id:"level5", label:"Nivel Maestro", emoji:"👑", check:s=>s.xp>=900}
-];
-
-/* ---------------- STATE ---------------- */
-
-const STORAGE_KEY = "academia-finanzas-v1";
-function freshState(){
-  return {
-    xp: 0,
-    quiz: {index:0, asked:0, correct:0, order: shuffle(QUIZ.map((_,i)=>i)), seenCategories:[]},
-    scenarios: {index:0, done:0, good:0, order: shuffle(SCENARIOS.map((_,i)=>i))},
-    sim: {
-      running:false, month:0, cash:10000,
-      holdings: Object.fromEntries(ASSET_DEFS.map(a=>[a.key,0])),
-      history:[10000], bestReturn:null, diversifiedOnce:false, completedRuns:0,
-      casesDecided:0, pendingCase:null
-    },
-    charts: {correct:0, asked:0},
-    badgesEarned: [],
-    onboardingSeen: false
-  };
-}
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-  return a;
-}
-// ---- Perfiles: cada persona guarda su progreso por separado, bajo el mismo archivo ----
-const PROFILES_KEY = "academia-finanzas-profiles";
-const ACTIVE_PROFILE_KEY = "academia-finanzas-active-profile";
-function getProfiles(){
-  try { return JSON.parse(localStorage.getItem(PROFILES_KEY)) || []; } catch(e){ return []; }
-}
-function saveProfiles(list){ localStorage.setItem(PROFILES_KEY, JSON.stringify(list)); }
-function getActiveProfileName(){ return localStorage.getItem(ACTIVE_PROFILE_KEY); }
-function setActiveProfileName(name){ localStorage.setItem(ACTIVE_PROFILE_KEY, name); }
-function stateKeyFor(name){ return STORAGE_KEY + "::" + name; }
-
-let currentProfile = null;
-let state = null;
-
-function loadState(profileName){
-  let s;
-  try {
-    const saved = JSON.parse(localStorage.getItem(stateKeyFor(profileName)));
-    s = saved && saved.xp !== undefined ? saved : freshState();
-  } catch(e){ s = freshState(); }
-  // asegurar que la cartera empieza invertida solo la primera vez
-  if (s.sim.month === 0 && Object.values(s.sim.holdings).every(v=>v===0) && s.sim.cash===10000 && !s._seeded) {
-    s.sim.holdings.acciones = 4000;
-    s.sim.holdings.bonos = 3000;
-    s.sim.holdings.oro = 1000;
-    s.sim.cash = 2000;
-    s._seeded = true;
-  }
-  // migración: progreso guardado con una versión anterior de la app (menos preguntas/escenarios/categorías/activos)
-  if(!s.quiz.seenCategories) s.quiz.seenCategories = [];
-  if(!Array.isArray(s.badgesEarned)) s.badgesEarned = [];
-  if(s.quiz.order.length < QUIZ.length){
-    const missingQ = QUIZ.map((_,i)=>i).filter(i=>!s.quiz.order.includes(i));
-    s.quiz.order = s.quiz.order.concat(shuffle(missingQ));
-  }
-  if(s.scenarios.order.length < SCENARIOS.length){
-    const missingS = SCENARIOS.map((_,i)=>i).filter(i=>!s.scenarios.order.includes(i));
-    s.scenarios.order = s.scenarios.order.concat(shuffle(missingS));
-  }
-  ASSET_DEFS.forEach(a=>{ if(s.sim.holdings[a.key]===undefined) s.sim.holdings[a.key]=0; });
-  if(s.sim.casesDecided===undefined) s.sim.casesDecided = 0;
-  if(s.sim.pendingCase===undefined) s.sim.pendingCase = null;
-  if(!s.charts) s.charts = {correct:0, asked:0};
-  if(s.onboardingSeen===undefined) s.onboardingSeen = false;
-  return s;
-}
-function save(){
-  if(!currentProfile) return;
-  localStorage.setItem(stateKeyFor(currentProfile), JSON.stringify(state));
-}
-function selectProfile(name){
-  currentProfile = name;
-  setActiveProfileName(name);
-  state = loadState(name);
-  document.getElementById("profileBackdrop").style.display = "none";
-  document.getElementById("profileNameTag").textContent = name;
-  initAll();
-}
-function renderProfilePicker(){
-  const profiles = getProfiles();
-  const listEl = document.getElementById("profileList");
-  listEl.innerHTML = profiles.length
-    ? profiles.map(p=>`<button class="btn secondary profile-btn" data-name="${p}" style="width:100%;text-align:left;margin-bottom:8px">👤 ${p}</button>`).join("")
-    : `<p class="muted" style="margin:0 0 10px">Todavía no hay perfiles en este dispositivo. Creá el tuyo abajo.</p>`;
-  listEl.querySelectorAll(".profile-btn").forEach(btn=>{
-    btn.addEventListener("click", ()=> selectProfile(btn.dataset.name));
-  });
-  const cancelBtn = document.getElementById("profileCancelBtn");
-  cancelBtn.style.display = currentProfile ? "inline-block" : "none";
-  document.getElementById("profileBackdrop").style.display = "flex";
-}
-document.getElementById("profileCreateBtn").addEventListener("click", ()=>{
-  const input = document.getElementById("profileNameInput");
-  const name = input.value.trim();
-  if(!name) return;
-  const profiles = getProfiles();
-  if(!profiles.includes(name)){
-    profiles.push(name);
-    saveProfiles(profiles);
-  }
-  input.value = "";
-  selectProfile(name);
-});
-document.getElementById("profileCancelBtn").addEventListener("click", ()=>{
-  document.getElementById("profileBackdrop").style.display = "none";
-});
-document.getElementById("switchProfileBtn").addEventListener("click", renderProfilePicker);
-
-/* ---------------- XP / LEVEL ---------------- */
-
-const LEVELS = [
-  {min:0, label:"Principiante"},
-  {min:120, label:"Intermedio"},
-  {min:300, label:"Avanzado"},
-  {min:550, label:"Experto"},
-  {min:900, label:"Maestro"}
-];
-function currentLevel(){
-  let lvl = LEVELS[0];
-  for(const l of LEVELS){ if(state.xp >= l.min) lvl = l; }
-  return lvl;
-}
-function nextLevelXp(){
-  const idx = LEVELS.findIndex(l=>l.label===currentLevel().label);
-  return idx < LEVELS.length-1 ? LEVELS[idx+1].min : null;
-}
-function addXp(n){
-  const prevLevel = currentLevel().label;
-  state.xp += n;
-  save();
-  renderHeader();
-  checkBadges();
-  const newLevel = currentLevel().label;
-  if(newLevel !== prevLevel) showLevelUpBanner(newLevel);
-}
-function renderHeader(){
-  const lvl = currentLevel();
-  document.getElementById("levelBadge").textContent = lvl.label;
-  const next = nextLevelXp();
-  const pct = next ? Math.min(100, Math.round((state.xp-lvl.min)/(next-lvl.min)*100)) : 100;
-  document.getElementById("xpBar").style.width = pct+"%";
-  document.getElementById("xpText").textContent = next ? `${state.xp} / ${next} XP` : `${state.xp} XP (máximo)`;
-}
-function showLevelUpBanner(levelLabel){
-  const el = document.getElementById("levelUpBanner");
-  el.innerHTML = `<div class="level-up-banner">🎉 ¡Subiste de nivel! Ahora sos <strong>${levelLabel}</strong>.</div>`;
-  clearTimeout(showLevelUpBanner._t);
-  showLevelUpBanner._t = setTimeout(()=>{ el.innerHTML = ""; }, 4000);
-}
-function renderOnboarding(){
-  const backdrop = document.getElementById("onboardingBackdrop");
-  if(!state.onboardingSeen){
-    backdrop.style.display = "flex";
-    document.getElementById("onboardingStart").onclick = ()=>{
-      state.onboardingSeen = true;
-      save();
-      backdrop.style.display = "none";
-    };
-  } else {
-    backdrop.style.display = "none";
-  }
-}
-function checkBadges(){
-  BADGES.forEach(b=>{
-    if(!state.badgesEarned.includes(b.id) && b.check(state)){
-      state.badgesEarned.push(b.id);
-    }
-  });
-  save();
-}
-
-/* ---------------- TABS ---------------- */
-
-document.querySelectorAll("nav.tabs button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    ["quiz","sim","graficos","scenarios","progress","leyenda"].forEach(t=>{
-      document.getElementById("tab-"+t).style.display = (t===btn.dataset.tab) ? "block" : "none";
-    });
-    if(btn.dataset.tab==="progress") renderProgress();
-    if(btn.dataset.tab==="graficos" && !chartRound) startChartRound();
-  });
-});
-
-/* ---------------- QUIZ ---------------- */
-
-function renderQuiz(){
-  const total = QUIZ.length;
-  if(state.quiz.index >= total){
-    document.getElementById("quizProgress").textContent = "¡Completo!";
-    document.getElementById("quizBody").innerHTML = `<p>Terminaste el quiz: <strong>${state.quiz.correct}/${total}</strong> correctas.</p>
-      <button class="btn secondary" id="quizRestart">Reiniciar quiz</button>`;
-    document.getElementById("quizRestart").onclick = ()=>{
-      state.quiz.index=0; state.quiz.asked=0; state.quiz.correct=0;
-      state.quiz.order = shuffle(QUIZ.map((_,i)=>i));
-      save(); renderQuiz();
-    };
-    return;
-  }
-  const qi = state.quiz.order[state.quiz.index];
-  const item = QUIZ[qi];
-
-  if(!state.quiz.seenCategories.includes(item.cat)){
-    document.getElementById("quizProgress").textContent = "Mini-lección";
-    renderLesson(item.cat, ()=>{
-      state.quiz.seenCategories.push(item.cat);
-      save();
-      renderQuiz();
-    });
-    return;
-  }
-
-  document.getElementById("quizProgress").textContent = `Pregunta ${state.quiz.index+1} de ${total}`;
-  renderQuizQuestion(item);
-}
-
-function renderLesson(catKey, onContinue){
-  const lesson = LESSONS[catKey];
-  document.getElementById("quizBody").innerHTML = `
-    <span class="pill" style="background:var(--accent-soft);color:var(--accent)">Nuevo tema</span>
-    <h3 style="margin:12px 0 8px;font-size:16px">${lesson.title}</h3>
-    <p style="font-size:14px;line-height:1.6;margin:0">${lesson.text}</p>
-    <div class="row top-gap"><span></span><button class="btn" id="lessonContinue">Empezar preguntas ▶</button></div>
+function renderGate(){
+  const el = document.getElementById("demoCard");
+  el.innerHTML = `
+    <div class="demo-gate">
+      <div class="demo-gate-emoji">🔒</div>
+      <div class="demo-gate-title">Diste tus primeros 10 pasos (${state.correct}/10 correctas)</div>
+      <p class="demo-gate-text">El resto de las preguntas, el simulador de cartera con casos de mercado, la práctica de gráficos, los escenarios y el modo carrera Leyenda de Wall Street quedan del otro lado. Dejá tu mail para asegurarte el acceso apenas lancemos.</p>
+      <a class="btn" href="${WAITLIST_URL}" target="_blank" rel="noopener">Quiero acceso anticipado</a>
+      <p class="form-note" style="margin-top:10px">Se abre en una pestaña nueva · sin spam.</p>
+    </div>
   `;
-  document.getElementById("lessonContinue").onclick = onContinue;
 }
 
-function renderQuizQuestion(item){
-  const diffLabel = {easy:"Fácil", medium:"Media", hard:"Difícil"}[item.diff];
-  let html = `<span class="pill ${item.diff}">${diffLabel}</span>
-    <p style="font-size:15px;margin:12px 0 14px">${item.q}</p>`;
-  item.opts.forEach((opt,i)=>{
-    html += `<button class="option-btn" data-i="${i}">${opt}</button>`;
-  });
-  html += `<div class="explain-box" id="quizExplain"></div>
-    <div class="row top-gap"><span></span><button class="btn" id="quizNext" disabled>Siguiente ▶</button></div>`;
-  document.getElementById("quizBody").innerHTML = html;
-
-  document.querySelectorAll("#quizBody .option-btn").forEach(btn=>{
+function renderQuestion(){
+  const el = document.getElementById("demoCard");
+  const item = DEMO_QUESTIONS[state.index];
+  const pct = Math.round((state.index/DEMO_QUESTIONS.length)*100);
+  el.innerHTML = `
+    <div class="demo-progress">
+      <span class="demo-progress-text">${state.index+1} / ${DEMO_QUESTIONS.length}</span>
+      <div class="demo-progress-bar-outer"><div class="demo-progress-bar-inner" style="width:${pct}%"></div></div>
+    </div>
+    <span class="demo-cat-pill">${CAT_LABEL[item.cat]||item.cat}</span>
+    <p class="demo-q">${item.q}</p>
+    ${item.opts.map((opt,i)=>`<button class="demo-opt" data-i="${i}">${opt}</button>`).join("")}
+    <div class="demo-explain" id="demoExplain"></div>
+    <div class="demo-next-row"><button class="btn" id="demoNext" disabled>Siguiente ▶</button></div>
+  `;
+  document.querySelectorAll("#demoCard .demo-opt").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       const chosen = parseInt(btn.dataset.i,10);
-      document.querySelectorAll("#quizBody .option-btn").forEach(b=>b.disabled=true);
-      state.quiz.asked++;
+      document.querySelectorAll("#demoCard .demo-opt").forEach(b=>b.disabled=true);
       if(chosen===item.correct){
         btn.classList.add("correct");
-        state.quiz.correct++;
-        addXp(10);
+        state.correct++;
       } else {
         btn.classList.add("incorrect");
-        document.querySelectorAll("#quizBody .option-btn")[item.correct].classList.add("correct");
-        save();
+        document.querySelectorAll("#demoCard .demo-opt")[item.correct].classList.add("correct");
       }
-      const box = document.getElementById("quizExplain");
+      const box = document.getElementById("demoExplain");
       box.textContent = item.explain;
       box.classList.add("show");
-      document.getElementById("quizNext").disabled = false;
+      document.getElementById("demoNext").disabled = false;
+      save();
     });
   });
-  document.getElementById("quizNext").onclick = ()=>{
-    state.quiz.index++;
-    save();
-    renderQuiz();
-  };
-}
-
-/* ---------------- SIMULATOR ---------------- */
-
-let simChart;
-function totalSimValue(){
-  return state.sim.cash + ASSET_DEFS.reduce((sum,a)=> sum + (state.sim.holdings[a.key]||0), 0);
-}
-function renderAssetList(){
-  const total = totalSimValue();
-  let html = "";
-  ASSET_DEFS.forEach(a=>{
-    const val = state.sim.holdings[a.key]||0;
-    const pct = total>0 ? Math.round(val/total*100) : 0;
-    html += `<div class="asset-card">
-      <div class="asset-card-left">
-        <div class="asset-symbol-row">
-          <span class="asset-symbol mono">${a.symbol}</span>
-          <span class="tag">${a.tag}</span>
-        </div>
-        <div class="muted" style="font-size:11.5px">${a.name}</div>
-      </div>
-      <div class="asset-card-right">
-        <div class="asset-value-mono mono">$${val.toFixed(0)}</div>
-        <div class="muted" style="font-size:11px">${pct}% de tu cartera</div>
-      </div>
-      <div class="buy-controls" style="width:100%;justify-content:flex-end;margin-top:6px">
-        <input type="number" min="0" step="50" placeholder="monto" id="amt-${a.key}" class="mono">
-        <button class="btn-buy" data-buy="${a.key}">Comprar</button>
-        <button class="btn-sell" data-sell="${a.key}">Vender</button>
-      </div>
-    </div>`;
-  });
-  html += `<div class="asset-card" style="border-bottom:none">
-      <div class="asset-card-left"><span class="asset-symbol mono">CASH</span><div class="muted" style="font-size:11.5px">Efectivo disponible</div></div>
-      <div class="asset-card-right"><div class="asset-value-mono mono">$${state.sim.cash.toFixed(0)}</div></div>
-    </div>`;
-  document.getElementById("assetList").innerHTML = html;
-
-  document.querySelectorAll("[data-buy]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const key = btn.dataset.buy;
-      const input = document.getElementById("amt-"+key);
-      const amt = parseFloat(input.value)||0;
-      if(amt<=0) return;
-      if(amt>state.sim.cash){ alert("No tenés suficiente efectivo disponible."); return; }
-      state.sim.cash -= amt;
-      state.sim.holdings[key] = (state.sim.holdings[key]||0)+amt;
-      save(); renderAssetList(); checkDiversified();
-    });
-  });
-  document.querySelectorAll("[data-sell]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const key = btn.dataset.sell;
-      const input = document.getElementById("amt-"+key);
-      const amt = parseFloat(input.value)||0;
-      if(amt<=0) return;
-      const have = state.sim.holdings[key]||0;
-      if(amt>have){ alert("No tenés esa cantidad invertida en ese activo."); return; }
-      state.sim.holdings[key] -= amt;
-      state.sim.cash += amt;
-      save(); renderAssetList();
-    });
-  });
-}
-function checkDiversified(){
-  const total = totalSimValue();
-  if(total<=0) return;
-  const nonZero = ASSET_DEFS.filter(a=>(state.sim.holdings[a.key]||0)/total > 0.05).length;
-  if(nonZero>=3) state.sim.diversifiedOnce = true;
-  save();
-}
-function renderSimHeader(){
-  document.getElementById("simMonth").textContent = `Mes ${state.sim.month} / ${SIM_MONTHS}`;
-  const total = totalSimValue();
-  document.getElementById("simTotal").textContent = "$"+total.toLocaleString("es-AR",{maximumFractionDigits:0});
-  const ret = ((total-10000)/10000*100);
-  const retEl = document.getElementById("simReturn");
-  retEl.textContent = (ret>=0?"+":"")+ret.toFixed(1)+"% desde el inicio";
-  retEl.classList.toggle("up", ret>=0);
-  retEl.classList.toggle("down", ret<0);
-}
-function renderSimChart(){
-  const ctx = document.getElementById("simChart");
-  const labels = state.sim.history.map((_,i)=>"M"+i);
-  const hist = state.sim.history;
-  const isUp = hist[hist.length-1] >= hist[0];
-  const lineColor = isUp ? "#1f9d55" : "#d9463c";
-  const fillColor = isUp ? "rgba(31,157,85,0.08)" : "rgba(217,70,60,0.08)";
-  if(simChart) simChart.destroy();
-  simChart = new Chart(ctx, {
-    type:"line",
-    data:{ labels, datasets:[{ label:"Valor del portafolio", data:hist, borderColor:lineColor, backgroundColor:fillColor, borderWidth:2, fill:true, tension:0.25, pointRadius:0 }]},
-    options:{
-      responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
-      scales:{
-        y:{ ticks:{ callback:v=>"$"+v.toLocaleString(), font:{family:"ui-monospace, monospace", size:10} }, grid:{ color:"rgba(28,35,51,0.05)" } },
-        x:{ ticks:{ display:false }, grid:{ display:false } }
-      }
+  document.getElementById("demoNext").addEventListener("click", ()=>{
+    state.index++;
+    if(state.index >= DEMO_QUESTIONS.length){
+      state.done = true;
+      save();
+      renderGate();
+    } else {
+      save();
+      renderQuestion();
     }
   });
 }
-function addLog(msg){
-  const log = document.getElementById("simLog");
-  const div = document.createElement("div");
-  div.textContent = msg;
-  log.prepend(div);
-}
-function startMonthAdvance(){
-  if(state.sim.pendingCase) return; // ya hay un caso esperando decisión
-  if(state.sim.month>=SIM_MONTHS){ handleSimCompletion(); return; }
-  const roll = Math.random();
-  if(roll < 0.40){
-    const c = CASES[Math.floor(Math.random()*CASES.length)];
-    state.sim.pendingCase = c;
-    save();
-    renderSim();
+
+function renderDemo(){
+  if(state.done || state.index >= DEMO_QUESTIONS.length){
+    renderGate();
   } else {
-    resolveMonth(null, null);
+    renderQuestion();
   }
 }
-function applyTrade(assetKey, action){
-  const total = totalSimValue();
-  if(action==="buy"){
-    const amt = Math.min(total*0.15, state.sim.cash);
-    if(amt>0){
-      state.sim.cash -= amt;
-      state.sim.holdings[assetKey] = (state.sim.holdings[assetKey]||0)+amt;
-    }
-  } else if(action==="sell"){
-    const have = state.sim.holdings[assetKey]||0;
-    const amt = have*0.35;
-    if(amt>0){
-      state.sim.holdings[assetKey] -= amt;
-      state.sim.cash += amt;
-    }
-  }
-  // "hold" no hace nada
-}
-function resolveMonth(caseObj, action){
-  let ambientEvent = null;
-  if(!caseObj && Math.random()<0.5) ambientEvent = NEWS_EVENTS[Math.floor(Math.random()*NEWS_EVENTS.length)];
-  const returns = {};
-  ASSET_DEFS.forEach(a=>{
-    let shock = 0;
-    if(ambientEvent && ambientEvent.affect[a.key]!==undefined) shock += ambientEvent.affect[a.key];
-    if(caseObj && a.key===caseObj.asset) shock += (caseObj.tone==="up" ? caseObj.magnitude : -caseObj.magnitude);
-    returns[a.key] = a.mean + gaussianRandom()*a.vol + shock;
-  });
-  ASSET_DEFS.forEach(a=>{
-    state.sim.holdings[a.key] = Math.max(0, (state.sim.holdings[a.key]||0) * (1+returns[a.key]));
-  });
-  state.sim.month++;
-  const total = totalSimValue();
-  state.sim.history.push(Math.round(total));
+renderDemo();
 
-  if(caseObj){
-    state.sim.casesDecided = (state.sim.casesDecided||0)+1;
-    const assetName = ASSET_DEFS.find(a=>a.key===caseObj.asset).name;
-    const r = returns[caseObj.asset];
-    const pctTxt = (r>=0?"+":"")+(r*100).toFixed(1)+"%";
-    const actionTxt = action==="buy" ? "compraste más" : action==="sell" ? "vendiste una parte" : "mantuviste tu posición";
-    addLog(`📰 Mes ${state.sim.month}: ${caseObj.headline}`);
-    addLog(`→ ${assetName} tuvo un retorno de ${pctTxt} este mes. Vos ${actionTxt} antes de conocer el resultado. ${caseObj.note}`);
-    addXp(5);
-  } else if(ambientEvent){
-    addLog(`Mes ${state.sim.month}: ${ambientEvent.m}`);
-    addXp(1);
-  } else {
-    addXp(1);
-  }
-  state.sim.pendingCase = null;
-  save();
-  renderSim();
-}
-function handleSimCompletion(){
-  if(state.sim.bestReturn===null || currentReturn()>state.sim.bestReturn){
-    state.sim.bestReturn = currentReturn();
-  }
-  state.sim.completedRuns++;
-  save();
-  if(confirm("Llegaste al final de la simulación (24 meses). ¿Reiniciar con $10.000 nuevos?")){
-    const keepBest = state.sim.bestReturn;
-    const keepRuns = state.sim.completedRuns;
-    const keepCases = state.sim.casesDecided;
-    state.sim = { running:false, month:0, cash:10000, holdings:Object.fromEntries(ASSET_DEFS.map(a=>[a.key,0])), history:[10000], bestReturn:keepBest, diversifiedOnce:false, completedRuns:keepRuns, casesDecided:keepCases, pendingCase:null };
-    save();
-    renderSim();
-  }
-}
-function currentReturn(){
-  const total = totalSimValue();
-  return ((total-10000)/10000*100);
-}
+/* ---------------- CHART DEMO (segunda mini-demo) ---------------- */
+
+const CHART_STORAGE_KEY = "dlhab_chart_demo_v1";
+const FAKE_TICKERS = [
+  {ticker:"ACME", name:"Acme Retail (inventada)"},
+  {ticker:"NRTC", name:"Norte Tech (inventada)"},
+  {ticker:"LUNA", name:"Luna Energía (inventada)"},
+  {ticker:"QBIT", name:"Qbit Software (inventada)"},
+  {ticker:"RIOL", name:"Río Litio (inventada)"}
+];
+
 function gaussianRandom(){
   let u=0,v=0;
   while(u===0) u=Math.random();
   while(v===0) v=Math.random();
   return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
 }
-function renderCaseCard(c){
-  const assetDef = ASSET_DEFS.find(a=>a.key===c.asset);
-  document.getElementById("caseCard").innerHTML = `
-    <div style="border:1px solid var(--accent);background:var(--accent-soft);border-radius:10px;padding:14px;margin-bottom:14px">
-      <span class="pill" style="background:#fff;color:var(--accent)"><span class="live-dot"></span>EN VIVO · Caso del mes</span>
-      <p style="font-size:14px;line-height:1.5;margin:10px 0 12px">${c.headline}</p>
-      <p class="muted" style="margin:0 0 10px">¿Qué hacés con tu posición en <strong class="mono">${assetDef.symbol}</strong> (${assetDef.name}), antes de saber cómo termina el mes?</p>
-      <button class="scenario-choice case-choice" data-action="buy" style="border-color:var(--green);color:var(--green);font-weight:700">▲ Comprar más ${assetDef.symbol}</button>
-      <button class="scenario-choice case-choice" data-action="sell" style="border-color:var(--red);color:var(--red);font-weight:700">▼ Vender una parte de ${assetDef.symbol}</button>
-      <button class="scenario-choice case-choice" data-action="hold">● Mantener sin cambios</button>
-    </div>
-  `;
-  document.querySelectorAll("#caseCard .scenario-choice").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const action = btn.dataset.action;
-      applyTrade(c.asset, action);
-      resolveMonth(c, action);
-    });
-  });
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
 }
-function renderSim(){
-  renderSimHeader();
-  renderAssetList();
-  renderSimChart();
-  const caseCardEl = document.getElementById("caseCard");
-  if(state.sim.pendingCase && state.sim.month<SIM_MONTHS){
-    renderCaseCard(state.sim.pendingCase);
-    caseCardEl.style.display = "block";
-    document.getElementById("btnAdvance").disabled = true;
-  } else {
-    caseCardEl.style.display = "none";
-    document.getElementById("btnAdvance").disabled = state.sim.month>=SIM_MONTHS;
-  }
-}
-document.getElementById("btnAdvance").addEventListener("click", startMonthAdvance);
-document.getElementById("btnRebalance").addEventListener("click", ()=>{
-  const total = totalSimValue();
-  const per = total/ASSET_DEFS.length;
-  ASSET_DEFS.forEach(a=> state.sim.holdings[a.key]=per);
-  state.sim.cash = 0;
-  save(); renderAssetList(); checkDiversified();
-});
-
-/* ---------------- SCENARIOS ---------------- */
-
-function renderScenario(){
-  const total = SCENARIOS.length;
-  if(state.scenarios.index >= total){
-    document.getElementById("scenarioProgress").textContent = "¡Completo!";
-    document.getElementById("scenarioBody").innerHTML = `<p>Recorriste los ${total} escenarios. Buenas decisiones: <strong>${state.scenarios.good}/${total}</strong>.</p>
-      <button class="btn secondary" id="scenarioRestart">Reiniciar escenarios</button>`;
-    document.getElementById("scenarioRestart").onclick = ()=>{
-      state.scenarios = {index:0, done:0, good:0, order: shuffle(SCENARIOS.map((_,i)=>i))};
-      save(); renderScenario();
-    };
-    return;
-  }
-  document.getElementById("scenarioProgress").textContent = `Escenario ${state.scenarios.index+1} de ${total}`;
-  const si = state.scenarios.order[state.scenarios.index];
-  const item = SCENARIOS[si];
-  let html = `<p style="font-size:14.5px;line-height:1.5">${item.situ}</p>`;
-  item.choices.forEach((c,i)=>{
-    html += `<button class="scenario-choice" data-i="${i}">${c.label}</button>`;
-  });
-  html += `<div id="scenarioOutcome"></div>
-    <div class="row top-gap"><span></span><button class="btn" id="scenarioNext" disabled>Siguiente ▶</button></div>`;
-  document.getElementById("scenarioBody").innerHTML = html;
-
-  document.querySelectorAll("#scenarioBody .scenario-choice").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const i = parseInt(btn.dataset.i,10);
-      const choice = item.choices[i];
-      document.querySelectorAll("#scenarioBody .scenario-choice").forEach(b=>b.disabled=true);
-      state.scenarios.done++;
-      if(choice.tone==="good") state.scenarios.good++;
-      addXp(choice.xp);
-      document.getElementById("scenarioOutcome").innerHTML =
-        `<div class="outcome-box ${choice.tone}">${choice.out}</div>`;
-      document.getElementById("scenarioNext").disabled = false;
-      save();
-    });
-  });
-  document.getElementById("scenarioNext").onclick = ()=>{
-    state.scenarios.index++;
-    save();
-    renderScenario();
-  };
-}
-
-/* ---------------- GRÁFICOS (práctica de lectura) ---------------- */
-
-const FAKE_TICKERS = [
-  {ticker:"ACME", name:"Acme Retail (inventada)"},
-  {ticker:"NRTC", name:"Norte Tech (inventada)"},
-  {ticker:"KIOS", name:"Kioscos Unidos (inventada)"},
-  {ticker:"ZBRA", name:"Zebra Logística (inventada)"},
-  {ticker:"LUNA", name:"Luna Energía (inventada)"},
-  {ticker:"PAMP", name:"Pampa Alimentos (inventada)"},
-  {ticker:"VOLT", name:"Volt Motors (inventada)"},
-  {ticker:"QBIT", name:"Qbit Software (inventada)"},
-  {ticker:"RIOL", name:"Río Litio (inventada)"},
-  {ticker:"AZTX", name:"Azteca Textil (inventada)"}
-];
-
-let chartRound = null;
-let chartPracticeChart;
-
 function findSwings(arr, type){
   const swings = [];
   for(let i=2;i<arr.length-2;i++){
-    const window = arr.slice(i-2, i+3);
+    const win = arr.slice(i-2, i+3);
     const val = arr[i];
-    if(type==="low" && val===Math.min(...window)) swings.push(val);
-    if(type==="high" && val===Math.max(...window)) swings.push(val);
+    if(type==="low" && val===Math.min(...win)) swings.push(val);
+    if(type==="high" && val===Math.max(...win)) swings.push(val);
   }
   return swings;
 }
@@ -1396,8 +610,6 @@ function generateFakeStock(){
 }
 function buildChartQuestions(stock){
   const qs = [];
-
-  // 1) Rango de 52 semanas
   const pct = (stock.current - stock.low52)/(stock.high52-stock.low52)*100;
   let bucketIdx = pct<25 ? 0 : pct<50 ? 1 : pct<75 ? 2 : 3;
   qs.push({
@@ -1406,8 +618,6 @@ function buildChartQuestions(stock){
     correct: bucketIdx,
     explain:`El precio está aproximadamente al ${pct.toFixed(0)}% de su rango de 52 semanas: (precio − mínimo) ÷ (máximo − mínimo).`
   });
-
-  // 2) Soporte o resistencia
   const askSupport = Math.random()<0.5;
   const targetVal = +(askSupport ? stock.support : stock.resistance).toFixed(2);
   const otherVal = +(askSupport ? stock.resistance : stock.support).toFixed(2);
@@ -1425,8 +635,6 @@ function buildChartQuestions(stock){
       ? "Un soporte es un nivel donde el precio frenó su caída más de una vez, actuando como 'piso'."
       : "Una resistencia es un nivel donde el precio frenó su suba más de una vez, actuando como 'techo'."
   });
-
-  // 3) Valoración (P/E)
   const truePE = stock.current/stock.eps;
   const peSet = new Set([Math.round(truePE)]);
   while(peSet.size<4){
@@ -1440,18 +648,41 @@ function buildChartQuestions(stock){
     correct: peArr.indexOf(Math.round(truePE)),
     explain:`P/E = Precio ÷ EPS = ${stock.current.toFixed(2)} ÷ ${stock.eps.toFixed(2)} ≈ ${truePE.toFixed(1)}.`
   });
-
   return qs;
 }
-function renderPracticeChart(stock){
-  const ctx = document.getElementById("chartPractice");
+
+let chartState;
+try {
+  const saved = JSON.parse(localStorage.getItem(CHART_STORAGE_KEY));
+  chartState = saved && saved.done ? saved : {done:false};
+} catch(e){ chartState = {done:false}; }
+function saveChartState(){ localStorage.setItem(CHART_STORAGE_KEY, JSON.stringify(chartState)); }
+
+let chartRoundDemo = null;
+let chartDemoChart = null;
+
+function renderChartGate(){
+  const el = document.getElementById("chartDemoCard");
+  el.innerHTML = `
+    <div class="demo-gate">
+      <div class="demo-gate-emoji">📊</div>
+      <div class="demo-gate-title">Así se practica leer gráficos</div>
+      <p class="demo-gate-text">En la app real generás rondas ilimitadas con acciones inventadas distintas. Dejá tu mail para asegurarte el acceso apenas lancemos.</p>
+      <a class="btn" href="${WAITLIST_URL}" target="_blank" rel="noopener">Quiero acceso anticipado</a>
+      <p class="form-note" style="margin-top:10px">Se abre en una pestaña nueva · sin spam.</p>
+    </div>
+  `;
+}
+
+function renderChartPractice(stock){
+  const ctx = document.getElementById("chartDemoCanvas");
   const labels = stock.prices.map((_,i)=>"S"+(i+1));
   const flat = (val)=> stock.prices.map(()=>val);
   const isUp = stock.current >= stock.prices[0];
   const lineColor = isUp ? "#1f9d55" : "#d9463c";
   const fillColor = isUp ? "rgba(31,157,85,0.08)" : "rgba(217,70,60,0.08)";
-  if(chartPracticeChart) chartPracticeChart.destroy();
-  chartPracticeChart = new Chart(ctx, {
+  if(chartDemoChart) chartDemoChart.destroy();
+  chartDemoChart = new Chart(ctx, {
     type:"line",
     data:{
       labels,
@@ -1471,524 +702,79 @@ function renderPracticeChart(stock){
     }
   });
 }
-function startChartRound(){
-  const stock = generateFakeStock();
-  const questions = buildChartQuestions(stock);
-  chartRound = {stock, questions, qIndex:0};
-  renderChartRound();
-}
-function renderChartRound(){
-  if(!chartRound){ startChartRound(); return; }
-  const {stock, questions, qIndex} = chartRound;
-  document.getElementById("chartTickerSymbol").textContent = stock.ticker;
-  document.getElementById("chartTickerCompany").textContent = stock.name;
-  document.getElementById("chartTickerPrice").textContent = "$"+stock.current.toFixed(2);
-  const chg = ((stock.current - stock.prices[0])/stock.prices[0])*100;
-  const deltaEl = document.getElementById("chartTickerDelta");
-  deltaEl.textContent = (chg>=0?"+":"")+chg.toFixed(1)+"% (52 sem.)";
-  deltaEl.classList.toggle("up", chg>=0);
-  deltaEl.classList.toggle("down", chg<0);
-  renderPracticeChart(stock);
 
+function renderChartRoundDemo(){
+  const el = document.getElementById("chartDemoCard");
+  const {stock, questions, qIndex} = chartRoundDemo;
+  const chg = ((stock.current - stock.prices[0])/stock.prices[0])*100;
+  el.innerHTML = `
+    <div class="chart-ticker-header">
+      <div>
+        <div class="chart-ticker-symbol mono">${stock.ticker}</div>
+        <div class="form-note">${stock.name}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="chart-ticker-price mono">$${stock.current.toFixed(2)}</div>
+        <div class="chart-ticker-delta ${chg>=0?'up':'down'} mono">${(chg>=0?'+':'')+chg.toFixed(1)}% (52 sem.)</div>
+      </div>
+    </div>
+    <canvas id="chartDemoCanvas"></canvas>
+    <div id="chartDemoQuestionArea"></div>
+  `;
+  renderChartPractice(stock);
+  renderChartQuestion();
+}
+
+function renderChartQuestion(){
+  const {questions, qIndex} = chartRoundDemo;
+  const area = document.getElementById("chartDemoQuestionArea");
   if(qIndex >= questions.length){
-    document.getElementById("chartProgress").textContent = "Ronda completa";
-    document.getElementById("chartQuestionBody").innerHTML = `<p>Completaste esta acción. Aciertos totales: <strong>${state.charts.correct}/${state.charts.asked}</strong>.</p>
-      <button class="btn" id="chartNewStock">Probar con otra acción ▶</button>`;
-    document.getElementById("chartNewStock").onclick = startChartRound;
+    chartState.done = true;
+    saveChartState();
+    renderChartGate();
     return;
   }
-
-  document.getElementById("chartProgress").textContent = `Pregunta ${qIndex+1} de ${questions.length}`;
   const item = questions[qIndex];
-  let html = `<p style="font-size:14.5px;line-height:1.5;margin:0 0 12px">${item.q}</p>`;
-  item.opts.forEach((opt,i)=>{ html += `<button class="option-btn" data-i="${i}">${opt}</button>`; });
-  html += `<div class="explain-box" id="chartExplain"></div>
-    <div class="row top-gap"><span></span><button class="btn" id="chartNext" disabled>Siguiente ▶</button></div>`;
-  document.getElementById("chartQuestionBody").innerHTML = html;
-
-  document.querySelectorAll("#chartQuestionBody .option-btn").forEach(btn=>{
+  area.innerHTML = `
+    <span class="demo-progress-text">Pregunta ${qIndex+1} de ${questions.length}</span>
+    <p class="demo-q" style="margin-top:8px">${item.q}</p>
+    ${item.opts.map((opt,i)=>`<button class="demo-opt" data-i="${i}">${opt}</button>`).join("")}
+    <div class="demo-explain" id="chartDemoExplain"></div>
+    <div class="demo-next-row"><button class="btn" id="chartDemoNext" disabled>Siguiente ▶</button></div>
+  `;
+  area.querySelectorAll(".demo-opt").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       const chosen = parseInt(btn.dataset.i,10);
-      document.querySelectorAll("#chartQuestionBody .option-btn").forEach(b=>b.disabled=true);
-      state.charts.asked++;
+      area.querySelectorAll(".demo-opt").forEach(b=>b.disabled=true);
       if(chosen===item.correct){
         btn.classList.add("correct");
-        state.charts.correct++;
-        addXp(10);
       } else {
         btn.classList.add("incorrect");
-        document.querySelectorAll("#chartQuestionBody .option-btn")[item.correct].classList.add("correct");
-        save();
-        checkBadges();
+        area.querySelectorAll(".demo-opt")[item.correct].classList.add("correct");
       }
-      const box = document.getElementById("chartExplain");
+      const box = document.getElementById("chartDemoExplain");
       box.textContent = item.explain;
       box.classList.add("show");
-      document.getElementById("chartNext").disabled = false;
+      document.getElementById("chartDemoNext").disabled = false;
     });
   });
-  document.getElementById("chartNext").onclick = ()=>{
-    chartRound.qIndex++;
-    renderChartRound();
-  };
-}
-
-/* ---------------- PROGRESS ---------------- */
-
-function renderProgress(){
-  document.getElementById("statXp").textContent = state.xp;
-  document.getElementById("statQuiz").textContent = `${state.quiz.correct}/${state.quiz.asked}`;
-  document.getElementById("statSim").textContent = state.sim.bestReturn===null ? "—" : (state.sim.bestReturn>=0?"+":"")+state.sim.bestReturn.toFixed(1)+"%";
-  document.getElementById("statScenarios").textContent = `${state.scenarios.done}/${SCENARIOS.length}`;
-  document.getElementById("statCharts").textContent = `${state.charts.correct}/${state.charts.asked}`;
-
-  let html = "";
-  BADGES.forEach(b=>{
-    const earned = state.badgesEarned.includes(b.id);
-    html += `<div class="badge-item ${earned?'':'locked'}">
-      <div class="badge-emoji">${b.emoji}</div>
-      <div class="badge-label">${b.label}</div>
-    </div>`;
-  });
-  document.getElementById("badgeGrid").innerHTML = html;
-}
-document.getElementById("btnReset").addEventListener("click", ()=>{
-  if(confirm(`¿Reiniciar todo el progreso de "${currentProfile}" (XP, quiz, simulador, escenarios, insignias)?`)){
-    localStorage.removeItem(stateKeyFor(currentProfile));
-    state = freshState();
-    state.sim.holdings.acciones = 4000;
-    state.sim.holdings.bonos = 3000;
-    state.sim.holdings.oro = 1000;
-    state.sim.cash = 2000;
-    state._seeded = true;
-    save();
-    initAll();
-  }
-});
-
-/* ---------------- INIT ---------------- */
-
-function initAll(){
-  renderOnboarding();
-  renderHeader();
-  renderQuiz();
-  renderSim();
-  renderScenario();
-  renderProgress();
-}
-
-// Arranque: si ya hay un perfil activo en este navegador, entra directo; si no, pide elegir/crear uno.
-const existingActive = getActiveProfileName();
-if(existingActive && getProfiles().includes(existingActive)){
-  selectProfile(existingActive);
-} else {
-  renderProfilePicker();
-}
-
-})();
-</script>
-<script>
-(function(){
-"use strict";
-
-const STORAGE_KEY_LEYENDA = "leyenda-wallstreet-v1";
-
-const SPECIALTIES = [
-  {id:"value", emoji:"🐢", label:"Value Investing", tag:"Paciencia y fundamentos"},
-  {id:"growth", emoji:"🚀", label:"Growth / Tech", tag:"Apuesta al crecimiento"},
-  {id:"cripto", emoji:"🪙", label:"Cripto-nativo", tag:"Alta volatilidad"},
-  {id:"macro", emoji:"🌐", label:"Macro Global", tag:"Tasas, divisas, ciclos"},
-  {id:"quant", emoji:"🧮", label:"Cuantitativo", tag:"Modelos y datos"},
-  {id:"daytrader", emoji:"⚡", label:"Day Trading", tag:"Corto plazo, mucho ritmo"}
-];
-
-const STAGE_AGES = [24,26,28,30,32,34,36,38,40,42,44,46];
-
-const TAG_LABEL = {
-  value:"Conservador", aggressive:"Muy agresivo", balanced:"Balanceado", diversification:"Diversificado",
-  crisis_survived:"Mantuvo el rumbo", panic:"Vendió en pánico", fraud_dodger:"Evitó el fraude",
-  fees_low:"Bajo costo", founder:"Fondo propio"
-};
-
-const EVENT_POOLS = {
-  tier1: [
-    {id:"t1_start", situ:"Recién graduado, con algunos ahorros y muchas ganas. Tres fondos te ofrecen tu primer puesto como analista junior.", choices:[
-      {label:"Unirte a Value Capital, un fondo conservador de largo plazo", tag:"value", exp:0.18, vol:0.10, rep:4, explain:"Los fondos value priorizan comprar activos subvaluados y esperar con paciencia — menos emoción, pero un camino más estable para arrancar."},
-      {label:"Unirte a Quantum Alpha, un fondo cuantitativo muy agresivo", tag:"aggressive", exp:0.5, vol:0.5, rep:2, explain:"Los fondos cuantitativos agresivos pueden dar saltos enormes en poco tiempo, para bien o para mal. Alta volatilidad significa exactamente eso: grandes vaivenes."},
-      {label:"Independizarte y operar por tu cuenta desde el día uno", tag:"balanced", exp:0.28, vol:0.22, rep:2, explain:"Ir por tu cuenta temprano da libertad, pero también todo el riesgo sobre tus hombros, sin la estructura ni el capital de un fondo grande detrás."}
-    ]},
-    {id:"t1_concentration", situ:"Te piden armar tu primera cartera para un cliente chico. Dudás entre concentrarte en la acción de moda del momento o diversificar entre varios sectores.", choices:[
-      {label:"Diversificar entre varios sectores", tag:"diversification", exp:0.20, vol:0.10, rep:4, explain:"Diversificar entre sectores reduce el golpe si uno solo cae fuerte — la base de una cartera sólida, aunque no sea la más emocionante."},
-      {label:"Concentrarte en la acción de moda", tag:"aggressive", exp:0.5, vol:0.5, rep:1, explain:"Concentrarte en una sola apuesta multiplica tanto el resultado positivo como el negativo. Es la definición de riesgo no diversificado."},
-      {label:"Repartir mitad y mitad entre ambas ideas", tag:"balanced", exp:0.32, vol:0.25, rep:2, explain:"Un punto medio reduce algo el riesgo de concentración sin resignar del todo el potencial de la apuesta puntual."}
-    ]},
-    {id:"t1_crypto_client", situ:"Un cliente entusiasmado te pide poner el 100% de sus ahorros en una criptomoneda nueva porque 'es el futuro'.", choices:[
-      {label:"Proponerle destinar solo una porción acotada", tag:"diversification", exp:0.22, vol:0.18, rep:4, explain:"Explorar activos especulativos con una porción acotada del capital total es la forma responsable de participar sin arriesgar todo el patrimonio del cliente."},
-      {label:"Aceptar poner el 100% en cripto, como pide", tag:"aggressive", exp:0.5, vol:0.6, rep:1, explain:"Concentrar todo el patrimonio de un cliente en un solo activo especulativo expone a pérdidas catastróficas si sale mal — y a veces sale mal."},
-      {label:"Rechazarlo por completo, sin dar alternativa", tag:"balanced", exp:0.10, vol:0.08, rep:1, explain:"Rechazar de plano protege del riesgo, pero un buen asesor también busca dar alternativas razonables en vez de solo decir que no."}
-    ]},
-    {id:"t1_crash", crisis:true, situ:"El mercado cae 20% de golpe por una crisis inesperada. Tus clientes te llaman en pánico.", choices:[
-      {label:"Mantener la estrategia y comprar más barato", tag:"crisis_survived", exp:0.12, vol:0.15, rep:6, explain:"Los mercados históricamente se recuperan de caídas en el largo plazo. Mantener el rumbo (o comprar más barato) suele ser lo más racional."},
-      {label:"Vender todo en pánico, como piden los clientes", tag:"panic", exp:-0.45, vol:0.05, rep:-6, explain:"Vender en el peor momento convierte una caída temporal en una pérdida real y definitiva — el error más caro y más común."},
-      {label:"No hacer nada, pero dejar de mirar el mercado del miedo", tag:"balanced", exp:-0.05, vol:0.10, rep:0, explain:"No entrar en pánico está bien, pero ignorar la situación por completo tampoco es ideal: conviene entender qué pasó, sin decisiones impulsivas."}
-    ]},
-    {id:"t1_fees", situ:"Descubrís que podés cobrarle más a tus clientes por 'gestión activa', o cobrar poco con una estrategia pasiva indexada.", choices:[
-      {label:"Ofrecer una estrategia pasiva de bajo costo", tag:"fees_low", exp:0.20, vol:0.10, rep:5, explain:"Las comisiones bajas, sostenidas en el tiempo, dejan más retorno neto en el bolsillo del cliente — y en tu reputación a largo plazo."},
-      {label:"Cobrar por gestión activa cara", tag:"aggressive", exp:0.35, vol:0.35, rep:1, explain:"Cobrar comisiones altas exige resultados consistentemente mejores que el mercado — algo que muy pocos gestores logran sostener en el tiempo."},
-      {label:"Ofrecer un esquema mixto", tag:"balanced", exp:0.26, vol:0.20, rep:3, explain:"Combinar ambos esquemas reparte el riesgo reputacional, aunque diluye el mensaje claro que podrías dar a tus clientes."}
-    ]},
-    {id:"t1_guaranteed", situ:"Te ofrecen ser parte de una inversión con retorno 'garantizado' del 5% mensual, pase lo que pase en el mercado.", choices:[
-      {label:"Rechazarla de plano", tag:"fraud_dodger", exp:0.15, vol:0.08, rep:5, explain:"Ningún activo legítimo garantiza retornos tan altos y constantes. Es la señal clásica de un esquema fraudulento."},
-      {label:"Invertir una parte 'para probar'", tag:"aggressive", exp:-0.5, vol:0.1, rep:-6, explain:"Incluso una parte pequeña en un esquema fraudulento suele perderse por completo. La señal de alarma ya estaba clara desde el principio."},
-      {label:"Investigarla a fondo antes de decidir", tag:"balanced", exp:0.10, vol:0.08, rep:2, explain:"Investigar es razonable, aunque frente a una promesa de retorno garantizado tan alto, la respuesta casi siempre debería ser un no directo."}
-    ]}
-  ],
-  tier2: [
-    {id:"t2_country_bet", situ:"Te ofrecen manejar un fondo grande apostado 100% a un solo país emergente, o uno diversificado en varias regiones del mundo.", choices:[
-      {label:"Diversificar globalmente en varias regiones", tag:"diversification", exp:0.24, vol:0.14, rep:5, explain:"Diversificar geográficamente reduce el riesgo de que la situación de un solo país afecte todo el fondo."},
-      {label:"Apostar 100% a ese país emergente", tag:"aggressive", exp:0.55, vol:0.5, rep:2, explain:"Concentrar todo en una sola economía amplifica tanto el potencial de suba como el de un golpe fuerte si ese país entra en crisis."},
-      {label:"Repartir mitad en ese país, mitad diversificado", tag:"balanced", exp:0.35, vol:0.28, rep:3, explain:"Un punto medio permite participar de la oportunidad puntual sin depender por completo de un solo mercado."}
-    ]},
-    {id:"t2_recession", crisis:true, situ:"Una recesión económica golpea a los mercados globales durante dos años seguidos.", choices:[
-      {label:"Rebalancear hacia activos más defensivos, sin abandonar el plan", tag:"crisis_survived", exp:0.10, vol:0.12, rep:6, explain:"Ajustar el riesgo sin abandonar la estrategia de fondo es distinto a reaccionar por pánico: es una respuesta pensada al nuevo contexto."},
-      {label:"Liquidar todo y pasar a efectivo de golpe", tag:"panic", exp:-0.4, vol:0.05, rep:-5, explain:"Liquidar todo en medio de una recesión suele significar vender justo en el peor momento, perdiendo la recuperación posterior."},
-      {label:"Apalancarte para intentar recuperar rápido lo perdido", tag:"aggressive", exp:-0.3, vol:0.6, rep:-4, explain:"Usar más apalancamiento después de una pérdida ('duplicar la apuesta') suele profundizar el problema en vez de resolverlo."}
-    ]},
-    {id:"t2_leverage_client", situ:"Un cliente importante te pide usar apalancamiento para multiplicar las ganancias de su cartera.", choices:[
-      {label:"Explicarle los riesgos y ofrecer una versión moderada", tag:"balanced", exp:0.30, vol:0.22, rep:4, explain:"El apalancamiento amplifica tanto ganancias como pérdidas. Moderarlo es una forma de cumplir el pedido sin exponer de más al cliente."},
-      {label:"Usar el apalancamiento agresivo tal como pide", tag:"aggressive", exp:0.6, vol:0.55, rep:1, explain:"El apalancamiento agresivo puede multiplicar el resultado, pero también puede licuar el capital del cliente mucho más rápido de lo esperado."},
-      {label:"Negarte por completo, sin ofrecer alternativa", tag:"fees_low", exp:0.15, vol:0.10, rep:2, explain:"Negarse protege del riesgo, aunque un cliente que insiste igual buscará esa exposición en otro lado si no le ofrecés una alternativa razonable."}
-    ]},
-    {id:"t2_founder", situ:"Te ofrecen fundar tu propio fondo boutique, quedarte en el banco grande con estabilidad, o pasarte a un family office conservador.", choices:[
-      {label:"Fundar tu propio fondo", tag:"founder", exp:0.5, vol:0.4, rep:5, explain:"Fundar tu propio fondo da más control y potencial de crecimiento, a cambio de asumir mucho más riesgo e incertidumbre personal."},
-      {label:"Quedarte en el banco grande", tag:"balanced", exp:0.25, vol:0.15, rep:3, explain:"La estabilidad de una estructura grande da menos volatilidad en tu carrera, a cambio de menos control sobre las decisiones."},
-      {label:"Pasarte a un family office conservador", tag:"value", exp:0.18, vol:0.08, rep:4, explain:"Un perfil conservador prioriza preservar el capital existente por sobre buscar un crecimiento agresivo."}
-    ]},
-    {id:"t2_rebalance", situ:"Notás que tu cartera quedó muy concentrada en las acciones que más subieron en los últimos años.", choices:[
-      {label:"Rebalancear vendiendo una parte y repartiendo hacia otros activos", tag:"diversification", exp:0.22, vol:0.12, rep:5, explain:"Rebalancear devuelve la cartera al nivel de riesgo planeado originalmente, evitando quedar sobre-expuesto a un solo grupo de activos."},
-      {label:"Dejarlo así porque 'está funcionando bien'", tag:"aggressive", exp:0.4, vol:0.4, rep:1, explain:"Aunque haya funcionado hasta ahora, una concentración alta deja mucho más expuesto si esos activos caen fuerte de golpe."},
-      {label:"Vender todo de esa posición 'por las dudas'", tag:"panic", exp:0.05, vol:0.1, rep:0, explain:"Vender por completo es una reacción extrema; rebalancear parcialmente suele ser más consistente con mantener una estrategia de largo plazo."}
-    ]},
-    {id:"t2_trend", situ:"Se pone de moda entre tus colegas una nueva clase de activo muy especulativo.", choices:[
-      {label:"Investigar los fundamentos antes de mover un peso", tag:"balanced", exp:0.25, vol:0.2, rep:4, explain:"El entusiasmo colectivo (FOMO) es una señal clásica de burbujas especulativas. Investigar te protege de decisiones impulsivas."},
-      {label:"Entrar rápido para no quedar afuera", tag:"aggressive", exp:0.5, vol:0.55, rep:1, explain:"Comprar por miedo a quedarte afuera, sin entender el activo, es uno de los patrones que más se repite antes de una caída fuerte."},
-      {label:"Ignorarlo del todo, sin investigar nada", tag:"value", exp:0.12, vol:0.08, rep:2, explain:"Evitar el riesgo extremo es razonable, aunque informarte un poco (sin invertir) también te da mejores herramientas para el futuro."}
-    ]}
-  ],
-  tier3: [
-    {id:"t3_tv", situ:"Te ofrecen ser la cara pública de tu fondo, dando entrevistas y prediciendo el mercado en televisión.", choices:[
-      {label:"Aceptar, con mensajes prudentes y educativos", tag:"fees_low", exp:0.22, vol:0.15, rep:6, explain:"Comunicar con prudencia construye reputación de largo plazo, aunque sea menos viral que una predicción grandilocuente."},
-      {label:"Aceptar y hacer predicciones grandilocuentes para viralizar", tag:"aggressive", exp:0.4, vol:0.45, rep:-2, explain:"Predecir el mercado con seguridad extrema suele salir mal tarde o temprano — y cuando sale mal, el golpe reputacional es grande."},
-      {label:"Rechazarlo y mantener un perfil bajo", tag:"value", exp:0.15, vol:0.10, rep:2, explain:"Mantener perfil bajo reduce el riesgo reputacional, a cambio de menos visibilidad para tu fondo."}
-    ]},
-    {id:"t3_bubble", crisis:true, situ:"Estalla una burbuja justo en el sector que más te hizo ganar plata en los últimos años.", choices:[
-      {label:"Ya venías diversificando hacia otros sectores", tag:"crisis_survived", exp:0.15, vol:0.15, rep:7, explain:"Haber diversificado a tiempo, antes de que estallara la burbuja, es lo que separa un golpe manejable de un colapso total."},
-      {label:"Todo tu fondo estaba concentrado ahí", tag:"panic", exp:-0.55, vol:0.1, rep:-8, explain:"Concentrar demasiado en el sector que más rindió en el pasado es una trampa común: lo que más subió no siempre sigue subiendo."},
-      {label:"Intentar recuperarlo todo apostando el doble a lo que queda", tag:"aggressive", exp:-0.35, vol:0.5, rep:-5, explain:"Duplicar la apuesta después de una pérdida grande, buscando 'recuperar rápido', suele profundizar el agujero en vez de cerrarlo."}
-    ]},
-    {id:"t3_rates", situ:"Un banco central sube las tasas de interés de forma agresiva; tu cartera de bonos y acciones de crecimiento sufre.", choices:[
-      {label:"Rotar hacia sectores menos sensibles a la tasa", tag:"diversification", exp:0.20, vol:0.15, rep:5, explain:"Cuando sube la tasa 'segura', las acciones de crecimiento y los bonos existentes sufren más. Rotar hacia sectores menos sensibles amortigua el golpe."},
-      {label:"Mantener la cartera igual, esperando que 'se acomode solo'", tag:"balanced", exp:0.10, vol:0.18, rep:1, explain:"No reaccionar puede ser razonable si el plan de fondo sigue siendo válido, aunque implica tolerar más volatilidad en el camino."},
-      {label:"Apalancarte más para compensar la caída", tag:"aggressive", exp:-0.3, vol:0.5, rep:-4, explain:"Aumentar el apalancamiento justo quiere en el peor momento de tasas altas suele multiplicar el problema, no resolverlo."}
-    ]},
-    {id:"t3_retire_early", situ:"Con todo lo construido hasta ahora, te ofrecen retirarte anticipadamente y vivir de lo ganado, o seguir por 'una racha legendaria más'.", choices:[
-      {label:"Retirarte ahora, asegurando el patrimonio construido", tag:"fees_low", exp:0.10, vol:0.06, rep:3, explain:"Asegurar las ganancias ya construidas es una decisión legítima: no hace falta arriesgar todo lo logrado por perseguir más."},
-      {label:"Seguir arriesgando por una racha más", tag:"aggressive", exp:0.45, vol:0.5, rep:2, explain:"Seguir arriesgando puede multiplicar el patrimonio final, pero también puede poner en juego años de trabajo construido."},
-      {label:"Retirarte parcialmente: asegurar una parte, invertir el resto", tag:"balanced", exp:0.22, vol:0.18, rep:4, explain:"Un retiro parcial reduce el riesgo total sin resignar por completo la posibilidad de seguir creciendo."}
-    ]},
-    {id:"t3_mentor", situ:"Un joven analista te pide consejo: ¿priorizar comisiones bajas o gestión activa cara?", choices:[
-      {label:"Aconsejarle priorizar comisiones bajas de largo plazo", tag:"fees_low", exp:0.18, vol:0.10, rep:5, explain:"Una diferencia de 1-2% anual en comisiones, sostenida por décadas, puede representar una parte enorme del capital final por el efecto compuesto."},
-      {label:"Aconsejarle perseguir gestión activa cara, prometiendo más", tag:"aggressive", exp:0.3, vol:0.35, rep:-1, explain:"Muy pocos gestores de gestión activa logran superar consistentemente a índices de bajo costo una vez descontadas las comisiones."},
-      {label:"Decirle que depende, sin tomar una postura clara", tag:"balanced", exp:0.15, vol:0.12, rep:1, explain:"Un consejo tibio no ayuda mucho a un analista joven que necesita un criterio claro para decidir."}
-    ]},
-    {id:"t3_sovereign", situ:"Te ofrecen gestionar el patrimonio de un fondo soberano: mucha plata bajo gestión, pero muchísima presión y visibilidad.", choices:[
-      {label:"Aceptar con un enfoque diversificado y prudente", tag:"diversification", exp:0.35, vol:0.2, rep:7, explain:"A mayor escala de capital gestionado, más pesan los errores de concentración. La prudencia se vuelve más valiosa, no menos."},
-      {label:"Aceptar y apostar fuerte para destacar rápido", tag:"aggressive", exp:0.6, vol:0.55, rep:2, explain:"Apostar fuerte con capital de esa escala puede dar resultados espectaculares, pero también errores igual de espectaculares."},
-      {label:"Rechazarlo por la presión que implica", tag:"value", exp:0.15, vol:0.08, rep:2, explain:"Rechazar una oportunidad de alta presión es válido si no vas a poder sostener el nivel de exigencia que exige."}
-    ]}
-  ]
-};
-
-const BADGES_LEYENDA = [
-  {id:"diversifier", emoji:"⚖️", label:"Eligió diversificar"},
-  {id:"crisis_survivor", emoji:"🛡️", label:"Sobrevivió una crisis"},
-  {id:"fraud_dodger", emoji:"🕵️", label:"Evitó un fraude"},
-  {id:"fee_conscious", emoji:"💸", label:"Priorizó bajo costo"},
-  {id:"founder", emoji:"🏛️", label:"Fundó su propio fondo"},
-  {id:"millionaire", emoji:"💰", label:"Superó los $100.000"},
-  {id:"deca_millionaire", emoji:"🏦", label:"Superó los $500.000"},
-  {id:"legend_reputation", emoji:"👑", label:"Reputación de leyenda"}
-];
-
-function freshStateLeyenda(){
-  return {
-    phase: "setup",
-    identity: {nickname:"", country:"", specialtyId:null},
-    stageIndex: 0,
-    netWorth: 5000,
-    reputation: 50,
-    trades: 0, goodCalls: 0, crisesSurvived: 0,
-    badges: [],
-    history: [],
-    tierOrders: null,
-    pendingEvent: null,
-    pendingOutcome: null,
-    busted: false
-  };
-}
-function shuffleLeyenda(arr){
-  const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-  return a;
-}
-function gaussianRandomLeyenda(){
-  let u=0,v=0;
-  while(u===0) u=Math.random();
-  while(v===0) v=Math.random();
-  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
-}
-function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
-
-let stateLeyenda;
-try {
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY_LEYENDA));
-  stateLeyenda = saved && saved.phase ? saved : freshStateLeyenda();
-} catch(e){ stateLeyenda = freshStateLeyenda(); }
-function saveLeyenda(){ localStorage.setItem(STORAGE_KEY_LEYENDA, JSON.stringify(stateLeyenda)); }
-
-/* ---------- SETUP SCREEN ---------- */
-function renderSpecialtyGrid(){
-  const grid = document.getElementById("specialtyGrid");
-  grid.innerHTML = SPECIALTIES.map(s=>`
-    <div class="specialty-card ${stateLeyenda.identity.specialtyId===s.id?'selected':''}" data-id="${s.id}">
-      <div class="specialty-emoji">${s.emoji}</div>
-      <div class="specialty-label">${s.label}</div>
-      <div class="specialty-tag">${s.tag}</div>
-    </div>
-  `).join("");
-  grid.querySelectorAll(".specialty-card").forEach(el=>{
-    el.addEventListener("click", ()=>{
-      stateLeyenda.identity.specialtyId = el.dataset.id;
-      renderSpecialtyGrid();
-      checkStartEnabled();
-    });
+  document.getElementById("chartDemoNext").addEventListener("click", ()=>{
+    chartRoundDemo.qIndex++;
+    renderChartQuestion();
   });
 }
-function checkStartEnabled(){
-  const ok = document.getElementById("nicknameInput").value.trim().length>0 && !!stateLeyenda.identity.specialtyId;
-  document.getElementById("startCareerBtn").disabled = !ok;
-}
-document.getElementById("nicknameInput").addEventListener("input", ()=>{
-  stateLeyenda.identity.nickname = document.getElementById("nicknameInput").value;
-  checkStartEnabled();
-});
-document.getElementById("countryInput").addEventListener("input", ()=>{
-  stateLeyenda.identity.country = document.getElementById("countryInput").value;
-});
-document.getElementById("startCareerBtn").addEventListener("click", ()=>{
-  stateLeyenda.phase = "playing";
-  stateLeyenda.tierOrders = {
-    tier1: shuffleLeyenda(EVENT_POOLS.tier1.map(e=>e.id)),
-    tier2: shuffleLeyenda(EVENT_POOLS.tier2.map(e=>e.id)),
-    tier3: shuffleLeyenda(EVENT_POOLS.tier3.map(e=>e.id))
-  };
-  saveLeyenda();
-  renderLeyenda();
-});
 
-/* ---------- GAME SCREEN ---------- */
-function specialtyOf(id){ return SPECIALTIES.find(s=>s.id===id); }
-function currentTierName(){
-  const t = Math.floor(stateLeyenda.stageIndex/4);
-  return ["tier1","tier2","tier3"][Math.min(t,2)];
-}
-function findEvent(id){
-  for(const key of ["tier1","tier2","tier3"]) {
-    const found = EVENT_POOLS[key].find(e=>e.id===id);
-    if(found) return found;
-  }
-  return null;
-}
-function renderIdCard(){
-  const sp = specialtyOf(stateLeyenda.identity.specialtyId);
-  const initials = (stateLeyenda.identity.nickname||"?").trim().slice(0,2).toUpperCase();
-  const age = stateLeyenda.stageIndex < STAGE_AGES.length ? STAGE_AGES[stateLeyenda.stageIndex] : STAGE_AGES[STAGE_AGES.length-1];
-  document.getElementById("idCard").innerHTML = `
-    <div class="id-avatar">${initials}</div>
-    <div class="id-name">${stateLeyenda.identity.nickname||"Sin nombre"}</div>
-    <div class="id-tag">${sp ? sp.emoji+" "+sp.label : ""}</div>
-    <div class="id-meta">${stateLeyenda.identity.country||"—"} · Edad ${age}</div>
-    <div class="id-networth-label">Patrimonio</div>
-    <div class="id-networth mono">$${Math.round(stateLeyenda.netWorth).toLocaleString("es-AR")}</div>
-    <div class="id-networth-label" style="margin-top:12px">Reputación</div>
-    <div class="rep-bar-outer"><div class="rep-bar-inner" style="width:${stateLeyenda.reputation}%"></div></div>
-    <div class="id-stats">
-      <div><strong class="mono">${stateLeyenda.trades}</strong>Decisiones</div>
-      <div><strong class="mono">${stateLeyenda.goodCalls}</strong>Aciertos</div>
-      <div><strong class="mono">${stateLeyenda.crisesSurvived}</strong>Crisis superadas</div>
-    </div>
-    <div class="trophy-grid">
-      ${BADGES_LEYENDA.map(b=>`<div class="trophy ${stateLeyenda.badges.includes(b.id)?'earned':''}" title="${b.label}">${b.emoji}<div class="trophy-label">${b.label}</div></div>`).join("")}
-    </div>
-  `;
-}
-function renderTimeline(){
-  const rows = stateLeyenda.history.map(h=>`
-    <tr><td>${h.age}</td><td>${h.roleLabel}</td><td class="mono">$${Math.round(h.netWorth).toLocaleString("es-AR")}</td><td class="mono">${h.reputation}</td></tr>
-  `).join("");
-  let pendingRow = "";
-  if(stateLeyenda.stageIndex < STAGE_AGES.length && stateLeyenda.phase==="playing" && !stateLeyenda.busted){
-    pendingRow = `<tr class="current pending"><td>${STAGE_AGES[stateLeyenda.stageIndex]}</td><td>Eligiendo...</td><td class="mono">—</td><td class="mono">—</td></tr>`;
-  }
-  document.getElementById("timelineBody").innerHTML = rows + pendingRow;
-}
-function awardBadgeLeyenda(id){
-  if(!stateLeyenda.badges.includes(id)) stateLeyenda.badges.push(id);
-}
-function presentNextStage(){
-  if(stateLeyenda.busted){ endCareer(); return; }
-  if(stateLeyenda.stageIndex >= STAGE_AGES.length){ stateLeyenda.phase="ended"; saveLeyenda(); endCareer(); return; }
-  const tierName = currentTierName();
-  const posWithinTier = stateLeyenda.stageIndex % 4;
-  const eventId = stateLeyenda.tierOrders[tierName][posWithinTier];
-  stateLeyenda.pendingEvent = eventId;
-  stateLeyenda.pendingOutcome = null;
-  saveLeyenda();
-  renderLeyenda();
-}
-function renderEventArea(){
-  const area = document.getElementById("eventArea");
-  if(stateLeyenda.pendingOutcome){
-    const o = stateLeyenda.pendingOutcome;
-    area.innerHTML = `
-      <div class="event-card">
-        <span class="event-pill">Resultado</span>
-        <div class="outcome-panel">
-          <div class="outcome-delta ${o.actualReturn>=0?'up':'down'} mono">${o.actualReturn>=0?'▲ +':'▼ '}${(o.actualReturn*100).toFixed(1)}%</div>
-          <div class="muted" style="font-size:12.5px;margin-top:4px">Reputación ${o.repDelta>=0?'+':''}${o.repDelta}</div>
-          <div class="outcome-explain">${o.explain}</div>
-        </div>
-        <button class="btn" style="margin-top:16px" id="continueBtn">Continuar ▶</button>
-      </div>
-    `;
-    document.getElementById("continueBtn").addEventListener("click", ()=>{
-      stateLeyenda.stageIndex++;
-      stateLeyenda.pendingEvent = null;
-      stateLeyenda.pendingOutcome = null;
-      saveLeyenda();
-      presentNextStage();
-    });
+function renderChartDemo(){
+  if(chartState.done){
+    renderChartGate();
     return;
   }
-  if(!stateLeyenda.pendingEvent){ area.innerHTML=""; return; }
-  const event = findEvent(stateLeyenda.pendingEvent);
-  area.innerHTML = `
-    <div class="event-card">
-      <span class="event-pill ${event.crisis?'crisis':''}">${event.crisis ? '⚠️ Momento de crisis' : 'Decisión de carrera'}</span>
-      <div class="event-situ">${event.situ}</div>
-      ${event.choices.map((c,i)=>`<button class="choice-card" data-i="${i}">${c.label}</button>`).join("")}
-    </div>
-  `;
-  area.querySelectorAll(".choice-card").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      area.querySelectorAll(".choice-card").forEach(b=>b.disabled=true);
-      resolveChoice(event, parseInt(btn.dataset.i,10));
-    });
-  });
+  const stock = generateFakeStock();
+  const questions = buildChartQuestions(stock);
+  chartRoundDemo = {stock, questions, qIndex:0};
+  renderChartRoundDemo();
 }
-function resolveChoice(event, idx){
-  const choice = event.choices[idx];
-  const actualReturn = choice.exp + gaussianRandomLeyenda()*choice.vol;
-  stateLeyenda.netWorth = Math.max(0, stateLeyenda.netWorth*(1+actualReturn));
-  stateLeyenda.reputation = clamp(stateLeyenda.reputation + choice.rep, 0, 100);
-  stateLeyenda.trades++;
-  if(actualReturn>0) stateLeyenda.goodCalls++;
-  if(event.crisis && choice.tag==="crisis_survived") stateLeyenda.crisesSurvived++;
-
-  if(choice.tag==="diversification") awardBadgeLeyenda("diversifier");
-  if(event.crisis && choice.tag==="crisis_survived") awardBadgeLeyenda("crisis_survivor");
-  if(choice.tag==="fraud_dodger") awardBadgeLeyenda("fraud_dodger");
-  if(choice.tag==="fees_low") awardBadgeLeyenda("fee_conscious");
-  if(choice.tag==="founder") awardBadgeLeyenda("founder");
-  if(stateLeyenda.netWorth>=100000) awardBadgeLeyenda("millionaire");
-  if(stateLeyenda.netWorth>=500000) awardBadgeLeyenda("deca_millionaire");
-  if(stateLeyenda.reputation>=90) awardBadgeLeyenda("legend_reputation");
-
-  stateLeyenda.history.push({
-    age: STAGE_AGES[stateLeyenda.stageIndex],
-    roleLabel: TAG_LABEL[choice.tag] || choice.tag,
-    netWorth: stateLeyenda.netWorth,
-    reputation: stateLeyenda.reputation
-  });
-
-  if(stateLeyenda.netWorth <= 200) stateLeyenda.busted = true;
-
-  stateLeyenda.pendingOutcome = { actualReturn, repDelta: choice.rep, explain: choice.explain };
-  saveLeyenda();
-  renderLeyenda();
-}
-function endCareer(){
-  stateLeyenda.phase = "ended";
-  saveLeyenda();
-  renderLeyenda();
-}
-
-/* ---------- ENDING SCREEN ---------- */
-function endingTier(){
-  if(stateLeyenda.busted) return {title:"💥 Blow-up", sub:"Tu fondo colapsó. Hasta las mejores carreras pueden descarrilarse por sobre-apalancarse o concentrar demasiado el riesgo."};
-  const nw = stateLeyenda.netWorth, rep = stateLeyenda.reputation;
-  if(nw>=200000 && rep>=75) return {title:"🏆 Leyenda de Wall Street", sub:"Construiste patrimonio y reputación en simultáneo — la combinación más difícil de lograr, y la más rara."};
-  if(nw>=200000) return {title:"💰 Fortuna hecha, respeto pendiente", sub:"Ganaste bastante dinero, pero el camino no siempre generó la reputación de un referente del mercado."};
-  if(nw>=60000) return {title:"💼 Gestor Consagrado", sub:"Una carrera sólida, con decisiones que en general sostuvieron el crecimiento del patrimonio."};
-  if(nw>=20000) return {title:"📈 Trader Sólido", sub:"Un camino prudente, con avances constantes más que saltos espectaculares."};
-  return {title:"🌱 Todavía construyendo tu camino", sub:"El patrimonio final quedó modesto — cada carrera es distinta, se puede volver a intentar con otra estrategia."};
-}
-function renderEnding(){
-  const t = endingTier();
-  document.getElementById("endingTitle").textContent = t.title;
-  document.getElementById("endingSub").textContent = t.sub;
-  document.getElementById("endNetWorth").textContent = "$"+Math.round(stateLeyenda.netWorth).toLocaleString("es-AR");
-  document.getElementById("endReputation").textContent = stateLeyenda.reputation;
-  document.getElementById("endBadges").textContent = stateLeyenda.badges.length+"/"+BADGES_LEYENDA.length;
-}
-document.getElementById("playAgainBtn").addEventListener("click", ()=>{
-  stateLeyenda = freshStateLeyenda();
-  saveLeyenda();
-  renderLeyenda();
-});
-document.getElementById("hardResetBtn").addEventListener("click", ()=>{
-  if(confirm("¿Borrar tu carrera actual y empezar de cero?")){
-    localStorage.removeItem(STORAGE_KEY_LEYENDA);
-    stateLeyenda = freshStateLeyenda();
-    renderLeyenda();
-  }
-});
-
-/* ---------- MASTER RENDER ---------- */
-function renderLeyenda(){
-  document.getElementById("setupScreen").classList.toggle("hidden", stateLeyenda.phase!=="setup");
-  document.getElementById("gameScreen").classList.toggle("hidden", stateLeyenda.phase!=="playing");
-  document.getElementById("endingScreen").classList.toggle("hidden", stateLeyenda.phase!=="ended");
-
-  if(stateLeyenda.phase==="setup"){
-    document.getElementById("nicknameInput").value = stateLeyenda.identity.nickname;
-    document.getElementById("countryInput").value = stateLeyenda.identity.country;
-    renderSpecialtyGrid();
-    checkStartEnabled();
-  } else if(stateLeyenda.phase==="playing"){
-    renderIdCard();
-    renderTimeline();
-    if(!stateLeyenda.pendingEvent && !stateLeyenda.pendingOutcome && !stateLeyenda.busted){
-      presentNextStage();
-      return;
-    }
-    renderEventArea();
-    if(stateLeyenda.busted && !stateLeyenda.pendingOutcome){ endCareer(); return; }
-  } else if(stateLeyenda.phase==="ended"){
-    renderEnding();
-  }
-}
-renderLeyenda();
+renderChartDemo();
 
 })();
 </script>
