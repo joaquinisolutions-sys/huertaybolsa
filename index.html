@@ -35,6 +35,21 @@
     -webkit-font-smoothing: antialiased;
   }
   .app { max-width: 760px; margin: 0 auto; padding: 20px 16px 60px; }
+  .mini-hero { max-width: 760px; margin: 0 auto; padding: 22px 16px 2px; text-align: center; }
+  .mini-hero .pill { background: var(--accent-soft); color: var(--accent); }
+  .mini-hero-title { font-size: 25px; font-weight: 800; margin: 10px 0 6px; letter-spacing: -0.4px; }
+  .mini-hero-title .huerta { color: var(--accent); }
+  .mini-hero-title .bolsa { color: var(--gold); }
+  .mini-hero-sub { font-size: 13.5px; color: var(--ink-soft); margin: 0 auto 8px; max-width: 480px; line-height: 1.5; }
+  .mini-hero-link { font-size: 12px; color: var(--accent); font-weight: 700; text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; }
+  .plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  @media (max-width: 480px) { .plans-grid { grid-template-columns: 1fr; } }
+  .plan-mini { border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: left; }
+  .plan-mini.highlight { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .plan-mini-name { font-size: 11.5px; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .plan-mini.highlight .plan-mini-name { color: var(--gold); }
+  .plan-mini-price { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
+  .plan-mini-text { font-size: 12px; line-height: 1.5; opacity: 0.9; margin: 0; }
   header.top {
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
@@ -310,6 +325,32 @@
     </p>
     <button class="btn" id="onboardingStart" style="width:100%">Empezar ▶</button>
   </div>
+</div>
+<div class="modal-backdrop" id="plansBackdrop" style="display:none">
+  <div class="modal-card">
+    <h2 style="margin:0 0 6px">Planes</h2>
+    <p class="muted" style="margin:0 0 4px">Aprendé gratis. Pagá solo si querés llevarlo más lejos.</p>
+    <div class="plans-grid">
+      <div class="plan-mini">
+        <div class="plan-mini-name">🌱 Semilla</div>
+        <div class="plan-mini-price">Gratis</div>
+        <p class="plan-mini-text">Quiz completo (40 preguntas) y los 18 escenarios, para siempre.</p>
+      </div>
+      <div class="plan-mini highlight">
+        <div class="plan-mini-name">🌾 Cosecha</div>
+        <div class="plan-mini-price mono">USD 20<span style="font-size:11px;font-weight:600">/año</span></div>
+        <p class="plan-mini-text">Simulador, Gráficos y Leyenda de Wall Street completos.</p>
+      </div>
+    </div>
+    <p class="muted" style="font-size:11.5px;margin:12px 0 14px">Ya podés probar cada uno gratis un poco desde sus pestañas — cuando llegás al límite, te va a aparecer la opción de anotarte.</p>
+    <button class="btn" id="closePlansBtn" style="width:100%">Cerrar</button>
+  </div>
+</div>
+<div class="mini-hero">
+  <span class="pill">🌱 Educación financiera jugable</span>
+  <h1 class="mini-hero-title">De la <span class="huerta">Huerta</span> a la <span class="bolsa">Bolsa</span></h1>
+  <p class="mini-hero-sub">Aprendé a invertir jugando, a tu ritmo. El quiz y los escenarios son gratis para siempre — arrancá ahí abajo.</p>
+  <button class="mini-hero-link" id="openPlansBtn">Ver planes y precios</button>
 </div>
 <div class="app">
   <div id="levelUpBanner"></div>
@@ -793,6 +834,26 @@ const BADGES = [
   {id:"level5", label:"Nivel Maestro", emoji:"👑", check:s=>s.xp>=900}
 ];
 
+/* ---------------- GATING (plan Cosecha: Simulador, Gráficos, Leyenda) ---------------- */
+
+const WAITLIST_URL = "https://airtable.com/appZ6GK67w75QAnsU/pagsjwLc0PyO8jxVB/form";
+const GATE_UNLOCK_KEY = "academia-finanzas-unlocked";
+const FREE_SIM_MONTHS = 6;
+const FREE_CHART_ROUNDS = 2;
+function isPremiumUnlocked(){ return localStorage.getItem(GATE_UNLOCK_KEY) === "1"; }
+function unlockPremium(){ localStorage.setItem(GATE_UNLOCK_KEY, "1"); }
+function gateCardHtml(title, text, ctaText, linkId){
+  return `
+    <div style="text-align:center;padding:6px 4px">
+      <div style="font-size:26px;margin-bottom:8px">🔒</div>
+      <h3 style="margin:0 0 8px">${title}</h3>
+      <p class="muted" style="font-size:13.5px;line-height:1.6;max-width:420px;margin:0 auto 16px">${text}</p>
+      <a class="btn" href="${WAITLIST_URL}" target="_blank" rel="noopener" id="${linkId}">${ctaText}</a>
+      <p class="muted" style="font-size:11.5px;margin-top:10px">Plan Cosecha · USD 20/año · se abre en una pestaña nueva, seguís jugando acá mismo.</p>
+    </div>
+  `;
+}
+
 /* ---------------- STATE ---------------- */
 
 const STORAGE_KEY = "academia-finanzas-v1";
@@ -807,7 +868,7 @@ function freshState(){
       history:[10000], bestReturn:null, diversifiedOnce:false, completedRuns:0,
       casesDecided:0, pendingCase:null
     },
-    charts: {correct:0, asked:0},
+    charts: {correct:0, asked:0, roundsPlayed:0},
     badgesEarned: [],
     onboardingSeen: false
   };
@@ -859,7 +920,8 @@ function loadState(profileName){
   ASSET_DEFS.forEach(a=>{ if(s.sim.holdings[a.key]===undefined) s.sim.holdings[a.key]=0; });
   if(s.sim.casesDecided===undefined) s.sim.casesDecided = 0;
   if(s.sim.pendingCase===undefined) s.sim.pendingCase = null;
-  if(!s.charts) s.charts = {correct:0, asked:0};
+  if(!s.charts) s.charts = {correct:0, asked:0, roundsPlayed:0};
+  if(s.charts.roundsPlayed===undefined) s.charts.roundsPlayed = 0;
   if(s.onboardingSeen===undefined) s.onboardingSeen = false;
   return s;
 }
@@ -888,6 +950,12 @@ function renderProfilePicker(){
   cancelBtn.style.display = currentProfile ? "inline-block" : "none";
   document.getElementById("profileBackdrop").style.display = "flex";
 }
+document.getElementById("openPlansBtn").addEventListener("click", ()=>{
+  document.getElementById("plansBackdrop").style.display = "flex";
+});
+document.getElementById("closePlansBtn").addEventListener("click", ()=>{
+  document.getElementById("plansBackdrop").style.display = "none";
+});
 document.getElementById("profileCreateBtn").addEventListener("click", ()=>{
   const input = document.getElementById("profileNameInput");
   const name = input.value.trim();
@@ -1171,6 +1239,7 @@ function addLog(msg){
 }
 function startMonthAdvance(){
   if(state.sim.pendingCase) return; // ya hay un caso esperando decisión
+  if(state.sim.month>=FREE_SIM_MONTHS && !isPremiumUnlocked()) return; // gate: se maneja en renderSim()
   if(state.sim.month>=SIM_MONTHS){ handleSimCompletion(); return; }
   const roll = Math.random();
   if(roll < 0.40){
@@ -1286,7 +1355,19 @@ function renderSim(){
   renderAssetList();
   renderSimChart();
   const caseCardEl = document.getElementById("caseCard");
-  if(state.sim.pendingCase && state.sim.month<SIM_MONTHS){
+  const gated = state.sim.month>=FREE_SIM_MONTHS && !isPremiumUnlocked();
+  if(gated){
+    caseCardEl.innerHTML = gateCardHtml(
+      `Simulaste ${FREE_SIM_MONTHS} meses gratis`,
+      `El resto de los 24 meses de simulación, con más "casos del mes", queda del otro lado. Dejá tu mail para seguir.`,
+      "Dejar mi mail y seguir ▶",
+      "simUnlockLink"
+    );
+    caseCardEl.style.display = "block";
+    document.getElementById("btnAdvance").disabled = true;
+    const link = document.getElementById("simUnlockLink");
+    if(link) link.addEventListener("click", ()=>{ unlockPremium(); renderSim(); });
+  } else if(state.sim.pendingCase && state.sim.month<SIM_MONTHS){
     renderCaseCard(state.sim.pendingCase);
     caseCardEl.style.display = "block";
     document.getElementById("btnAdvance").disabled = true;
@@ -1487,6 +1568,9 @@ function renderPracticeChart(stock){
   });
 }
 function startChartRound(){
+  if((state.charts.roundsPlayed||0)>=FREE_CHART_ROUNDS && !isPremiumUnlocked()) return;
+  state.charts.roundsPlayed = (state.charts.roundsPlayed||0)+1;
+  save();
   const stock = generateFakeStock();
   const questions = buildChartQuestions(stock);
   chartRound = {stock, questions, qIndex:0};
@@ -1507,9 +1591,21 @@ function renderChartRound(){
 
   if(qIndex >= questions.length){
     document.getElementById("chartProgress").textContent = "Ronda completa";
-    document.getElementById("chartQuestionBody").innerHTML = `<p>Completaste esta acción. Aciertos totales: <strong>${state.charts.correct}/${state.charts.asked}</strong>.</p>
-      <button class="btn" id="chartNewStock">Probar con otra acción ▶</button>`;
-    document.getElementById("chartNewStock").onclick = startChartRound;
+    const gated = (state.charts.roundsPlayed||0)>=FREE_CHART_ROUNDS && !isPremiumUnlocked();
+    if(gated){
+      document.getElementById("chartQuestionBody").innerHTML = gateCardHtml(
+        `Practicaste con ${FREE_CHART_ROUNDS} acciones gratis`,
+        `Rondas ilimitadas con acciones nuevas quedan del otro lado. Dejá tu mail para seguir practicando.`,
+        "Dejar mi mail y seguir ▶",
+        "chartUnlockLink"
+      );
+      const link = document.getElementById("chartUnlockLink");
+      if(link) link.addEventListener("click", ()=>{ unlockPremium(); startChartRound(); });
+    } else {
+      document.getElementById("chartQuestionBody").innerHTML = `<p>Completaste esta acción. Aciertos totales: <strong>${state.charts.correct}/${state.charts.asked}</strong>.</p>
+        <button class="btn" id="chartNewStock">Probar con otra acción ▶</button>`;
+      document.getElementById("chartNewStock").onclick = startChartRound;
+    }
     return;
   }
 
@@ -1607,6 +1703,11 @@ if(existingActive && getProfiles().includes(existingActive)){
 "use strict";
 
 const STORAGE_KEY_LEYENDA = "leyenda-wallstreet-v1";
+const WAITLIST_URL_LEYENDA = "https://airtable.com/appZ6GK67w75QAnsU/pagsjwLc0PyO8jxVB/form";
+const GATE_UNLOCK_KEY_LEYENDA = "academia-finanzas-unlocked";
+const FREE_STAGES_LEYENDA = 3;
+function isPremiumUnlockedLeyenda(){ return localStorage.getItem(GATE_UNLOCK_KEY_LEYENDA) === "1"; }
+function unlockPremiumLeyenda(){ localStorage.setItem(GATE_UNLOCK_KEY_LEYENDA, "1"); }
 
 const SPECIALTIES = [
   {id:"value", emoji:"🐢", label:"Value Investing", tag:"Paciencia y fundamentos"},
@@ -1852,17 +1953,33 @@ function renderTimeline(){
     <tr><td>${h.age}</td><td>${h.roleLabel}</td><td class="mono">$${Math.round(h.netWorth).toLocaleString("es-AR")}</td><td class="mono">${h.reputation}</td></tr>
   `).join("");
   let pendingRow = "";
+  const gatedNow = stateLeyenda.stageIndex >= FREE_STAGES_LEYENDA && !isPremiumUnlockedLeyenda();
   if(stateLeyenda.stageIndex < STAGE_AGES.length && stateLeyenda.phase==="playing" && !stateLeyenda.busted){
-    pendingRow = `<tr class="current pending"><td>${STAGE_AGES[stateLeyenda.stageIndex]}</td><td>Eligiendo...</td><td class="mono">—</td><td class="mono">—</td></tr>`;
+    const label = gatedNow ? "🔒 Bloqueado" : "Eligiendo...";
+    pendingRow = `<tr class="current pending"><td>${STAGE_AGES[stateLeyenda.stageIndex]}</td><td>${label}</td><td class="mono">—</td><td class="mono">—</td></tr>`;
   }
   document.getElementById("timelineBody").innerHTML = rows + pendingRow;
 }
 function awardBadgeLeyenda(id){
   if(!stateLeyenda.badges.includes(id)) stateLeyenda.badges.push(id);
 }
+function renderLeyendaGate(){
+  const area = document.getElementById("eventArea");
+  area.innerHTML = `
+    <div class="event-card" style="text-align:center">
+      <span class="event-pill">🔒 Carrera en pausa</span>
+      <div class="event-situ">Llegaste a los primeros ${FREE_STAGES_LEYENDA} años de carrera gratis. El resto — hasta leyenda o blow-up — queda del otro lado.</div>
+      <a class="btn" href="${WAITLIST_URL_LEYENDA}" target="_blank" rel="noopener" id="leyendaUnlockLink">Dejar mi mail y seguir la carrera ▶</a>
+      <p style="font-size:11.5px;color:#9aa4bd;margin-top:10px">Plan Cosecha · USD 20/año · se abre en una pestaña nueva, seguís jugando acá mismo.</p>
+    </div>
+  `;
+  const link = document.getElementById("leyendaUnlockLink");
+  if(link) link.addEventListener("click", ()=>{ unlockPremiumLeyenda(); presentNextStage(); });
+}
 function presentNextStage(){
   if(stateLeyenda.busted){ endCareer(); return; }
   if(stateLeyenda.stageIndex >= STAGE_AGES.length){ stateLeyenda.phase="ended"; saveLeyenda(); endCareer(); return; }
+  if(stateLeyenda.stageIndex >= FREE_STAGES_LEYENDA && !isPremiumUnlockedLeyenda()){ renderLeyendaGate(); return; }
   const tierName = currentTierName();
   const posWithinTier = stateLeyenda.stageIndex % 4;
   const eventId = stateLeyenda.tierOrders[tierName][posWithinTier];
