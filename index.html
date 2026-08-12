@@ -41,6 +41,11 @@
   .mini-hero-title .huerta { color: var(--accent); }
   .mini-hero-title .bolsa { color: var(--gold); }
   .mini-hero-sub { font-size: 13.5px; color: var(--ink-soft); margin: 0 auto 8px; max-width: 480px; line-height: 1.5; }
+  .mini-hero-chips { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 10px 0 4px; }
+  .mini-hero-chip {
+    font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--border);
+    background: #fff; color: var(--ink-soft);
+  }
   .mini-hero-link { font-size: 12px; color: var(--accent); font-weight: 700; text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; }
   .plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
   @media (max-width: 480px) { .plans-grid { grid-template-columns: 1fr; } }
@@ -339,6 +344,7 @@
       <div class="plan-mini highlight">
         <div class="plan-mini-name">🌾 Cosecha</div>
         <div class="plan-mini-price mono">USD 20<span style="font-size:11px;font-weight:600">/año</span></div>
+        <div class="mono" style="font-size:12px;color:#6b7a63;margin-top:-4px;margin-bottom:6px">≈ ₲ 120.000/año</div>
         <p class="plan-mini-text">Simulador, Gráficos y Leyenda de Wall Street completos.</p>
       </div>
     </div>
@@ -349,7 +355,15 @@
 <div class="mini-hero">
   <span class="pill">🌱 Educación financiera jugable</span>
   <h1 class="mini-hero-title">De la <span class="huerta">Huerta</span> a la <span class="bolsa">Bolsa</span></h1>
-  <p class="mini-hero-sub">Aprendé a invertir jugando, a tu ritmo. El quiz y los escenarios son gratis para siempre — arrancá ahí abajo.</p>
+  <p class="mini-hero-sub">Una app para aprender a invertir jugando, no leyendo teoría: quiz, simulador de cartera, práctica de gráficos, escenarios de decisión reales y un modo carrera. Todo en español, sin jerga, pensada para arrancar de cero.</p>
+  <div class="mini-hero-chips">
+    <span class="mini-hero-chip">🧠 Quiz</span>
+    <span class="mini-hero-chip">📈 Simulador</span>
+    <span class="mini-hero-chip">📊 Gráficos</span>
+    <span class="mini-hero-chip">🧭 Escenarios</span>
+    <span class="mini-hero-chip">🏆 Leyenda</span>
+  </div>
+  <p class="mini-hero-sub" style="margin-top:10px">El quiz y los escenarios son gratis para siempre. Probá ahí abajo 👇</p>
   <button class="mini-hero-link" id="openPlansBtn">Ver planes y precios</button>
 </div>
 <div class="app">
@@ -836,22 +850,52 @@ const BADGES = [
 
 /* ---------------- GATING (plan Cosecha: Simulador, Gráficos, Leyenda) ---------------- */
 
-const WAITLIST_URL = "https://airtable.com/appZ6GK67w75QAnsU/pagsjwLc0PyO8jxVB/form";
 const GATE_UNLOCK_KEY = "academia-finanzas-unlocked";
 const FREE_SIM_MONTHS = 6;
 const FREE_CHART_ROUNDS = 2;
+const PAY_ALIAS = "+595 972 982 914";
+const PAY_BANK = "Banco Ueno";
+const PAY_WHATSAPP = "595972982914";
+const UNLOCK_CODE = "COSECHA20";
 function isPremiumUnlocked(){ return localStorage.getItem(GATE_UNLOCK_KEY) === "1"; }
 function unlockPremium(){ localStorage.setItem(GATE_UNLOCK_KEY, "1"); }
-function gateCardHtml(title, text, ctaText, linkId){
+function paymentGateHtml(title, text, idSuffix){
+  const waMsg = encodeURIComponent("Hola! Ya transferí para desbloquear el Plan Cosecha de De la Huerta a la Bolsa. Acá mi comprobante 👇");
   return `
     <div style="text-align:center;padding:6px 4px">
       <div style="font-size:26px;margin-bottom:8px">🔒</div>
       <h3 style="margin:0 0 8px">${title}</h3>
       <p class="muted" style="font-size:13.5px;line-height:1.6;max-width:420px;margin:0 auto 16px">${text}</p>
-      <a class="btn" href="${WAITLIST_URL}" target="_blank" rel="noopener" id="${linkId}">${ctaText}</a>
-      <p class="muted" style="font-size:11.5px;margin-top:10px">Plan Cosecha · USD 20/año · se abre en una pestaña nueva, seguís jugando acá mismo.</p>
+      <div style="background:#f3f6ef;border:1px solid #dbe6d4;border-radius:12px;padding:14px 16px;max-width:360px;margin:0 auto 14px;text-align:left">
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000 (≈ USD 20 al cambio del día)</p>
+        <p style="margin:0 0 12px;font-size:13px">${PAY_BANK} · Alias/cel: <strong>${PAY_ALIAS}</strong></p>
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Mandá el comprobante</p>
+        <a class="btn" href="https://wa.me/${PAY_WHATSAPP}?text=${waMsg}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">3. Pegá tu código de acceso</p>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="unlockCode-${idSuffix}" placeholder="Código de acceso" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #cbd5c2;font-size:13px" />
+          <button class="btn" id="unlockBtn-${idSuffix}">Activar</button>
+        </div>
+        <p id="unlockErr-${idSuffix}" style="color:#b3261e;font-size:12px;margin:6px 0 0;display:none">Código incorrecto. Fijate en mayúsculas y espacios.</p>
+      </div>
+      <p class="muted" style="font-size:11.5px;margin-top:6px">Plan Cosecha · ₲ 120.000 / USD 20 al año (cambio referencial BCP del día) · te mandamos el código por WhatsApp apenas confirmamos tu pago.</p>
     </div>
   `;
+}
+function wirePaymentGate(idSuffix, onUnlock){
+  const btn = document.getElementById("unlockBtn-"+idSuffix);
+  const input = document.getElementById("unlockCode-"+idSuffix);
+  const err = document.getElementById("unlockErr-"+idSuffix);
+  if(!btn || !input) return;
+  const tryUnlock = ()=>{
+    if((input.value||"").trim().toUpperCase() === UNLOCK_CODE){
+      onUnlock();
+    } else if(err){
+      err.style.display = "block";
+    }
+  };
+  btn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", (e)=>{ if(e.key==="Enter") tryUnlock(); });
 }
 
 /* ---------------- STATE ---------------- */
@@ -1357,16 +1401,14 @@ function renderSim(){
   const caseCardEl = document.getElementById("caseCard");
   const gated = state.sim.month>=FREE_SIM_MONTHS && !isPremiumUnlocked();
   if(gated){
-    caseCardEl.innerHTML = gateCardHtml(
+    caseCardEl.innerHTML = paymentGateHtml(
       `Simulaste ${FREE_SIM_MONTHS} meses gratis`,
-      `El resto de los 24 meses de simulación, con más "casos del mes", queda del otro lado. Dejá tu mail para seguir.`,
-      "Dejar mi mail y seguir ▶",
-      "simUnlockLink"
+      `El resto de los 24 meses de simulación, con más "casos del mes", queda del otro lado.`,
+      "sim"
     );
     caseCardEl.style.display = "block";
     document.getElementById("btnAdvance").disabled = true;
-    const link = document.getElementById("simUnlockLink");
-    if(link) link.addEventListener("click", ()=>{ unlockPremium(); renderSim(); });
+    wirePaymentGate("sim", ()=>{ unlockPremium(); renderSim(); });
   } else if(state.sim.pendingCase && state.sim.month<SIM_MONTHS){
     renderCaseCard(state.sim.pendingCase);
     caseCardEl.style.display = "block";
@@ -1593,14 +1635,12 @@ function renderChartRound(){
     document.getElementById("chartProgress").textContent = "Ronda completa";
     const gated = (state.charts.roundsPlayed||0)>=FREE_CHART_ROUNDS && !isPremiumUnlocked();
     if(gated){
-      document.getElementById("chartQuestionBody").innerHTML = gateCardHtml(
+      document.getElementById("chartQuestionBody").innerHTML = paymentGateHtml(
         `Practicaste con ${FREE_CHART_ROUNDS} acciones gratis`,
-        `Rondas ilimitadas con acciones nuevas quedan del otro lado. Dejá tu mail para seguir practicando.`,
-        "Dejar mi mail y seguir ▶",
-        "chartUnlockLink"
+        `Rondas ilimitadas con acciones nuevas quedan del otro lado.`,
+        "chart"
       );
-      const link = document.getElementById("chartUnlockLink");
-      if(link) link.addEventListener("click", ()=>{ unlockPremium(); startChartRound(); });
+      wirePaymentGate("chart", ()=>{ unlockPremium(); startChartRound(); });
     } else {
       document.getElementById("chartQuestionBody").innerHTML = `<p>Completaste esta acción. Aciertos totales: <strong>${state.charts.correct}/${state.charts.asked}</strong>.</p>
         <button class="btn" id="chartNewStock">Probar con otra acción ▶</button>`;
@@ -1703,11 +1743,29 @@ if(existingActive && getProfiles().includes(existingActive)){
 "use strict";
 
 const STORAGE_KEY_LEYENDA = "leyenda-wallstreet-v1";
-const WAITLIST_URL_LEYENDA = "https://airtable.com/appZ6GK67w75QAnsU/pagsjwLc0PyO8jxVB/form";
 const GATE_UNLOCK_KEY_LEYENDA = "academia-finanzas-unlocked";
 const FREE_STAGES_LEYENDA = 3;
+const PAY_ALIAS_LEYENDA = "+595 972 982 914";
+const PAY_BANK_LEYENDA = "Banco Ueno";
+const PAY_WHATSAPP_LEYENDA = "595972982914";
+const UNLOCK_CODE_LEYENDA = "COSECHA20";
 function isPremiumUnlockedLeyenda(){ return localStorage.getItem(GATE_UNLOCK_KEY_LEYENDA) === "1"; }
 function unlockPremiumLeyenda(){ localStorage.setItem(GATE_UNLOCK_KEY_LEYENDA, "1"); }
+function wirePaymentGateLeyenda(idSuffix, onUnlock){
+  const btn = document.getElementById("unlockBtn-"+idSuffix);
+  const input = document.getElementById("unlockCode-"+idSuffix);
+  const err = document.getElementById("unlockErr-"+idSuffix);
+  if(!btn || !input) return;
+  const tryUnlock = ()=>{
+    if((input.value||"").trim().toUpperCase() === UNLOCK_CODE_LEYENDA){
+      onUnlock();
+    } else if(err){
+      err.style.display = "block";
+    }
+  };
+  btn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", (e)=>{ if(e.key==="Enter") tryUnlock(); });
+}
 
 const SPECIALTIES = [
   {id:"value", emoji:"🐢", label:"Value Investing", tag:"Paciencia y fundamentos"},
@@ -1965,16 +2023,27 @@ function awardBadgeLeyenda(id){
 }
 function renderLeyendaGate(){
   const area = document.getElementById("eventArea");
+  const waMsg = encodeURIComponent("Hola! Ya transferí para desbloquear el Plan Cosecha de De la Huerta a la Bolsa. Acá mi comprobante 👇");
   area.innerHTML = `
     <div class="event-card" style="text-align:center">
       <span class="event-pill">🔒 Carrera en pausa</span>
       <div class="event-situ">Llegaste a los primeros ${FREE_STAGES_LEYENDA} años de carrera gratis. El resto — hasta leyenda o blow-up — queda del otro lado.</div>
-      <a class="btn" href="${WAITLIST_URL_LEYENDA}" target="_blank" rel="noopener" id="leyendaUnlockLink">Dejar mi mail y seguir la carrera ▶</a>
-      <p style="font-size:11.5px;color:#9aa4bd;margin-top:10px">Plan Cosecha · USD 20/año · se abre en una pestaña nueva, seguís jugando acá mismo.</p>
+      <div style="background:#f3f6ef;border:1px solid #dbe6d4;border-radius:12px;padding:14px 16px;max-width:360px;margin:12px auto;text-align:left">
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000 (≈ USD 20 al cambio del día)</p>
+        <p style="margin:0 0 12px;font-size:13px">${PAY_BANK_LEYENDA} · Alias/cel: <strong>${PAY_ALIAS_LEYENDA}</strong></p>
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Mandá el comprobante</p>
+        <a class="btn" href="https://wa.me/${PAY_WHATSAPP_LEYENDA}?text=${waMsg}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">3. Pegá tu código de acceso</p>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="unlockCode-leyenda" placeholder="Código de acceso" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #cbd5c2;font-size:13px" />
+          <button class="btn" id="unlockBtn-leyenda">Activar</button>
+        </div>
+        <p id="unlockErr-leyenda" style="color:#b3261e;font-size:12px;margin:6px 0 0;display:none">Código incorrecto. Fijate en mayúsculas y espacios.</p>
+      </div>
+      <p style="font-size:11.5px;color:#9aa4bd;margin-top:10px">Plan Cosecha · ₲ 120.000 / USD 20 al año (cambio referencial BCP del día) · te mandamos el código por WhatsApp apenas confirmamos tu pago.</p>
     </div>
   `;
-  const link = document.getElementById("leyendaUnlockLink");
-  if(link) link.addEventListener("click", ()=>{ unlockPremiumLeyenda(); presentNextStage(); });
+  wirePaymentGateLeyenda("leyenda", ()=>{ unlockPremiumLeyenda(); presentNextStage(); });
 }
 function presentNextStage(){
   if(stateLeyenda.busted){ endCareer(); return; }
