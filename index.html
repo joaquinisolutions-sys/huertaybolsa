@@ -392,9 +392,8 @@
       </div>
       <div class="plan-mini highlight">
         <div class="plan-mini-name">🌾 Cosecha</div>
-        <div class="plan-mini-price mono">USD 20<span style="font-size:11px;font-weight:600">/año</span></div>
-        <div class="mono" style="font-size:12px;color:#6b7a63;margin-top:-4px;margin-bottom:6px">≈ ₲ 120.000/año</div>
-        <p class="plan-mini-text">Simulador, Gráficos y Leyenda de Wall Street completos.</p>
+        <div class="plan-mini-price mono">₲ 120.000<span style="font-size:11px;font-weight:600">/año</span></div>
+        <p class="plan-mini-text">Simulador, Gráficos y Leyenda de Wall Street completos. Todo se renueva solo: gráficos, casos y decisiones salen al azar en cada partida, así que podés jugar todo el año sin repetir la misma jugabilidad.</p>
       </div>
     </div>
     <p class="muted" style="font-size:11.5px;margin:12px 0 14px">Ya podés probar cada uno gratis un poco desde sus pestañas — cuando llegás al límite, te va a aparecer la opción de anotarte.</p>
@@ -446,19 +445,19 @@
       <button class="hub-tile" data-tab="leyenda" type="button">
         <div class="hub-tile-icon">🏆</div>
         <div class="hub-tile-title">Leyenda de Wall Street</div>
-        <p class="hub-tile-desc">Modo carrera: elegís tu especialidad y tomás 12 años de decisiones reales con clientes, crisis y mercados.</p>
+        <p class="hub-tile-desc">Modo carrera: elegís tu especialidad y tomás 12 años de decisiones con clientes, crisis y mercados que salen al azar en cada partida.</p>
         <span class="hub-tile-badge paid">Prueba gratis · Cosecha</span>
       </button>
       <button class="hub-tile" data-tab="graficos" type="button">
         <div class="hub-tile-icon">📊</div>
         <div class="hub-tile-title">Gráficos</div>
-        <p class="hub-tile-desc">Practicá lectura técnica real: rango de 52 semanas, soporte, resistencia y tendencias.</p>
+        <p class="hub-tile-desc">Practicá lectura técnica real: rango de 52 semanas, soporte, resistencia y tendencias — con una acción nueva y al azar en cada ronda.</p>
         <span class="hub-tile-badge paid">Prueba gratis · Cosecha</span>
       </button>
       <button class="hub-tile" data-tab="sim" type="button">
         <div class="hub-tile-icon">📈</div>
         <div class="hub-tile-title">Simulador</div>
-        <p class="hub-tile-desc">Armá una cartera con $10.000 virtuales entre tech, petróleo, cripto, oro y cash. Sentí el riesgo sin arriesgar nada real.</p>
+        <p class="hub-tile-desc">Armá una cartera con $10.000 virtuales entre tech, petróleo, cripto, oro y cash. Casos y noticias del mes salen al azar, cada partida es distinta.</p>
         <span class="hub-tile-badge paid">Prueba gratis · Cosecha</span>
       </button>
       <button class="hub-tile" data-tab="scenarios" type="button">
@@ -1032,7 +1031,7 @@ function paymentGateHtml(title, text, idSuffix){
       <h3 style="margin:0 0 8px">${title}</h3>
       <p class="muted" style="font-size:13.5px;line-height:1.6;max-width:420px;margin:0 auto 16px">${text}</p>
       <div style="background:#f3f6ef;border:1px solid #dbe6d4;border-radius:12px;padding:14px 16px;max-width:360px;margin:0 auto 14px;text-align:left">
-        <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000 (≈ USD 20 al cambio del día)</p>
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000</p>
         <p style="margin:0 0 12px;font-size:13px">${PAY_BANK} · Alias/cel: <strong>${PAY_ALIAS}</strong></p>
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Mandá el comprobante</p>
         <a class="btn" href="https://wa.me/${PAY_WHATSAPP}?text=${waMsg}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
@@ -1043,7 +1042,7 @@ function paymentGateHtml(title, text, idSuffix){
         </div>
         <p id="unlockErr-${idSuffix}" style="color:#b3261e;font-size:12px;margin:6px 0 0;display:none">Código incorrecto. Fijate en mayúsculas y espacios.</p>
       </div>
-      <p class="muted" style="font-size:11.5px;margin-top:6px">Plan Cosecha · ₲ 120.000 / USD 20 al año (cambio referencial BCP del día) · te mandamos el código por WhatsApp apenas confirmamos tu pago.</p>
+      <p class="muted" style="font-size:11.5px;margin-top:6px">Plan Cosecha · ₲ 120.000 al año · contenido aleatorio, jugable todo el año sin repetirse · te mandamos el código por WhatsApp apenas confirmamos tu pago.</p>
     </div>
   `;
 }
@@ -2309,7 +2308,7 @@ function renderLeyendaGate(){
       <span class="event-pill">🔒 Carrera en pausa</span>
       <div class="event-situ">Llegaste a los primeros ${FREE_STAGES_LEYENDA} años de carrera gratis. El resto — hasta leyenda o blow-up — queda del otro lado.</div>
       <div style="background:#f3f6ef;border:1px solid #dbe6d4;border-radius:12px;padding:14px 16px;max-width:360px;margin:12px auto;text-align:left">
-        <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000 (≈ USD 20 al cambio del día)</p>
+        <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000</p>
         <p style="margin:0 0 12px;font-size:13px">${PAY_BANK_LEYENDA} · Alias/cel: <strong>${PAY_ALIAS_LEYENDA}</strong></p>
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Mandá el comprobante</p>
         <a class="btn" href="https://wa.me/${PAY_WHATSAPP_LEYENDA}?text=${waMsg}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
@@ -2320,7 +2319,7 @@ function renderLeyendaGate(){
         </div>
         <p id="unlockErr-leyenda" style="color:#b3261e;font-size:12px;margin:6px 0 0;display:none">Código incorrecto. Fijate en mayúsculas y espacios.</p>
       </div>
-      <p style="font-size:11.5px;color:#9aa4bd;margin-top:10px">Plan Cosecha · ₲ 120.000 / USD 20 al año (cambio referencial BCP del día) · te mandamos el código por WhatsApp apenas confirmamos tu pago.</p>
+      <p style="font-size:11.5px;color:#9aa4bd;margin-top:10px">Plan Cosecha · ₲ 120.000 al año · contenido aleatorio, jugable todo el año sin repetirse · te mandamos el código por WhatsApp apenas confirmamos tu pago.</p>
     </div>
   `;
   wirePaymentGateLeyenda("leyenda", ()=>{ unlockPremiumLeyenda(); presentNextStage(); });
