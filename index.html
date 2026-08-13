@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>De la Huerta a la Bolsa — Academia de Finanzas</title>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X0ET3DGD1D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-X0ET3DGD1D');
+</script>
 <style>
   :root {
     color-scheme: light;
@@ -1034,7 +1042,7 @@ function paymentGateHtml(title, text, idSuffix){
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000</p>
         <p style="margin:0 0 12px;font-size:13px">${PAY_BANK} · Alias/cel: <strong>${PAY_ALIAS}</strong></p>
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Mandá el comprobante</p>
-        <a class="btn" href="https://wa.me/${PAY_WHATSAPP}?text=${waMsg}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
+        <a class="btn" href="https://wa.me/${PAY_WHATSAPP}?text=${waMsg}" target="_blank" rel="noopener" id="waLink-${idSuffix}" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">3. Pegá tu código de acceso</p>
         <div style="display:flex;gap:6px">
           <input type="text" id="unlockCode-${idSuffix}" placeholder="Código de acceso" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #cbd5c2;font-size:13px" />
@@ -1046,13 +1054,20 @@ function paymentGateHtml(title, text, idSuffix){
     </div>
   `;
 }
+function trackEvent(name, params){
+  if(typeof gtag === "function") gtag("event", name, params || {});
+}
 function wirePaymentGate(idSuffix, onUnlock){
+  trackEvent("gate_reached", {gate: idSuffix});
   const btn = document.getElementById("unlockBtn-"+idSuffix);
   const input = document.getElementById("unlockCode-"+idSuffix);
   const err = document.getElementById("unlockErr-"+idSuffix);
+  const waLink = document.getElementById("waLink-"+idSuffix);
+  if(waLink) waLink.addEventListener("click", ()=> trackEvent("whatsapp_click", {gate: idSuffix}));
   if(!btn || !input) return;
   const tryUnlock = ()=>{
     if((input.value||"").trim().toUpperCase() === UNLOCK_CODE){
+      trackEvent("unlock_success", {gate: idSuffix});
       onUnlock();
     } else if(err){
       err.style.display = "block";
@@ -2030,13 +2045,20 @@ const PAY_WHATSAPP_LEYENDA = "595972982914";
 const UNLOCK_CODE_LEYENDA = "COSECHA20";
 function isPremiumUnlockedLeyenda(){ return localStorage.getItem(GATE_UNLOCK_KEY_LEYENDA) === "1"; }
 function unlockPremiumLeyenda(){ localStorage.setItem(GATE_UNLOCK_KEY_LEYENDA, "1"); }
+function trackEventLeyenda(name, params){
+  if(typeof gtag === "function") gtag("event", name, params || {});
+}
 function wirePaymentGateLeyenda(idSuffix, onUnlock){
+  trackEventLeyenda("gate_reached", {gate: idSuffix});
   const btn = document.getElementById("unlockBtn-"+idSuffix);
   const input = document.getElementById("unlockCode-"+idSuffix);
   const err = document.getElementById("unlockErr-"+idSuffix);
+  const waLink = document.getElementById("waLink-"+idSuffix);
+  if(waLink) waLink.addEventListener("click", ()=> trackEventLeyenda("whatsapp_click", {gate: idSuffix}));
   if(!btn || !input) return;
   const tryUnlock = ()=>{
     if((input.value||"").trim().toUpperCase() === UNLOCK_CODE_LEYENDA){
+      trackEventLeyenda("unlock_success", {gate: idSuffix});
       onUnlock();
     } else if(err){
       err.style.display = "block";
@@ -2311,7 +2333,7 @@ function renderLeyendaGate(){
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Transferí ₲ 120.000</p>
         <p style="margin:0 0 12px;font-size:13px">${PAY_BANK_LEYENDA} · Alias/cel: <strong>${PAY_ALIAS_LEYENDA}</strong></p>
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Mandá el comprobante</p>
-        <a class="btn" href="https://wa.me/${PAY_WHATSAPP_LEYENDA}?text=${waMsg}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
+        <a class="btn" href="https://wa.me/${PAY_WHATSAPP_LEYENDA}?text=${waMsg}" target="_blank" rel="noopener" id="waLink-leyenda" style="display:inline-block;margin-bottom:12px">📲 Enviar por WhatsApp</a>
         <p style="margin:0 0 4px;font-size:13px;font-weight:700">3. Pegá tu código de acceso</p>
         <div style="display:flex;gap:6px">
           <input type="text" id="unlockCode-leyenda" placeholder="Código de acceso" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #cbd5c2;font-size:13px" />
