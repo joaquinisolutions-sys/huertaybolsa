@@ -404,8 +404,9 @@
         <p class="plan-mini-text">Simulador, Gráficos y Leyenda de Wall Street completos. Todo se renueva solo: gráficos, casos y decisiones salen al azar en cada partida, así que podés jugar todo el año sin repetir la misma jugabilidad.</p>
       </div>
     </div>
-    <p class="muted" style="font-size:11.5px;margin:12px 0 14px">Ya podés probar cada uno gratis un poco desde sus pestañas — cuando llegás al límite, te va a aparecer la opción de anotarte.</p>
-    <button class="btn" id="closePlansBtn" style="width:100%">Cerrar</button>
+    <p class="muted" style="font-size:11.5px;margin:12px 0 14px">Ya podés probar cada uno gratis un poco desde sus pestañas — cuando llegás al límite, te va a aparecer la opción de anotarte. O activá el Cosecha ya mismo, acá abajo:</p>
+    <div id="plansPayCard"></div>
+    <button class="btn secondary" id="closePlansBtn" style="width:100%;margin-top:12px">Cerrar</button>
   </div>
 </div>
 <div class="mini-hero">
@@ -432,7 +433,7 @@
     <div class="xp-wrap">
       <div>
         <div class="level-badge" id="levelBadge">Principiante</div>
-        <div class="muted" style="font-size:10.5px;margin-top:4px">👤 <span id="profileNameTag">—</span> · <button class="reset-link" id="switchProfileBtn" style="font-size:10.5px">cambiar</button></div>
+        <div class="muted" style="font-size:10.5px;margin-top:4px">👤 <span id="profileNameTag">—</span> · <button class="reset-link" id="switchProfileBtn" style="font-size:10.5px">cambiar</button> · <button class="reset-link" id="openPlansBtn2" style="font-size:10.5px;color:var(--accent);font-weight:700">💳 Planes/pago</button></div>
       </div>
       <div>
         <div class="xp-bar-outer"><div class="xp-bar-inner" id="xpBar" style="width:0%"></div></div>
@@ -1271,9 +1272,27 @@ function renderProfilePicker(){
   cancelBtn.style.display = currentProfile ? "inline-block" : "none";
   document.getElementById("profileBackdrop").style.display = "flex";
 }
-document.getElementById("openPlansBtn").addEventListener("click", ()=>{
+function renderPlansPay(){
+  const el = document.getElementById("plansPayCard");
+  if(!el) return;
+  if(isPremiumUnlocked()){
+    el.innerHTML = `<div class="fin-callout" style="text-align:center;font-weight:700">✅ Ya tenés el Plan Cosecha activado en este navegador — jugá sin límites.</div>`;
+    return;
+  }
+  el.innerHTML = paymentGateHtml(
+    "¿Listo para el Plan Cosecha?",
+    "Se activa una sola vez y te desbloquea Simulador, Gráficos, Leyenda de Wall Street y la guía Invertir desde Paraguay completos, en este mismo navegador.",
+    "plans"
+  );
+  wirePaymentGate("plans", ()=>{ unlockPremium(); renderPlansPay(); });
+}
+function openPlansModal(){
   document.getElementById("plansBackdrop").style.display = "flex";
-});
+  renderPlansPay();
+}
+document.getElementById("openPlansBtn").addEventListener("click", openPlansModal);
+const openPlansBtn2El = document.getElementById("openPlansBtn2");
+if(openPlansBtn2El) openPlansBtn2El.addEventListener("click", openPlansModal);
 document.getElementById("closePlansBtn").addEventListener("click", ()=>{
   document.getElementById("plansBackdrop").style.display = "none";
 });
