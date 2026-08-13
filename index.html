@@ -120,6 +120,23 @@
   }
   .hub-back-btn:hover { color: var(--accent); }
 
+  .fin-section { margin-bottom: 18px; }
+  .fin-section:last-child { margin-bottom: 0; }
+  .fin-section h3 { margin: 0 0 6px; font-size: 15px; }
+  .fin-section p { font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 8px; }
+  .fin-callout { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; font-size: 12.5px; line-height: 1.55; margin-top: 8px; }
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+  @media (max-width: 480px) { .calc-grid { grid-template-columns: 1fr; } }
+  .calc-field label { display: block; font-size: 11px; font-weight: 700; color: var(--ink-soft); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .calc-field input { width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
+  .calc-result { margin-top: 12px; padding: 14px; border-radius: 10px; background: var(--ink); color: #fff; }
+  .calc-result-num { font-size: 22px; font-weight: 800; }
+  .calc-result-label { font-size: 10.5px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+  .calc-result-sub { font-size: 11.5px; color: rgba(255,255,255,0.85); margin-top: 10px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .fin-guide h4 { font-size: 13.5px; margin: 14px 0 4px; }
+  .fin-guide ul { font-size: 13px; line-height: 1.6; color: var(--ink-soft); padding-left: 18px; margin: 0 0 8px; }
+  .fin-disclaimer { font-size: 11px; color: var(--ink-soft); border-top: 1px solid var(--border); margin-top: 16px; padding-top: 10px; line-height: 1.5; }
+
   .card {
     background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 20px; margin-bottom: 14px;
@@ -456,6 +473,12 @@
         <p class="hub-tile-desc">Tu nivel, tu XP y las medallas que fuiste desbloqueando en el camino.</p>
         <span class="hub-tile-badge free">Incluido</span>
       </button>
+      <button class="hub-tile" data-tab="finanzas" type="button">
+        <div class="hub-tile-icon">💰</div>
+        <div class="hub-tile-title">Finanzas Personales</div>
+        <p class="hub-tile-desc">Presupuesto, fondo de emergencia, salir de deudas, calculadoras — y cómo invertir de verdad desde Paraguay.</p>
+        <span class="hub-tile-badge free">Fundamentos gratis</span>
+      </button>
     </div>
   </div>
 
@@ -468,6 +491,7 @@
       <button data-tab="sim">📈 Simulador</button>
       <button data-tab="scenarios">🧭 Escenarios</button>
       <button data-tab="progress">🏆 Progreso</button>
+      <button data-tab="finanzas">💰 Finanzas</button>
     </nav>
     <div class="tabs-fade" id="tabsFade"></div>
   </div>
@@ -564,6 +588,72 @@
         <button class="reset-link" id="btnReset">Reiniciar todo mi progreso</button>
       </div>
     </div>
+  </section>
+
+  <!-- FINANZAS PERSONALES TAB -->
+  <section id="tab-finanzas" style="display:none">
+    <div class="card">
+      <h2 style="margin:0">💰 Finanzas Personales</h2>
+      <p class="muted" style="margin-top:6px">Antes de invertir, lo que más cambia tu situación es ordenar la plata de todos los días. Esto es gratis para siempre.</p>
+
+      <div class="fin-section" style="margin-top:16px">
+        <h3>📋 El presupuesto 50/30/20</h3>
+        <p>Una forma simple de repartir tu ingreso mensual: <strong>50%</strong> a necesidades (alquiler, comida, servicios), <strong>30%</strong> a gustos (salidas, streaming, lo que te hace bien), y <strong>20%</strong> a ahorro e inversión. No es una regla rígida — es un punto de partida para ver dónde estás parado antes de ajustar.</p>
+        <div class="fin-callout">Ejemplo con un ingreso de ₲ 4.000.000/mes: ₲ 2.000.000 necesidades · ₲ 1.200.000 gustos · ₲ 800.000 ahorro/inversión.</div>
+      </div>
+
+      <div class="fin-section">
+        <h3>🛟 Fondo de emergencia</h3>
+        <p>Plata líquida (fácil de sacar, sin perder valor) guardada aparte de tus inversiones, para gastos imprevistos: quedarte sin trabajo, un problema de salud, un arreglo urgente. El objetivo típico es cubrir entre <strong>3 y 6 meses</strong> de tus gastos fijos. Mientras no lo tengas armado, es la prioridad número uno — antes que invertir.</p>
+      </div>
+
+      <div class="fin-section">
+        <h3>💳 Cómo salir de deudas</h3>
+        <p>Dos métodos que funcionan, elegí el que te mantenga motivado:</p>
+        <p><strong>Bola de nieve:</strong> pagás primero la deuda más chica (sin importar la tasa), y cuando la liquidás pasás ese pago a la siguiente. Da resultados rápidos que ayudan a sostener el hábito.</p>
+        <p><strong>Avalancha:</strong> pagás primero la deuda con la tasa de interés más alta. Matemáticamente es la que menos intereses totales te hace pagar, aunque el primer resultado tarde más en verse.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 4px">🧮 Calculadoras</h3>
+      <p class="muted" style="margin:0 0 10px">Metés tus números, ves el resultado al toque.</p>
+
+      <div class="fin-section">
+        <h4 style="margin:0 0 6px;font-size:13.5px">Interés compuesto</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label>Aporte inicial (₲)</label><input type="number" id="calcCiInicial" value="1000000" min="0"></div>
+          <div class="calc-field"><label>Aporte mensual (₲)</label><input type="number" id="calcCiMensual" value="200000" min="0"></div>
+          <div class="calc-field"><label>Tasa anual (%)</label><input type="number" id="calcCiTasa" value="8" min="0" step="0.1"></div>
+          <div class="calc-field"><label>Años</label><input type="number" id="calcCiAnios" value="10" min="1" max="60"></div>
+        </div>
+        <button class="btn secondary" id="calcCiBtn">Calcular</button>
+        <div class="calc-result" id="calcCiResult" style="display:none"></div>
+      </div>
+
+      <div class="fin-section">
+        <h4 style="margin:0 0 6px;font-size:13.5px">¿Cuánto ahorrar por mes para una meta?</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label>Monto meta (₲)</label><input type="number" id="calcMetaMonto" value="20000000" min="0"></div>
+          <div class="calc-field"><label>Plazo (meses)</label><input type="number" id="calcMetaMeses" value="24" min="1" max="600"></div>
+          <div class="calc-field"><label>Tasa anual (%)</label><input type="number" id="calcMetaTasa" value="6" min="0" step="0.1"></div>
+        </div>
+        <button class="btn secondary" id="calcMetaBtn">Calcular</button>
+        <div class="calc-result" id="calcMetaResult" style="display:none"></div>
+      </div>
+
+      <div class="fin-section">
+        <h4 style="margin:0 0 6px;font-size:13.5px">Fondo de emergencia objetivo</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label>Gasto mensual (₲)</label><input type="number" id="calcFeGasto" value="3000000" min="0"></div>
+          <div class="calc-field"><label>Meses de cobertura</label><input type="number" id="calcFeMeses" value="6" min="1" max="24"></div>
+        </div>
+        <button class="btn secondary" id="calcFeBtn">Calcular</button>
+        <div class="calc-result" id="calcFeResult" style="display:none"></div>
+      </div>
+    </div>
+
+    <div class="card" id="investParaguayCard"></div>
   </section>
 
   <!-- LEYENDA DE WALL STREET TAB -->
@@ -973,6 +1063,104 @@ function wirePaymentGate(idSuffix, onUnlock){
   input.addEventListener("keydown", (e)=>{ if(e.key==="Enter") tryUnlock(); });
 }
 
+/* ---------------- FINANZAS PERSONALES ---------------- */
+
+function fmtGs(n){
+  return "₲ " + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+const calcCiBtnEl = document.getElementById("calcCiBtn");
+if(calcCiBtnEl) calcCiBtnEl.addEventListener("click", ()=>{
+  const p0 = parseFloat(document.getElementById("calcCiInicial").value) || 0;
+  const pmt = parseFloat(document.getElementById("calcCiMensual").value) || 0;
+  const tasaAnual = parseFloat(document.getElementById("calcCiTasa").value) || 0;
+  const anios = parseFloat(document.getElementById("calcCiAnios").value) || 0;
+  const r = (tasaAnual/100)/12;
+  const n = anios*12;
+  const fv = r===0 ? (p0 + pmt*n) : (p0*Math.pow(1+r, n) + pmt*((Math.pow(1+r, n)-1)/r));
+  const aportado = p0 + pmt*n;
+  const ganado = fv - aportado;
+  const el = document.getElementById("calcCiResult");
+  el.style.display = "block";
+  el.innerHTML = `
+    <div class="calc-result-num">${fmtGs(fv)}</div>
+    <div class="calc-result-label">Total estimado a los ${anios} años</div>
+    <div class="calc-result-sub">
+      <span>Aportado: ${fmtGs(aportado)}</span>
+      <span>Ganado por interés: ${fmtGs(ganado)}</span>
+    </div>
+  `;
+});
+
+const calcMetaBtnEl = document.getElementById("calcMetaBtn");
+if(calcMetaBtnEl) calcMetaBtnEl.addEventListener("click", ()=>{
+  const meta = parseFloat(document.getElementById("calcMetaMonto").value) || 0;
+  const meses = parseFloat(document.getElementById("calcMetaMeses").value) || 1;
+  const tasaAnual = parseFloat(document.getElementById("calcMetaTasa").value) || 0;
+  const r = (tasaAnual/100)/12;
+  const pmt = r===0 ? (meta/meses) : (meta*r/(Math.pow(1+r, meses)-1));
+  const el = document.getElementById("calcMetaResult");
+  el.style.display = "block";
+  el.innerHTML = `
+    <div class="calc-result-num">${fmtGs(pmt)}</div>
+    <div class="calc-result-label">Aporte mensual necesario</div>
+    <div class="calc-result-sub"><span>Para juntar ${fmtGs(meta)} en ${meses} meses</span></div>
+  `;
+});
+
+const calcFeBtnEl = document.getElementById("calcFeBtn");
+if(calcFeBtnEl) calcFeBtnEl.addEventListener("click", ()=>{
+  const gasto = parseFloat(document.getElementById("calcFeGasto").value) || 0;
+  const meses = parseFloat(document.getElementById("calcFeMeses").value) || 0;
+  const objetivo = gasto*meses;
+  const el = document.getElementById("calcFeResult");
+  el.style.display = "block";
+  el.innerHTML = `
+    <div class="calc-result-num">${fmtGs(objetivo)}</div>
+    <div class="calc-result-label">Fondo de emergencia objetivo</div>
+    <div class="calc-result-sub"><span>${meses} meses de gasto cubiertos</span></div>
+  `;
+});
+
+const INVEST_PARAGUAY_GUIDE = `
+  <h3 style="margin:0 0 4px">🇵🇾 Invertir desde Paraguay</h3>
+  <p class="muted" style="margin:0 0 12px">La guía completa: bolsa local, brokers internacionales e impuestos.</p>
+  <div class="fin-guide">
+    <h4>1. La Bolsa de Valores de Asunción (BVPASA)</h4>
+    <p>Es la bolsa local de Paraguay. No se opera directo: se hace a través de una <strong>Casa de Bolsa</strong> habilitada, reguladas por la Comisión Nacional de Valores (CNV). Ahí un asesor te ayuda a elegir instrumentos según tu perfil de riesgo y plazo.</p>
+    <p>Instrumentos disponibles: títulos públicos, bonos corporativos, acciones, certificados de depósito de ahorro (CDAs), fondos de inversión y, más recientemente, derivados simples. Cada Casa de Bolsa tiene su propia estructura de comisiones — conviene comparar antes de elegir una.</p>
+    <h4>2. Invertir en mercados internacionales desde Paraguay</h4>
+    <p>Es legal: la CNV regula únicamente a las Casas de Bolsa que operan en territorio paraguayo. Un broker internacional (por ejemplo Interactive Brokers u otros usados en la región) opera bajo la regulación de su propio país — usarlo no es ilegal, pero cualquier reclamo se gestiona ante el regulador extranjero correspondiente, no ante la CNV.</p>
+    <p>Antes de abrir cuenta en cualquier broker, revisá: bajo qué regulador opera (CySEC, FCA, SEC, etc.), su estructura de comisiones y depósito mínimo, si tiene soporte en español, y qué tan fácil es girar dinero desde una cuenta paraguaya (conversión de guaraníes a dólares).</p>
+    <h4>3. Impuestos (IRP — Impuesto a la Renta Personal)</h4>
+    <p>Paraguay usa un sistema <strong>territorial</strong>: solo grava la renta generada dentro del país.</p>
+    <ul>
+      <li>Rentas y ganancias de capital de <strong>fuente paraguaya</strong> (intereses, alquileres, ganancias de capital locales): tributan un <strong>8%</strong> de IRP.</li>
+      <li>Dividendos, intereses y ganancias de capital de <strong>inversiones en el exterior</strong> (broker internacional, cuentas o activos fuera de Paraguay): quedan <strong>fuera del alcance del IRP</strong> (0%), por el principio de territorialidad.</li>
+      <li>Quienes deben tributar rentas de fuente local presentan la declaración anual (formulario 716 – IRP RGC) en marzo.</li>
+    </ul>
+    <p class="fin-disclaimer">Esto es información general con fines educativos, no asesoramiento legal, tributario ni de inversión. Las normas cambian y tu situación puede tener particularidades — antes de invertir o declarar, consultá con un contador o abogado matriculado en Paraguay.</p>
+  </div>
+`;
+
+function renderInvestParaguay(){
+  const el = document.getElementById("investParaguayCard");
+  if(!el) return;
+  if(isPremiumUnlocked()){
+    el.innerHTML = INVEST_PARAGUAY_GUIDE;
+    return;
+  }
+  el.innerHTML = `
+    <h3 style="margin:0 0 4px">🔒 Invertir desde Paraguay</h3>
+    <p class="muted" style="margin:0 0 4px">La guía completa: cómo funciona la BVPASA, brokers internacionales e impuestos (IRP) explicados en criollo.</p>
+  ` + paymentGateHtml(
+    "Guía completa del otro lado",
+    "Cómo operar en la Bolsa de Asunción, invertir afuera desde Paraguay de forma legal, y qué dice el IRP sobre tus ganancias.",
+    "invest"
+  );
+  wirePaymentGate("invest", ()=>{ unlockPremium(); renderInvestParaguay(); });
+}
+
 /* ---------------- STATE ---------------- */
 
 const STORAGE_KEY = "academia-finanzas-v1";
@@ -1161,17 +1349,18 @@ function activateTab(tabName){
   document.getElementById("hub").style.display = "none";
   document.getElementById("tabsWrap").style.display = "block";
   document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("active", b.dataset.tab===tabName));
-  ["quiz","sim","graficos","scenarios","progress","leyenda"].forEach(t=>{
+  ["quiz","sim","graficos","scenarios","progress","leyenda","finanzas"].forEach(t=>{
     document.getElementById("tab-"+t).style.display = (t===tabName) ? "block" : "none";
   });
   if(tabName==="progress") renderProgress();
   if(tabName==="graficos" && !chartRound) startChartRound();
+  if(tabName==="finanzas") renderInvestParaguay();
   document.getElementById("tabsWrap").scrollIntoView({behavior:"smooth", block:"start"});
 }
 function showHub(){
   document.getElementById("tabsWrap").style.display = "none";
   document.getElementById("hub").style.display = "block";
-  ["quiz","sim","graficos","scenarios","progress","leyenda"].forEach(t=>{
+  ["quiz","sim","graficos","scenarios","progress","leyenda","finanzas"].forEach(t=>{
     document.getElementById("tab-"+t).style.display = "none";
   });
   document.getElementById("hub").scrollIntoView({behavior:"smooth", block:"start"});
