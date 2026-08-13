@@ -88,6 +88,38 @@
     border-radius: 0 var(--radius) var(--radius) 0;
   }
 
+  .hub-wrap { margin-bottom: 22px; }
+  .hub-title { font-size: 12px; font-weight: 800; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.6px; margin: 0 0 12px; }
+  .hub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 640px) { .hub-grid { grid-template-columns: repeat(2, 1fr); } }
+  .hub-tile {
+    position: relative; aspect-ratio: 1 / 1; border-radius: 16px; border: none; cursor: pointer;
+    background: linear-gradient(160deg, var(--dark-card), var(--dark));
+    color: #fff; padding: 14px; display: flex; flex-direction: column; align-items: flex-start;
+    text-align: left; overflow: hidden; transition: transform .15s ease, box-shadow .15s ease;
+    box-shadow: 0 2px 10px rgba(14,20,32,0.18); font-family: inherit;
+  }
+  @media (max-width: 640px) { .hub-tile { aspect-ratio: auto; min-height: 148px; } }
+  .hub-tile:hover, .hub-tile:focus-visible { transform: translateY(-3px) scale(1.015); box-shadow: 0 10px 26px rgba(14,20,32,0.38); outline: none; }
+  .hub-tile:active { transform: translateY(0) scale(0.99); }
+  .hub-tile-icon { font-size: 28px; line-height: 1; }
+  .hub-tile-title { font-size: 14px; font-weight: 800; margin-top: 8px; line-height: 1.2; }
+  .hub-tile-desc {
+    font-size: 10.8px; color: rgba(255,255,255,0.72); line-height: 1.4; margin-top: 6px; flex: 1;
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .hub-tile-badge {
+    align-self: flex-start; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px;
+    padding: 3px 8px; border-radius: 999px; margin-top: 8px;
+  }
+  .hub-tile-badge.free { background: rgba(63,125,44,0.28); color: #8fe08a; }
+  .hub-tile-badge.paid { background: rgba(212,175,55,0.22); color: var(--gold); }
+  .hub-back-btn {
+    display: inline-flex; align-items: center; gap: 6px; background: none; border: none; cursor: pointer;
+    font-size: 13px; font-weight: 700; color: var(--ink-soft); padding: 0; margin-bottom: 12px;
+  }
+  .hub-back-btn:hover { color: var(--accent); }
+
   .card {
     background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 20px; margin-bottom: 14px;
@@ -385,7 +417,50 @@
     </div>
   </header>
 
-  <div class="tabs-wrap">
+  <div class="hub-wrap" id="hub">
+    <p class="hub-title">Elegí dónde jugar</p>
+    <div class="hub-grid">
+      <button class="hub-tile" data-tab="quiz" type="button">
+        <div class="hub-tile-icon">🧠</div>
+        <div class="hub-tile-title">Quiz</div>
+        <p class="hub-tile-desc">Interés compuesto, valuación P/E, márgenes, diversificación y más — una pregunta a la vez.</p>
+        <span class="hub-tile-badge free">Gratis siempre</span>
+      </button>
+      <button class="hub-tile" data-tab="leyenda" type="button">
+        <div class="hub-tile-icon">🏆</div>
+        <div class="hub-tile-title">Leyenda de Wall Street</div>
+        <p class="hub-tile-desc">Modo carrera: elegís tu especialidad y tomás 12 años de decisiones reales con clientes, crisis y mercados.</p>
+        <span class="hub-tile-badge paid">Prueba gratis · Cosecha</span>
+      </button>
+      <button class="hub-tile" data-tab="graficos" type="button">
+        <div class="hub-tile-icon">📊</div>
+        <div class="hub-tile-title">Gráficos</div>
+        <p class="hub-tile-desc">Practicá lectura técnica real: rango de 52 semanas, soporte, resistencia y tendencias.</p>
+        <span class="hub-tile-badge paid">Prueba gratis · Cosecha</span>
+      </button>
+      <button class="hub-tile" data-tab="sim" type="button">
+        <div class="hub-tile-icon">📈</div>
+        <div class="hub-tile-title">Simulador</div>
+        <p class="hub-tile-desc">Armá una cartera con $10.000 virtuales entre tech, petróleo, cripto, oro y cash. Sentí el riesgo sin arriesgar nada real.</p>
+        <span class="hub-tile-badge paid">Prueba gratis · Cosecha</span>
+      </button>
+      <button class="hub-tile" data-tab="scenarios" type="button">
+        <div class="hub-tile-icon">🧭</div>
+        <div class="hub-tile-title">Escenarios</div>
+        <p class="hub-tile-desc">18 decisiones de plata del día a día: ¿ahorrás, invertís o gastás? Elegís y ves la consecuencia.</p>
+        <span class="hub-tile-badge free">Gratis siempre</span>
+      </button>
+      <button class="hub-tile" data-tab="progress" type="button">
+        <div class="hub-tile-icon">🥇</div>
+        <div class="hub-tile-title">Progreso</div>
+        <p class="hub-tile-desc">Tu nivel, tu XP y las medallas que fuiste desbloqueando en el camino.</p>
+        <span class="hub-tile-badge free">Incluido</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="tabs-wrap" id="tabsWrap" style="display:none">
+    <button class="hub-back-btn" id="hubBackBtn" type="button">← Inicio</button>
     <nav class="tabs">
       <button data-tab="quiz" class="active">🧠 Quiz</button>
       <button data-tab="leyenda">🏆 Leyenda</button>
@@ -398,7 +473,7 @@
   </div>
 
   <!-- QUIZ TAB -->
-  <section id="tab-quiz">
+  <section id="tab-quiz" style="display:none">
     <div class="card">
       <div class="row">
         <h2 style="margin:0">Trivia de inversión</h2>
@@ -1082,17 +1157,33 @@ function checkBadges(){
 
 /* ---------------- TABS ---------------- */
 
-document.querySelectorAll("nav.tabs button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    ["quiz","sim","graficos","scenarios","progress","leyenda"].forEach(t=>{
-      document.getElementById("tab-"+t).style.display = (t===btn.dataset.tab) ? "block" : "none";
-    });
-    if(btn.dataset.tab==="progress") renderProgress();
-    if(btn.dataset.tab==="graficos" && !chartRound) startChartRound();
+function activateTab(tabName){
+  document.getElementById("hub").style.display = "none";
+  document.getElementById("tabsWrap").style.display = "block";
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("active", b.dataset.tab===tabName));
+  ["quiz","sim","graficos","scenarios","progress","leyenda"].forEach(t=>{
+    document.getElementById("tab-"+t).style.display = (t===tabName) ? "block" : "none";
   });
+  if(tabName==="progress") renderProgress();
+  if(tabName==="graficos" && !chartRound) startChartRound();
+  document.getElementById("tabsWrap").scrollIntoView({behavior:"smooth", block:"start"});
+}
+function showHub(){
+  document.getElementById("tabsWrap").style.display = "none";
+  document.getElementById("hub").style.display = "block";
+  ["quiz","sim","graficos","scenarios","progress","leyenda"].forEach(t=>{
+    document.getElementById("tab-"+t).style.display = "none";
+  });
+  document.getElementById("hub").scrollIntoView({behavior:"smooth", block:"start"});
+}
+document.querySelectorAll("nav.tabs button").forEach(btn=>{
+  btn.addEventListener("click", ()=> activateTab(btn.dataset.tab));
 });
+document.querySelectorAll(".hub-tile").forEach(tile=>{
+  tile.addEventListener("click", ()=> activateTab(tile.dataset.tab));
+});
+const hubBackBtnEl = document.getElementById("hubBackBtn");
+if(hubBackBtnEl) hubBackBtnEl.addEventListener("click", showHub);
 
 /* ---------------- QUIZ ---------------- */
 
