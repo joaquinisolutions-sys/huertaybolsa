@@ -1451,10 +1451,17 @@ function renderLesson(catKey, onContinue){
 }
 
 function renderQuizQuestion(item){
+  // Barajar el orden de las opciones en cada pregunta: en el contenido original la
+  // respuesta correcta quedaba casi siempre en la 2da posición (sesgo de quien escribió
+  // las preguntas), lo que hacía el quiz adivinable sin saber nada. Se reordena acá,
+  // sin tocar el contenido original, y de paso queda distinto en cada repaso.
+  const order = shuffle(item.opts.map((_,i)=>i));
+  const opts = order.map(i=>item.opts[i]);
+  const correct = order.indexOf(item.correct);
   const diffLabel = {easy:"Fácil", medium:"Media", hard:"Difícil"}[item.diff];
   let html = `<span class="pill ${item.diff}">${diffLabel}</span>
     <p style="font-size:15px;margin:12px 0 14px">${item.q}</p>`;
-  item.opts.forEach((opt,i)=>{
+  opts.forEach((opt,i)=>{
     html += `<button class="option-btn" data-i="${i}">${opt}</button>`;
   });
   html += `<div class="explain-box" id="quizExplain"></div>
@@ -1466,13 +1473,13 @@ function renderQuizQuestion(item){
       const chosen = parseInt(btn.dataset.i,10);
       document.querySelectorAll("#quizBody .option-btn").forEach(b=>b.disabled=true);
       state.quiz.asked++;
-      if(chosen===item.correct){
+      if(chosen===correct){
         btn.classList.add("correct");
         state.quiz.correct++;
         addXp(10);
       } else {
         btn.classList.add("incorrect");
-        document.querySelectorAll("#quizBody .option-btn")[item.correct].classList.add("correct");
+        document.querySelectorAll("#quizBody .option-btn")[correct].classList.add("correct");
         save();
       }
       const box = document.getElementById("quizExplain");
