@@ -1192,7 +1192,7 @@ function freshState(){
     },
     charts: {correct:0, asked:0, roundsPlayed:0},
     badgesEarned: [],
-    onboardingSeen: false
+    onboardingSeen: true
   };
 }
 function shuffle(arr){
@@ -1244,7 +1244,7 @@ function loadState(profileName){
   if(s.sim.pendingCase===undefined) s.sim.pendingCase = null;
   if(!s.charts) s.charts = {correct:0, asked:0, roundsPlayed:0};
   if(s.charts.roundsPlayed===undefined) s.charts.roundsPlayed = 0;
-  if(s.onboardingSeen===undefined) s.onboardingSeen = false;
+  if(s.onboardingSeen===undefined) s.onboardingSeen = true;
   return s;
 }
 function save(){
@@ -2041,12 +2041,19 @@ function initAll(){
   renderProgress();
 }
 
-// Arranque: si ya hay un perfil activo en este navegador, entra directo; si no, pide elegir/crear uno.
+// Arranque: si ya hay un perfil activo en este navegador, entra directo.
+// Si es la primera visita, se crea un perfil por defecto al toque (sin pedir nombre) para que juegue ya mismo, sin fricción de entrada.
 const existingActive = getActiveProfileName();
 if(existingActive && getProfiles().includes(existingActive)){
   selectProfile(existingActive);
 } else {
-  renderProfilePicker();
+  const startProfiles = getProfiles();
+  let defaultName = "Jugador1";
+  let dn = 1;
+  while(startProfiles.includes(defaultName)){ dn++; defaultName = "Jugador"+dn; }
+  startProfiles.push(defaultName);
+  saveProfiles(startProfiles);
+  selectProfile(defaultName);
 }
 
 })();
