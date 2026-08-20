@@ -2417,17 +2417,23 @@ function renderEventArea(){
   }
   if(!stateLeyenda.pendingEvent){ area.innerHTML=""; return; }
   const event = findEvent(stateLeyenda.pendingEvent);
+  // Barajar el orden de las opciones en cada evento: en el contenido original la opción
+  // más conservadora (más reputación, más segura) quedaba casi siempre primera en la lista
+  // (17 de 18 eventos), lo que hacía "ganar reputación" adivinable por posición sin leer
+  // nada. Se reordena acá para mostrar, sin tocar el contenido ni el balance del juego.
+  const order = shuffleLeyenda(event.choices.map((_,i)=>i));
   area.innerHTML = `
     <div class="event-card">
       <span class="event-pill ${event.crisis?'crisis':''}">${event.crisis ? '⚠️ Momento de crisis' : 'Decisión de carrera'}</span>
       <div class="event-situ">${event.situ}</div>
-      ${event.choices.map((c,i)=>`<button class="choice-card" data-i="${i}">${c.label}</button>`).join("")}
+      ${order.map((realIdx,i)=>`<button class="choice-card" data-i="${i}">${event.choices[realIdx].label}</button>`).join("")}
     </div>
   `;
   area.querySelectorAll(".choice-card").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       area.querySelectorAll(".choice-card").forEach(b=>b.disabled=true);
-      resolveChoice(event, parseInt(btn.dataset.i,10));
+      const shownIdx = parseInt(btn.dataset.i,10);
+      resolveChoice(event, order[shownIdx]);
     });
   });
 }
