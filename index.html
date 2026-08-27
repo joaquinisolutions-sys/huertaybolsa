@@ -661,6 +661,8 @@
       </div>
     </div>
 
+    <div class="card" id="presupuestoFamiliarCard"></div>
+
     <div class="card" id="investParaguayCard"></div>
   </section>
 
@@ -1176,6 +1178,65 @@ function renderInvestParaguay(){
   wirePaymentGate("invest", ()=>{ unlockPremium(); renderInvestParaguay(); });
 }
 
+/* ---------------- PRESUPUESTO FAMILIAR (lead magnet) ---------------- */
+
+// Reemplazá esta URL por la de tu Google Form apenas lo crees (ver instrucciones).
+// El form solo necesita un campo de email; el mensaje de confirmación del form
+// puede repetir el link de descarga para quien quiera bajarlo directo desde ahí también.
+const BUDGET_FORM_URL = "https://forms.gle/REEMPLAZAR-CON-TU-GOOGLE-FORM";
+// Nombre del archivo tal cual se sube junto al index.html en GitHub Pages.
+const BUDGET_XLSX_URL = "presupuesto-familiar-academia.xlsx";
+
+const BUDGET_PREVIEW_ROWS = [
+  {cat:"Vivienda y servicios", presu:1800000, real:1750000},
+  {cat:"Alimentación", presu:1200000, real:1430000},
+  {cat:"Transporte", presu:500000, real:480000},
+  {cat:"Ocio y entretenimiento", presu:400000, real:610000}
+];
+function budgetPreviewBarsHtml(){
+  const max = Math.max(...BUDGET_PREVIEW_ROWS.flatMap(r=>[r.presu, r.real]));
+  return BUDGET_PREVIEW_ROWS.map(r=>{
+    const overBudget = r.real > r.presu;
+    const pctPresu = Math.round(r.presu/max*100);
+    const pctReal = Math.round(r.real/max*100);
+    return `
+      <div style="margin-bottom:10px">
+        <div class="row" style="margin-bottom:3px"><span style="font-size:12.5px">${r.cat}</span><span class="muted" style="font-size:11.5px">${fmtGs(r.real)} / ${fmtGs(r.presu)}</span></div>
+        <div style="background:#e9efe4;border-radius:6px;height:8px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;height:100%;width:${pctPresu}%;background:#c9d6bf;border-radius:6px"></div>
+          <div style="position:absolute;top:0;left:0;height:100%;width:${pctReal}%;background:${overBudget?'#c0392b':'var(--accent)'};border-radius:6px"></div>
+        </div>
+      </div>`;
+  }).join("");
+}
+function renderPresupuestoFamiliar(){
+  const el = document.getElementById("presupuestoFamiliarCard");
+  if(!el) return;
+  el.innerHTML = `
+    <h3 style="margin:0 0 4px">📊 Plantilla: Presupuesto Familiar (gratis)</h3>
+    <p class="muted" style="margin:0 0 12px">Una planilla para cargar tus gastos mes a mes y ver, de un vistazo, presupuestado vs. real por categoría — igual a la que uso yo, en Excel/Google Sheets, sin necesidad de saber fórmulas.</p>
+    <div style="background:#f3f6ef;border:1px solid #dbe6d4;border-radius:12px;padding:14px 16px;margin-bottom:14px">
+      <p class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 10px">Vista previa (datos de ejemplo)</p>
+      ${budgetPreviewBarsHtml()}
+    </div>
+    <div style="background:#f3f6ef;border:1px solid #dbe6d4;border-radius:12px;padding:14px 16px;max-width:420px">
+      <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Dejá tu correo</p>
+      <a class="btn" id="budgetFormLink" href="${BUDGET_FORM_URL}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📩 Completar formulario (30 seg)</a>
+      <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Descargá tu plantilla</p>
+      <a class="btn secondary" id="budgetDownloadLink" href="${BUDGET_XLSX_URL}" download style="display:inline-block">⬇️ Descargar plantilla (.xlsx)</a>
+      <p class="muted" style="font-size:11.5px;margin-top:10px">Categorías precargadas, gráficos automáticos y espacio para cargar 12 meses. La vas completando vos, a tu ritmo.</p>
+    </div>
+  `;
+  wireBudgetGate();
+}
+function wireBudgetGate(){
+  trackEvent("budget_gate_reached", {});
+  const formLink = document.getElementById("budgetFormLink");
+  const dlLink = document.getElementById("budgetDownloadLink");
+  if(formLink) formLink.addEventListener("click", ()=> trackEvent("budget_form_click", {}));
+  if(dlLink) dlLink.addEventListener("click", ()=> trackEvent("budget_download_click", {}));
+}
+
 /* ---------------- STATE ---------------- */
 
 const STORAGE_KEY = "academia-finanzas-v1";
@@ -1387,7 +1448,7 @@ function activateTab(tabName){
   });
   if(tabName==="progress") renderProgress();
   if(tabName==="graficos" && !chartRound) startChartRound();
-  if(tabName==="finanzas") renderInvestParaguay();
+  if(tabName==="finanzas"){ renderInvestParaguay(); renderPresupuestoFamiliar(); }
   document.getElementById("tabsWrap").scrollIntoView({behavior:"smooth", block:"start"});
 }
 function showHub(){
