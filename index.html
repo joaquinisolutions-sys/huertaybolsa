@@ -1180,10 +1180,10 @@ function renderInvestParaguay(){
 
 /* ---------------- PRESUPUESTO FAMILIAR (lead magnet) ---------------- */
 
-// Reemplazá esta URL por la de tu Google Form apenas lo crees (ver instrucciones).
-// El form solo necesita un campo de email; el mensaje de confirmación del form
-// puede repetir el link de descarga para quien quiera bajarlo directo desde ahí también.
-const BUDGET_FORM_URL = "https://forms.gle/REEMPLAZAR-CON-TU-GOOGLE-FORM";
+// Por ahora la plantilla está liberada (sin pedir correo) para bajar fricción y validar
+// cuánta gente la usa. El día que quieras sumar el paso de email, dejá el BUDGET_FORM_URL
+// de tu Google Form acá y volvé a mostrar el paso 1 en renderPresupuestoFamiliar().
+const BUDGET_GATED = false;
 // Nombre del archivo tal cual se sube junto al index.html en GitHub Pages.
 const BUDGET_XLSX_URL = "presupuesto-familiar-academia.xlsx";
 
@@ -1220,10 +1220,7 @@ function renderPresupuestoFamiliar(){
       ${budgetPreviewBarsHtml()}
     </div>
     <div style="background:#f3f6ef;border:1px solid #dbe6d4;border-radius:12px;padding:14px 16px;max-width:420px">
-      <p style="margin:0 0 4px;font-size:13px;font-weight:700">1. Dejá tu correo</p>
-      <a class="btn" id="budgetFormLink" href="${BUDGET_FORM_URL}" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:12px">📩 Completar formulario (30 seg)</a>
-      <p style="margin:0 0 4px;font-size:13px;font-weight:700">2. Descargá tu plantilla</p>
-      <a class="btn secondary" id="budgetDownloadLink" href="${BUDGET_XLSX_URL}" download style="display:inline-block">⬇️ Descargar plantilla (.xlsx)</a>
+      <a class="btn" id="budgetDownloadLink" href="${BUDGET_XLSX_URL}" download style="display:inline-block">⬇️ Descargar plantilla gratis (.xlsx)</a>
       <p class="muted" style="font-size:11.5px;margin-top:10px">Categorías precargadas, gráficos automáticos y espacio para cargar 12 meses. La vas completando vos, a tu ritmo.</p>
     </div>
   `;
@@ -1231,9 +1228,7 @@ function renderPresupuestoFamiliar(){
 }
 function wireBudgetGate(){
   trackEvent("budget_gate_reached", {});
-  const formLink = document.getElementById("budgetFormLink");
   const dlLink = document.getElementById("budgetDownloadLink");
-  if(formLink) formLink.addEventListener("click", ()=> trackEvent("budget_form_click", {}));
   if(dlLink) dlLink.addEventListener("click", ()=> trackEvent("budget_download_click", {}));
 }
 
