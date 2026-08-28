@@ -426,7 +426,7 @@
 <div class="mini-hero">
   <span class="pill">🌱 Educación financiera jugable</span>
   <h1 class="mini-hero-title"><span class="inver">Inver</span><span class="plei">plei</span></h1>
-  <p class="mini-hero-sub">Invertí jugando, aprendé de verdad: quiz, simulador de cartera, práctica de gráficos, escenarios de decisión reales y un modo carrera. Todo en español, sin jerga, pensada para arrancar de cero.</p>
+  <p class="mini-hero-sub">Invertí jugando, aprendé de verdad: quiz, escenarios de decisión reales, finanzas personales, simulador de cartera, práctica de gráficos y un modo carrera. No somos expertos en Wall Street. Aprendimos a los golpes y queremos que todos sepan de Finanzas Personales.</p>
   <div class="mini-hero-chips">
     <span class="mini-hero-chip">🧠 Quiz</span>
     <span class="mini-hero-chip">📈 Simulador</span>
@@ -467,6 +467,24 @@
         <p class="hub-tile-desc">Interés compuesto, valuación P/E, márgenes, diversificación y más — una pregunta a la vez.</p>
         <span class="hub-tile-badge free">Gratis siempre</span>
       </button>
+      <button class="hub-tile" data-tab="scenarios" type="button">
+        <div class="hub-tile-icon">🧭</div>
+        <div class="hub-tile-title">Escenarios</div>
+        <p class="hub-tile-desc">18 decisiones de plata del día a día: ¿ahorrás, invertís o gastás? Elegís y ves la consecuencia.</p>
+        <span class="hub-tile-badge free">Gratis siempre</span>
+      </button>
+      <button class="hub-tile" data-tab="finanzas" type="button">
+        <div class="hub-tile-icon">💰</div>
+        <div class="hub-tile-title">Finanzas Personales</div>
+        <p class="hub-tile-desc">Presupuesto, fondo de emergencia, salir de deudas, calculadoras — y cómo invertir de verdad desde Paraguay.</p>
+        <span class="hub-tile-badge free">Fundamentos gratis</span>
+      </button>
+      <button class="hub-tile" data-tab="progress" type="button">
+        <div class="hub-tile-icon">🥇</div>
+        <div class="hub-tile-title">Progreso</div>
+        <p class="hub-tile-desc">Tu nivel, tu XP y las medallas que fuiste desbloqueando en el camino.</p>
+        <span class="hub-tile-badge free">Incluido</span>
+      </button>
       <button class="hub-tile" data-tab="leyenda" type="button">
         <div class="hub-tile-icon">🏆</div>
         <div class="hub-tile-title">Leyenda de Wall Street</div>
@@ -484,24 +502,6 @@
         <div class="hub-tile-title">Simulador</div>
         <p class="hub-tile-desc">Armá una cartera con $10.000 virtuales entre tech, petróleo, cripto, oro y cash. Casos y noticias del mes salen al azar, cada partida es distinta.</p>
         <span class="hub-tile-badge paid">Prueba gratis · Cosecha</span>
-      </button>
-      <button class="hub-tile" data-tab="scenarios" type="button">
-        <div class="hub-tile-icon">🧭</div>
-        <div class="hub-tile-title">Escenarios</div>
-        <p class="hub-tile-desc">18 decisiones de plata del día a día: ¿ahorrás, invertís o gastás? Elegís y ves la consecuencia.</p>
-        <span class="hub-tile-badge free">Gratis siempre</span>
-      </button>
-      <button class="hub-tile" data-tab="progress" type="button">
-        <div class="hub-tile-icon">🥇</div>
-        <div class="hub-tile-title">Progreso</div>
-        <p class="hub-tile-desc">Tu nivel, tu XP y las medallas que fuiste desbloqueando en el camino.</p>
-        <span class="hub-tile-badge free">Incluido</span>
-      </button>
-      <button class="hub-tile" data-tab="finanzas" type="button">
-        <div class="hub-tile-icon">💰</div>
-        <div class="hub-tile-title">Finanzas Personales</div>
-        <p class="hub-tile-desc">Presupuesto, fondo de emergencia, salir de deudas, calculadoras — y cómo invertir de verdad desde Paraguay.</p>
-        <span class="hub-tile-badge free">Fundamentos gratis</span>
       </button>
     </div>
   </div>
@@ -1541,17 +1541,22 @@ const hubBackBtnEl = document.getElementById("hubBackBtn");
 if(hubBackBtnEl) hubBackBtnEl.addEventListener("click", showHub);
 
 /* ---------------- RECOMENDADOR DE MODO ---------------- */
-// Formulario cortito y opcional (2 preguntas) para el que no sabe por dónde arrancar.
+// Formulario cortito y opcional (hasta 3 preguntas) para el que no sabe por dónde arrancar.
 // No reemplaza la libertad de elegir cualquier modo del hub, solo ayuda a decidir.
+// Suma una pregunta de finanzas personales: si alguien todavía no tiene lo básico
+// ordenado, tiene más sentido mandarlo primero a Finanzas Personales que a un juego.
 const RECOMMENDER_RESULT = {
   quiz: {title:"🧠 Empezá por el Quiz", text:"Preguntas cortas con explicación al toque — la forma más rápida de repasar conceptos sueltos en poco tiempo."},
   scenarios: {title:"🧭 Empezá por Escenarios", text:"18 decisiones de plata del día a día, para practicar con situaciones que ya viviste o vas a vivir."},
   sim: {title:"📈 Empezá por el Simulador", text:"Armá una cartera virtual de $10.000 y mirá cómo se comporta mes a mes, con casos de mercado que salen al azar."},
   graficos: {title:"📊 Empezá por Gráficos", text:"Practicá leer rango de 52 semanas, soporte/resistencia y P/E con una acción inventada distinta en cada ronda."},
-  leyenda: {title:"🏆 Empezá por Leyenda de Wall Street", text:"El modo carrera completo: 12 años de decisiones, de analista junior a leyenda (o a blow-up)."}
+  leyenda: {title:"🏆 Empezá por Leyenda de Wall Street", text:"El modo carrera completo: 12 años de decisiones, de analista junior a leyenda (o a blow-up)."},
+  finanzas: {title:"💰 Empezá por Finanzas Personales", text:"Antes de jugar, ordená lo básico: presupuesto 50/30/20, fondo de emergencia y cómo salir de deudas. Es gratis y después volvés a jugar con más contexto."}
 };
+let recoAnswers = {};
 function openRecommender(){
   trackEvent("recommender_started", {});
+  recoAnswers = {};
   renderRecommenderQ1();
   document.getElementById("recommenderBackdrop").style.display = "flex";
 }
@@ -1561,19 +1566,36 @@ function closeRecommender(){
 function renderRecommenderQ1(){
   document.getElementById("recommenderCard").innerHTML = `
     <h2 style="margin:0 0 4px">🎯 ¿Por dónde arrancamos?</h2>
-    <p class="muted" style="margin:0 0 16px">Dos preguntas cortas y te recomendamos un modo.</p>
+    <p class="muted" style="margin:0 0 16px">Unas preguntitas cortas y te recomendamos por dónde seguir.</p>
     <p style="font-weight:700;font-size:13.5px;margin:0 0 10px">¿Cuánto tiempo tenés ahora?</p>
     <button class="scenario-choice" data-a="poco">⏱️ Poco, 2 minutitos</button>
     <button class="scenario-choice" data-a="rato">🕒 Un rato, quiero meterme de lleno</button>
   `;
   document.querySelectorAll("#recommenderCard .scenario-choice").forEach(btn=>{
     btn.addEventListener("click", ()=>{
-      if(btn.dataset.a === "poco") finishRecommender("quiz");
-      else renderRecommenderQ2();
+      recoAnswers.time = btn.dataset.a;
+      renderRecommenderQ2();
     });
   });
 }
 function renderRecommenderQ2(){
+  document.getElementById("recommenderCard").innerHTML = `
+    <h2 style="margin:0 0 4px">🎯 ¿Por dónde arrancamos?</h2>
+    <p style="font-weight:700;font-size:13.5px;margin:0 0 10px">¿Cómo andás con lo básico de tu plata (presupuesto, ahorro, deudas)?</p>
+    <button class="scenario-choice" data-a="ok">✅ Ya lo tengo bastante ordenado</button>
+    <button class="scenario-choice" data-a="meh">🤔 Más o menos, podría mejorar</button>
+    <button class="scenario-choice" data-a="lost">🌱 La verdad, ni idea por dónde arrancar</button>
+  `;
+  document.querySelectorAll("#recommenderCard .scenario-choice").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      recoAnswers.basics = btn.dataset.a;
+      if(recoAnswers.basics === "lost") finishRecommender("finanzas");
+      else if(recoAnswers.time === "poco") finishRecommender("quiz");
+      else renderRecommenderQ3();
+    });
+  });
+}
+function renderRecommenderQ3(){
   document.getElementById("recommenderCard").innerHTML = `
     <h2 style="margin:0 0 4px">🎯 ¿Por dónde arrancamos?</h2>
     <p style="font-weight:700;font-size:13.5px;margin:0 0 10px">¿Qué te llama más la atención?</p>
